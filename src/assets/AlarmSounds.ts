@@ -1,8 +1,6 @@
-
 import alarm from "/audio/Alarm.wav";
 import defaultSound from "/audio/Default.mp3";
 import flute from "/audio/Flute.wav";
-import flute2 from "/audio/Flute2.wav"; 
 import guitar from "/audio/Guitar.wav";
 import musicbox from "/audio/MusicBox.wav";
 import train from "/audio/Train.wav";
@@ -21,10 +19,6 @@ export const Sounds = [
     src: flute,
   },
   {
-    name: "Flute 2",
-    src: flute2,
-  },
-  {
     name: "Guitar",
     src: guitar,
   },
@@ -37,3 +31,5 @@ export const Sounds = [
     src: train,
   },
 ];
+
+console.log("--- AlarmSounds.ts is EXPORTING this: ---", Sounds); // Add this

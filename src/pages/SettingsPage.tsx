@@ -32,9 +32,7 @@ function SettingsPage() {
         if (selectedImg) {
           setProfileImgSrc(selectedImg.src);
         }
-        const selectedSound = Sounds.find(
-          (sound) => (sound.name = data.soundName)
-        );
+        const selectedSound = Sounds.find((s) => s.name === data.soundName);
         if (selectedSound) {
           setSound(selectedSound.name);
         }

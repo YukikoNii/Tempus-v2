@@ -1,6 +1,6 @@
 import styles from "./NotificationSettings.module.css";
 import { Sounds } from "../assets/AlarmSounds";
-import { useState } from "react";
+import { useState, useRef } from "react";
 
 interface NotificationSettingsProps {
   sound: string;
@@ -8,9 +8,20 @@ interface NotificationSettingsProps {
 
 export const NotificationSettings = ({ sound }: NotificationSettingsProps) => {
   const [selectedSound, setSelectedSound] = useState(sound);
+  const soundRef = useRef<HTMLAudioElement | null>(null); // I don't fully understand this
 
   const handleSoundChange = (e: SoundChangeEvent) => {
+    console.log(Sounds);
+
     setSelectedSound(e.target.value);
+    console.log(e.target.value);
+    const selectedSoundData = Sounds.find((s) => s.name === e.target.value);
+    if (selectedSound && selectedSoundData) {
+      console.log(selectedSoundData);
+      soundRef.current = new Audio(selectedSoundData.src);
+      soundRef.current.play();
+      console.log(selectedSoundData);
+    }
   };
 
   const updateSound = () => {
@@ -45,9 +56,9 @@ export const NotificationSettings = ({ sound }: NotificationSettingsProps) => {
               value={selectedSound}
               onChange={handleSoundChange}
             >
-              {Sounds.map((sound, index) => (
-                <option key={index} value={sound.name}>
-                  {sound.name}
+              {Sounds.map((s, index) => (
+                <option key={index} value={s.name}>
+                  {s.name}
                 </option>
               ))}
             </select>
