@@ -9,11 +9,7 @@ function ContactFormPage() {
 
         <div className={styles.input}>
           <div className={styles.contactHeading}>Contact Us</div>
-          <form
-            className={styles.contactForm}
-            action="Personal-Project-Form.php"
-            method="POST"
-          >
+          <form className={styles.contactForm} method="POST">
             <label className={styles.label} htmlFor="name">
               Name<span className={styles.asterisk}>*</span>
             </label>

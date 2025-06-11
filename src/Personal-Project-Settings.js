@@ -102,21 +102,8 @@ function deleteCon() {
   delModal.style.display = "block";
 }
 
-let delModal = document.querySelector(".delModal");
-document.querySelector(".delDelete").addEventListener("click", deleteAcc);
 
-document.querySelector(".delCancel").addEventListener("click", function () {
-  delModal.style.display = "none";
-});
 
-window.addEventListener("load", getLogin);
-// setting the default values of the inputs
-function getLogin() {
-  let loginInfo = JSON.parse(window.localStorage.getItem("loginInfo"));
-  accTexts[0].value = loginInfo.Username;
-  accTexts[1].value = loginInfo.Email;
-  accTexts[2].value = loginInfo.Password;
-}
 
 // menu show and hide
 setBtns = document.querySelectorAll(".settingMenu > span");

@@ -65,8 +65,8 @@ export const AccountSettings = ({
       if (res.ok) {
         currentUsername = username;
         setShowUsernameAlert(false);
+        setIsUsernameDisabled(true);
       } else {
-        setUsername(currentUsername);
         setShowUsernameAlert(true);
       }
     };
@@ -85,7 +85,6 @@ export const AccountSettings = ({
 
   const updateEmail = () => {
     if (!validateEmail(email)) {
-      setEmail(currentEmail);
       setShowEmailAlert(true);
     }
     const saveEmailToDB = async () => {
@@ -103,8 +102,8 @@ export const AccountSettings = ({
       if (res.ok) {
         currentEmail = email;
         setShowEmailAlert(false);
+        setIsEmailDisabled(true);
       } else {
-        setEmail(currentEmail);
         setShowEmailAlert(true);
       }
     };
@@ -129,6 +128,10 @@ export const AccountSettings = ({
     };
     fetchBg();
   }, []);
+
+  const alertStyle = {
+    border: "1px solid #c43d3d",
+  };
 
   return (
     <>
@@ -156,6 +159,7 @@ export const AccountSettings = ({
               className={styles.accTexts}
               disabled={isUsernameDisabled}
               onChange={(e) => setUsername(e.target.value)}
+              style={showUsernameAlert ? alertStyle : {}}
             />
             {isUsernameDisabled && (
               <input
@@ -173,6 +177,7 @@ export const AccountSettings = ({
                   className={styles.cancel}
                   onClick={() => {
                     setIsUsernameDisabled(true);
+                    setShowUsernameAlert(false);
                     setUsername(currentUsername);
                   }}
                 />
@@ -181,7 +186,6 @@ export const AccountSettings = ({
                   value="Save"
                   className={styles.save}
                   onClick={() => {
-                    setIsUsernameDisabled(true);
                     updateUsername();
                   }}
                 />
@@ -201,6 +205,7 @@ export const AccountSettings = ({
               className={styles.accTexts}
               disabled={isEmailDisabled}
               onChange={(e) => setEmail(e.target.value)}
+              style={showEmailAlert ? alertStyle : {}}
             />
             {isEmailDisabled && (
               <input
@@ -218,6 +223,7 @@ export const AccountSettings = ({
                   className={styles.cancel}
                   onClick={() => {
                     setIsEmailDisabled(true);
+                    setShowEmailAlert(false);
                     setEmail(currentEmail);
                   }}
                 />
@@ -226,7 +232,6 @@ export const AccountSettings = ({
                   value="Save"
                   className={styles.save}
                   onClick={() => {
-                    setIsEmailDisabled(true);
                     updateEmail();
                   }}
                 />

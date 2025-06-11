@@ -177,15 +177,4 @@ media queries
 }
 
 
-/**/
-#right {
-  grid-column:3;
-  grid-row:2/5;
-}
-
-
-#footer {
-  grid-column:2/4;
-  grid-row:5;
-}
 
