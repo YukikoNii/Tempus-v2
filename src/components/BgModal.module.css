@@ -1,0 +1,78 @@
+/* modal */
+
+.bgmodal {
+  position:fixed;
+  left:0px;
+  top:0px;
+  width:100%;
+  height:100%;
+  z-index:2;
+  background-color:#1a525252;
+  backdrop-filter:blur(3px);
+}
+
+/* modal box */
+.bgmodalContent {
+  background-color:white;
+  margin:calc(50vh - 10em) auto;
+  width:30em;
+  height:20em;
+  display:grid;
+  grid-template-columns:11fr 1fr;
+  grid-template-rows:1fr 9fr;
+  grid-gap:1vw;
+  color:#525252;
+  animation-name:slidein;
+  animation-duration:1s;
+  border-radius:10px;
+  padding:1em;
+}
+
+.bgtitle {
+  text-align:center;
+  align-self:center;
+  padding-left:2em;
+  font-weight: bold;
+  font-size:1.5em;
+}
+
+.bgclose {
+  font-size:2em;
+  cursor:pointer;
+}
+
+.bglist {
+  grid-column:1/3;
+  grid-row:2;
+  border:0.5px solid #525252;
+  border-radius:10px;
+  display:grid;
+  grid-template-rows:repeat(5, 1fr);
+  grid-template-columns:repeat(2, 1fr);
+  grid-gap:0.5em;
+  padding:0.5em;
+  overflow-y:scroll;
+}
+
+.bglist > div {
+  display:grid;
+  grid-template-rows:1fr 5fr;
+  border:0.5px solid #525252;
+  border-radius:5px;
+  cursor:pointer;
+}
+
+.bglist > div:hover {
+  background-color:#eee;
+}
+
+.bglist > div > span {
+  text-align:center;
+  margin-top:0.5em;
+}
+
+.bgimg {
+  grid-row:2;
+  width:14em;
+  height:10em;
+}

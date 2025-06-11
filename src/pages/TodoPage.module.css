@@ -1,0 +1,338 @@
+.grid {
+  display:grid;
+  grid-template-columns:1fr 4fr 1fr;
+  grid-template-rows:5em 22em 5em 16em 7.5em;
+  width:100vw;
+  height:100vh;
+  overflow-x: hidden;
+}
+
+.todofunction {
+  grid-row:2/6;
+  grid-column:2/4;
+  background-image:url('../assets/images/bgDefault.jpg'); /* maybe fix this */
+  background-size: cover;
+  display:grid;
+  grid-template-columns:5fr 1fr;
+  grid-template-rows:1fr 1fr;
+}
+
+/* grids */
+.todo {
+  grid-row:1/3;
+  grid-column:1;
+  display:grid;
+  grid-template-columns:1fr 8fr 1fr;
+  grid-template-rows:1fr 6fr;
+  grid-gap:1em;
+  padding:1em;
+}
+
+
+/* add button */
+.add {
+  grid-row:1;
+  grid-column:1;
+  background-color:#026670;
+  border-radius:50%;
+  margin:20px;
+  border:none;
+  color:white;
+  font-size:2.5em;
+  height:1.5em;
+  width:1.5em;
+  cursor:pointer;
+}
+
+.add:hover {
+  background-color:#2f747b;
+}
+
+/* to do list entry */
+.list {
+  background-color:rgba(237, 237, 237, 0.863);
+  border-radius:1em;
+  grid-row:2;
+  grid-column:1/4;
+  display:grid;
+  grid-template-rows:repeat(10, 1fr);
+  grid-gap:1em;
+  padding:1em;
+  overflow-y:scroll;
+  opacity:0.9;
+}
+
+/* each entry divided into 3 different sections */
+.entry {
+  display:grid;
+  grid-template-columns: 1fr 8fr 1fr;
+  opacity:1;
+  transition:opacity 1000ms linear;
+  height:30px;
+  border-radius:20px;
+}
+
+.entry:hover {
+  background-color:#EBFCF8;
+}
+
+.entrytitle {
+  grid-column:2;
+  align-self:start;
+  margin-top:0.3em;
+  cursor:pointer;
+  font-weight:bold;
+}
+
+
+.prlow {
+  color:green;
+}
+
+.prmed {
+  color:#D3D56B;
+}
+
+.prhigh {
+  color:#D86E6E;
+}
+
+.prlow, .prmed, .prhigh {
+  font-size:1.5em;
+  text-align:center;
+  justify-self:center;
+  font-weight: bold;
+  grid-column:3;
+  grid-row:1;
+}
+/* container */
+.container  {
+  display:block;
+  position:relative;
+  padding-left:35px;
+  margin-bottom:12px;
+  font-size:1em;
+  justify-self:center;
+  cursor:pointer;
+
+}
+
+/* hiding the default checkbox */
+.container input {
+  position: absolute;
+  opacity:0;
+  height:0;
+  width:0;
+}
+
+/* custom checkbox */
+.checkmark {
+  position:absolute;
+  top:0;
+  left:0;
+  height:25px;
+  width:25px;
+  background-color:white;
+  border:1px solid #525252;
+  font-size:28px;
+  border-radius:1em;
+}
+
+/* background color when not checked */
+.container:hover input ~ .checkmark {
+  border-color: #026670;
+}
+
+/* background color when checked */
+.container input:checked ~ .checkmark {
+  background-color:#026670;
+}
+
+/* create custom checkmark */
+.checkmark:after {
+  content:"L";
+  font-weight: bold;
+  font-size:0.8em;
+  color:white;
+  position:absolute;
+  display:none;
+  top:-10%;
+}
+
+/* show the checkmark when checkbox is checked */
+.container input:checked ~.checkmark:after {
+  display:block;
+}
+
+
+
+/* style the checkmark */
+
+.container .checkmark:after {
+  transform:scaleX(-1) rotate(-40deg);
+  position:absolute;
+  left:5px;
+}
+
+.container input:checked ~.checkmark::before {
+  position:absolute;
+  background-color:#3a9098;
+  display:block;
+  content:'';
+  top:-100%;
+  left:-100%;
+  width:300%;
+  height:300%;
+  z-index:auto;
+  clip-path: circle(20px at 50% 50%);
+  opacity:0.1;
+  z-index:auto;
+  animation-name:glow;
+  animation-duration:0.3s;
+}
+
+@keyframes glow{
+  0% {opacity:0.8; clip-path:circle(20px at 50% 50%)}
+
+  100% {opacity:0; clip-path:circle(28px at 50% 50%)}
+
+}
+
+
+
+.entrydes {
+  grid-column:2;
+  grid-row:2;
+  display:none;
+}
+
+.entrydate {
+  grid-column:2;
+  grid-row:3;
+}
+
+
+
+/* right sidebar */
+
+.right {
+  margin:1em 1em 1em 0em;
+  border-radius:1em;
+  grid-column:2;
+  grid-row:1;
+  background-color:white;
+  padding:0.5em;
+  overflow-y:scroll;
+  opacity:0.9;
+}
+
+/* tags list */
+.tagHr {
+  cursor:pointer;
+  font-weight: bold;
+}
+
+.tagE {
+  cursor:default;
+  border-radius:0.18em;
+  overflow-wrap: break-word;
+  padding:0.1em;
+}
+
+/* priority list */
+
+.prioritylist {
+  cursor:pointer;
+  font-weight: bold;
+}
+
+
+
+.pr {
+  text-indent:5%;
+  border-radius:0.18em;
+  cursor:default;
+  transition: background-color 0.2s;
+  margin:0.2em;
+}
+
+.high {
+  background-color:#FFD3D3;
+  display:block;
+}
+
+.high:hover {
+  background-color:#E4A8A8 !important;
+}
+
+.medium {
+  background-color:#FFFDD3;
+  display:block;
+}
+
+.medium:hover {
+  background-color:#EEEAA6 !important;
+}
+
+.low {
+  background-color:#D3FFE0;
+  display:block;
+}
+
+.low:hover {
+  background-color: #B0E8C0 !important;
+}
+
+.low > span, .medium > span, .high > span {
+  font-weight: bold;
+}
+
+
+.right2 {
+  margin:1em 1em 1em 0em;
+  grid-row:2;
+  background-color:white;
+  border-radius:1em;
+  display:grid;
+  grid-template-rows:1fr 7fr;
+  overflow-y:scroll;
+  padding:0.5em;
+  opacity:0.9;
+}
+
+
+.rightTitle {
+  text-align:center;
+  align-self:center;
+  line-height:1.5em;
+  font-weight: bold;
+}
+
+.alertM {
+  background-color:#FFD3D3;
+  margin:0.5em;
+  padding:0.3em 0.5em 0.1em 0.1em;
+  display:grid;
+  grid-template-columns:7fr 1fr;
+  min-height:1.5em;
+}
+
+.alertClose {
+  justify-self:center;
+  cursor: pointer;
+  color:#525252;
+}
+
+.alertClose:hover {
+  color:black;
+  cursor:pointer;
+}
+
+.liMes {
+  justify-self:center;
+  margin:15em auto;
+  cursor:text;
+  user-select:text;
+}
+
+

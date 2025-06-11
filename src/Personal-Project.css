@@ -1,0 +1,200 @@
+/* global*/
+* {
+  margin:0;
+  font-family:'Nunito', Sans-serif;
+  user-select: none;
+}
+
+::selection {
+  background-color:#CDF4E9;
+}
+
+.grid {
+  display:grid;
+  grid-template-columns:1fr 4fr 1fr;
+  grid-template-rows:5em 22em 5em 16em 7.5em;
+  width:100vw;
+  height:100vh;
+  overflow-x: hidden;
+}
+
+
+/* header */
+#header {
+  grid-column:2/4;
+  grid-row:1;
+  display:grid;
+  height:5em;
+  grid-template-columns:1fr 5fr 10fr 1fr 2fr;
+  border-bottom:1px solid #aaa;
+  z-index:1;
+  position: relative;
+}
+
+
+.logo {
+  grid-column:1;
+  height:3em;
+  align-self:center;
+  cursor:pointer;
+  justify-self:center;
+}
+
+.title {
+  grid-column:2;
+  align-self:center;
+  text-decoration:none;
+  font-weight: bold;
+  color:#026670;
+  font-size:1.5em;
+  font-family: 'Montserrat Alternates', sans-serif;
+}
+
+/* user menu */
+#usericon {
+  grid-column:4;
+  height:3em;
+  justify-self:center;
+  align-self: center;
+  cursor:pointer;
+}
+
+#username {
+  grid-column:5;
+  align-self:center;
+  text-decoration: none;
+  font-weight:normal;
+  cursor:pointer;
+  font-size:1.1em;
+}
+
+#arrow {
+  font-size:0.8em;
+  cursor:pointer;
+}
+
+.dropDown {
+  position:absolute;
+  display: none;
+  width: 100%;
+  height: 100%;
+}
+
+.dropDownContent {
+  position:absolute;
+  right:1em;
+  margin-top: 4em;
+  background-color:white;
+  padding-top:0.8em;
+  width:7em;
+  border:0.5px solid #ddd;
+  display:grid;
+  grid-template-rows: 1fr 1fr;
+  border-radius:0.5em;
+  box-shadow: 0px 10px 20px #EAEAEA99;
+  display:none;
+  opacity:1;
+  z-index:2;
+}
+
+.dropDownContent > div {
+  height:2em;
+  align-self:start;
+  padding-left:0.7em;
+  cursor:default;
+  transition-duration:0.5s;
+
+}
+
+.dropDownContent > div:hover {
+  background-color:#eee;
+  transition-duration:0.5s;
+}
+
+/* iconbar */
+
+.menuimg {
+  width:50%;
+  height:50%;
+  margin:15px;
+  object-fit: cover;
+  grid-column:1;
+}
+
+.menu {
+  grid-column:1;
+  border-radius:50%;
+  margin-right:10px;
+  cursor:pointer;
+  display:grid;
+}
+
+
+
+#iconbar {
+  grid-column:1;
+  grid-row:1/6;
+  background-color:#026670;
+  width:100%;
+  display:grid;
+  grid-template-rows:repeat(12, 1fr);
+  z-index:1; /* was originally 2, I don't know why though. Changed it so that it becomes hidden when activing modal*/
+  min-width:15em;
+  height:100%;
+}
+
+
+
+
+#iconbar > a {
+  transition:background-color 0.3s ease;
+  display:grid;
+  grid-template-columns:repeat(2, 1fr);
+  text-decoration:none;
+  transition-duration: 0.5s;
+}
+
+#iconbar > a:hover:not(.selected) {
+  background-color:#1C7E88;
+  transition-duration: 0.5s;
+}
+
+
+
+.sideimg {
+  width:2em;
+  grid-column:1;
+  justify-self:start;
+  align-self:center;
+  margin-left:1.5em;
+}
+
+.icon {
+  grid-column:2;
+  align-self:center;
+  margin-left:-2em;
+  color:white;
+}
+
+
+.selected {
+  background-color:white;
+}
+
+.selected > div {
+  color:#026670;
+}
+
+
+
+/**/
+#right {
+  grid-column:3;
+  grid-row:2/5;
+}
+
+
+#footer {
+  grid-column:2/4;
+  grid-row:5;
+}

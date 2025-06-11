@@ -1,0 +1,166 @@
+/* account settings */
+.body {
+  display: grid;
+  grid-template-rows: 1fr 5fr;
+  grid-row-gap:1em;
+  margin:2em;
+  height:calc(100vh - 9em);
+  overflow-y:scroll;
+}
+
+.body > span {
+  font-weight: bold;
+  font-size: 3em;
+}
+
+
+.account {
+  display:grid;
+  grid-template-rows: repeat(4, 1fr);
+  grid-row-gap:1em;
+}
+
+.account > div > span {
+  grid-column:1/3;
+  font-weight:bold;
+  border-bottom:0.5px solid #525252;
+}
+
+/* profile photo */
+.account > div {
+  grid-column:2;
+  display:grid;
+  grid-template-columns: repeat(2, 1fr);
+  grid-template-rows:1.5em 3em 1.5em;
+  grid-gap:0.5em;
+}
+
+.profilePic {
+  grid-column:1;
+  grid-row:2;
+  width:20%;
+  margin-left:2em;
+}
+
+.con > input {
+  align-self:center;
+  padding:0.5em;
+  outline:none;
+  border:1px solid #525252;
+  border-radius:10px;
+}
+
+.con > input:focus {
+  border:1px solid #026670;
+}
+
+
+input[type="email"],input[type="password"],input[type="text"], select {
+  width:80%;
+  margin-left:2em;
+}
+
+.alerts {
+  text-align:left;
+  font-size:0.8em;
+  margin-left:2em;
+  color:#D35252;
+}
+
+
+.proChoose {
+  justify-self:center;
+  align-self:center;
+  background-color: white;
+  border-radius:0.5em;
+  border:0.5px solid #026670;
+  color: #026670;
+  font-size:0.8em;
+  width:20%;
+  min-width:4em;
+  text-align: center;
+  cursor:pointer;
+}
+
+
+.accBtns {
+  background-color: white;
+  width:20%;
+  min-width:4em;
+  justify-self:center;
+  transition-duration: 0.2s; 
+
+}
+
+.accBtns:hover {
+  background-color: #026670;
+  color:white;
+  transition-duration: 0.2s; 
+}
+
+.cancel, .save, .accBtns {
+  border-radius: 0.5em;
+  border:none;
+  color:#026670;
+  cursor: pointer;
+}
+
+.cancel, .save {
+  width:40%;
+  align-self:center;
+  padding:0.5em;
+  margin:0em 1em;
+}
+
+.save {
+  justify-self:start;
+  background-color: #026670;
+  color:white;
+  border:#026670 1px solid;
+}
+
+.save:hover {
+  background-color: #2f747b;
+}
+
+.cancel {
+  justify-self:end;
+  background-color: white;
+}
+
+.cancel:hover {
+  background-color: #F7F7F7;
+}
+
+.btns {
+  display:grid;
+  grid-template-columns: repeat(2, 1fr);
+}
+
+.del > span {
+  color:#C43D3D;
+}
+
+.del > div {
+  justify-self:start;
+  align-self:center;
+}
+
+.delete {
+  background-color: white;
+  border-radius: 0.5em;
+  border:none;
+  border:0.5px solid #c43d3d;
+  color:#026670;
+  cursor: pointer;
+  color:#c43d3d;
+  align-self:center;
+  padding:0.5em;
+  width:12em;
+  margin-left: 2em;
+}
+
+.delete:hover {
+  background-color: #c43d3d;
+  color:white;
+}

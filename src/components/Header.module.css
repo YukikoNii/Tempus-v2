@@ -1,0 +1,81 @@
+
+/* TODO: move these to global.css */
+*  {
+  margin:0;
+  padding:0;
+  border: 0;
+ outline: 0;
+  font-family:'Nunito', Sans-serif;
+}
+
+.header > a:hover {
+  color:#026670
+}
+
+::selection {
+  background-color:#CDF4E9;
+}
+
+.sticky {
+  position:fixed;
+
+}
+
+
+/*
+
+ header
+
+*/
+.header {
+  background-color: #fff;
+  grid-row:1;
+  display:grid;
+  grid-template-columns:1fr 4em 3fr 3fr 3fr 3fr 3fr 6em 6em 1fr;
+  height:5em;
+  width:100%;
+  box-shadow: 0px 10px 20px #f1f0f099;
+  transition-duration: 0.5s;
+}
+
+.header:hover {
+  box-shadow: 0px 10px 20px #c5c5c599;
+  transition-duration: 0.5s;
+}
+
+
+.logo {
+  grid-column:2;
+  width:90%;
+  align-self:center;
+  justify-self:center;
+  cursor:pointer;
+}
+
+.title {
+  grid-column:3;
+  align-self:center;
+  text-decoration:none;
+  font-weight: bold;
+  color:#026670;
+  font-size:1.5em;
+  font-family: 'Montserrat Alternates', sans-serif;
+}
+
+
+.login {
+  grid-column:8;
+}
+
+.login, .signup,.features,.resources {
+  color:#525252;
+}
+
+.title, .login, .signup, .features, .resources {
+  align-self:center;
+  text-decoration:none;
+}
+
+.title, .login, .signup {
+  font-weight:bold;
+}

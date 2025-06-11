@@ -1,0 +1,87 @@
+
+
+*:not(input[type="button"]) {
+  user-select: text;
+}
+
+:disabled {
+  cursor:not-allowed;
+}
+
+.grid {
+  display:grid;
+  grid-template-columns:1fr 4fr 1fr;
+  grid-template-rows:5em 22em 5em 16em 7.5em;
+  width:100vw;
+  height:100vh;
+  overflow-x: hidden;
+}
+
+.section {
+  grid-row:2/6;
+  grid-column:2/4;
+  display:grid;
+  grid-template-columns: 1fr 3fr;
+  width:100%;
+  height:calc(100vh - 5em);
+}
+
+/* menu */
+.settingMenu {
+  grid-column:1;
+  background-color: #DFFBF3;
+  width:100%;
+  height:calc(100vh - 5em);
+  border-right:1px solid #525252;
+  display:grid;
+  grid-template-rows:2fr repeat(3, 1fr) 5fr;
+}
+
+.settingMenu > span {
+  text-align:center;
+  align-self:center;
+  position:relative;
+  z-index:1;
+  cursor:pointer; 
+}
+
+.settingMenu > span:hover::before, .settingMenu > span::before {
+  content:' ';
+  cursor:pointer; 
+  position:absolute;
+  width:40%;
+  height:200%;
+  background-color:#fbfffe;
+  left:30%;
+  top:-50%;
+  z-index:-1;
+  border-radius:0.5em;
+  transition-duration:0.3s;
+}
+
+.settingMenu > span::before {
+  opacity:0;
+}
+
+.settingMenu > span:hover::before {
+  opacity:1;
+}
+
+
+
+
+
+.settingMenu > img {
+  grid-row:1;
+  width:40%;
+  padding:2em;
+  justify-self:center;
+  align-self:center;
+  border-bottom:0.5px solid #525252;
+}
+
+
+
+
+
+

@@ -1,0 +1,62 @@
+.delModal {
+  position:fixed;
+  left:0px;
+  top:0px;
+  width:100%;
+  height:100%;
+  z-index:2;
+  background-color:#1a525252;
+  backdrop-filter:blur(3px);
+}
+
+/* modal box */
+.delModalContent {
+  background-color:white;
+  margin:calc(50vh - 10em) auto;
+  width:24em;
+  height:10em;
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  grid-template-rows:1fr 1fr;
+  grid-gap:1em;
+  color:#525252;
+  animation-name:slidein;
+  animation-duration:1s;
+  border-radius:10px;
+  padding:1em;
+}
+
+.delModalContent > span {
+  grid-column:1/3;
+  text-align:center;
+  justify-self:center;
+  align-self:center;
+}
+
+.delModalContent > button {
+  text-align:center;
+  padding:1em;
+  margin:1em;
+  border-radius:1em;
+  cursor:pointer;
+}
+
+.delCancel {
+  background-color: white;
+  border:1px solid #525252;
+}
+
+.delCancel:hover {
+  background-color: #F7F7F7;
+}
+
+.delDelete {
+  background-color: #c43d3d;
+  border:1px solid #c43d3d;
+  color:white;
+}
+
+.delDelete:hover {
+  background-color: #D35252;
+  border:1px solid #D35252;
+}
