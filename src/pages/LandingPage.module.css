@@ -78,7 +78,12 @@ Hero Section
   align-self:center;
 }
 
+
+
 .button {
+  display: flex; 
+  justify-content: center; 
+  align-items: center; 
   width:40%;
   appearance:none;
   -webkit-appearance:none;

@@ -2,6 +2,7 @@ const signupImg = "/images/signupImg.svg";
 import styles from "./SignupPage.module.css";
 import { Link, useNavigate } from "react-router-dom";
 import { useState } from "react";
+import Header from "../components/Header";
 
 function SignupPage() {
   const navigate = useNavigate(); //initialize the hook
@@ -96,87 +97,90 @@ function SignupPage() {
     password.length >= 8 ? styles.checked : styles.unchecked;
 
   return (
-    <div className={styles.grid}>
-      <div className={styles.wrapper}>
-        <img className={styles.signupImage} src={signupImg} alt="Sign up" />
+    <>
+      <Header></Header>
+      <div className={styles.grid}>
+        <div className={styles.wrapper}>
+          <img className={styles.signupImage} src={signupImg} alt="Sign up" />
 
-        <div className={styles.input}>
-          <div className={styles.signupTitle}>Sign up</div>
-          <form className={styles.signup} onSubmit={handleSubmit}>
-            <div className={styles.toLogin}>
-              Already have an account?{" "}
-              <Link className={styles.loginLink} to="/login">
-                Login
-              </Link>
-            </div>
-            {usernameExistsAlert && (
-              <span className={styles.usernameExistsAlert}>
-                {usernameExistsAlert}
-              </span>
-            )}
-            {emailExistsAlert && (
-              <span className={styles.emailExistsAlert}>
-                {emailExistsAlert}
-              </span>
-            )}
-            <label className={styles.label} htmlFor="Username">
-              Username<span className={styles.asterisk}>*</span>
-            </label>
-            <input
-              className={styles.inputField}
-              type="text"
-              value={username}
-              onChange={(e) => setUsername(e.target.value)}
-            />
-            <label className={styles.label} htmlFor="Email">
-              Email<span className={styles.asterisk}>*</span>{" "}
-            </label>
-            {emailAlert && (
-              <span className={styles.emailAlert}>{emailAlert}</span>
-            )}
-            <input
-              className={styles.inputField}
-              type="text"
-              value={email}
-              onChange={(e) => {
-                setEmail(e.target.value);
-              }}
-            />
-            <label className={styles.label} htmlFor="Password">
-              Password<span className={styles.asterisk}>*</span>
-            </label>
-            <input
-              className={styles.inputField}
-              type="password"
-              value={password}
-              onChange={(e) => {
-                setPassword(e.target.value);
-              }}
-            />
-            <label className={styles.label} htmlFor="conPassword">
-              Confirm Password<span className={styles.asterisk}>*</span>
-            </label>
-            {passwordAlert && (
-              <span className={styles.passwordAlert}>{passwordAlert}</span>
-            )}
-            <input
-              className={styles.inputField}
-              type="password"
-              value={confirmPassword}
-              onChange={(e) => setConfirmPassword(e.target.value)}
-            />
-            <p className={passwordConditionText}>
-              {password.length >= 8 ? "✓" : "•"}At least 8 characters
-            </p>
-            <input
-              type="submit"
-              value="Submit"
-              className={`${styles.submit} ${styles.inputField}`}
-            />
-          </form>
+          <div className={styles.input}>
+            <div className={styles.signupTitle}>Sign up</div>
+            <form className={styles.signup} onSubmit={handleSubmit}>
+              <div className={styles.toLogin}>
+                Already have an account?{" "}
+                <Link className={styles.loginLink} to="/login">
+                  Login
+                </Link>
+              </div>
+              {usernameExistsAlert && (
+                <span className={styles.usernameExistsAlert}>
+                  {usernameExistsAlert}
+                </span>
+              )}
+              {emailExistsAlert && (
+                <span className={styles.emailExistsAlert}>
+                  {emailExistsAlert}
+                </span>
+              )}
+              <label className={styles.label} htmlFor="Username">
+                Username<span className={styles.asterisk}>*</span>
+              </label>
+              <input
+                className={styles.inputField}
+                type="text"
+                value={username}
+                onChange={(e) => setUsername(e.target.value)}
+              />
+              <label className={styles.label} htmlFor="Email">
+                Email<span className={styles.asterisk}>*</span>{" "}
+              </label>
+              {emailAlert && (
+                <span className={styles.emailAlert}>{emailAlert}</span>
+              )}
+              <input
+                className={styles.inputField}
+                type="text"
+                value={email}
+                onChange={(e) => {
+                  setEmail(e.target.value);
+                }}
+              />
+              <label className={styles.label} htmlFor="Password">
+                Password<span className={styles.asterisk}>*</span>
+              </label>
+              <input
+                className={styles.inputField}
+                type="password"
+                value={password}
+                onChange={(e) => {
+                  setPassword(e.target.value);
+                }}
+              />
+              <label className={styles.label} htmlFor="conPassword">
+                Confirm Password<span className={styles.asterisk}>*</span>
+              </label>
+              {passwordAlert && (
+                <span className={styles.passwordAlert}>{passwordAlert}</span>
+              )}
+              <input
+                className={styles.inputField}
+                type="password"
+                value={confirmPassword}
+                onChange={(e) => setConfirmPassword(e.target.value)}
+              />
+              <p className={passwordConditionText}>
+                {password.length >= 8 ? "✓" : "•"}At least 8 characters
+              </p>
+              <input
+                type="submit"
+                value="Submit"
+                className={`${styles.submit} ${styles.inputField}`}
+              />
+            </form>
+          </div>
         </div>
       </div>
-    </div>
+    </>
   );
 }
 

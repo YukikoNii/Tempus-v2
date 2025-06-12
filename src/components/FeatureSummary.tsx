@@ -1,4 +1,5 @@
 import styles from "./FeatureSummary.module.css";
+import { Link } from "react-router-dom";
 
 interface Props {
   index: number;
@@ -29,9 +30,9 @@ const FeatureSummary = ({
         <div className={styles.des} id={styles.des3}>
           {description}
         </div>
-        <button className={styles.button} id={styles.btn3}>
+        <Link to="/signup" className={styles.button} id={styles.btn3}>
           {buttonLabel}
-        </button>
+        </Link>
         <img className={styles.img3} src={imgName} alt={name}></img>
       </section>
     </>

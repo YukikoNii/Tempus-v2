@@ -6,6 +6,7 @@ const to_do = "/images/to_do.png";
 const calendar = "/images/calendar.png";
 import { Link } from "react-router-dom";
 import styles from "./LandingPage.module.css";
+import Header from "../components/Header";
 
 const features = [
   {
@@ -33,79 +34,82 @@ const features = [
 
 function LandingPage() {
   return (
-    <div className={styles.grid}>
-      <section className={styles.hero}>
-        <div className={styles.heroContainer}>
-          <div className={`${styles.phrase} ${styles.heroPhrase}`}>
-            Never miss your deadlines.
+    <>
+      <Header></Header>
+      <div className={styles.grid}>
+        <section className={styles.hero}>
+          <div className={styles.heroContainer}>
+            <div className={`${styles.phrase} ${styles.heroPhrase}`}>
+              Never miss your deadlines.
+            </div>
+            <div className={`${styles.description} ${styles.heroDescription}`}>
+              Tempus helps students to complete their tasks on time, thus
+              raising their academic standards, alleviating stress, and
+              improving their prospects for future career.
+            </div>
+            <Link
+              to="/signup"
+              className={`${styles.button} ${styles.heroButton}`}
+            >
+              Get Started
+            </Link>
           </div>
-          <div className={`${styles.description} ${styles.heroDescription}`}>
-            Tempus helps students to complete their tasks on time, thus raising
-            their academic standards, alleviating stress, and improving their
-            prospects for future career.
-          </div>
-          <Link
-            to="/signup"
-            className={`${styles.button} ${styles.heroButton}`}
-          >
-            Get Started
-          </Link>
-        </div>
-        <img
-          className={`${styles.image} ${styles.heroImg}`}
-          src={clockWoman}
-          alt="Clock and Woman"
-        ></img>
-      </section>
+          <img
+            className={`${styles.image} ${styles.heroImg}`}
+            src={clockWoman}
+            alt="Clock and Woman"
+          ></img>
+        </section>
 
-      {features.map((feature, index) => (
-        <FeatureSummary
-          key={index}
-          index={index}
-          name={feature.name}
-          phrase={feature.phrase}
-          description={feature.description}
-          buttonLabel="Start Now →"
-          imgName={feature.imgName}
-        ></FeatureSummary>
-      ))}
+        {features.map((feature, index) => (
+          <FeatureSummary
+            key={index}
+            index={index}
+            name={feature.name}
+            phrase={feature.phrase}
+            description={feature.description}
+            buttonLabel="Start Now →"
+            imgName={feature.imgName}
+          ></FeatureSummary>
+        ))}
 
-      <section className={styles.bottom}>
-        <div className={styles.bottomContainer}>
-          <div className={styles.bottomNames}>
-            <img className={styles.bottomLogo} src={hourglass}></img>
-            <div className={styles.bottomTitle}>Tempus</div>
-            <div className={styles.bottomDescription}>
-              <span>This website was made for G10 Personal Project.</span>
+        <section className={styles.bottom}>
+          <div className={styles.bottomContainer}>
+            <div className={styles.bottomNames}>
+              <img className={styles.bottomLogo} src={hourglass}></img>
+              <div className={styles.bottomTitle}>Tempus</div>
+              <div className={styles.bottomDescription}>
+                <span>This website was made for G10 Personal Project.</span>
+              </div>
+            </div>
+            <div className={`${styles.bottomTopics} ${styles.first}`}>
+              <div className={styles.bottomTopicHeading}>Contact</div>
+              <span className={styles.bottomTopic}>
+                <Link className={styles.bottomTopicLink} to="/contact">
+                  Contact Form
+                </Link>
+              </span>
+              <span className={styles.bottomTopic}>
+                <Link className={styles.bottomTopicLink} to="/credits">
+                  Credits
+                </Link>
+              </span>
+              <span></span>
+            </div>
+            <div className={styles.bottomTopics}>
+              <div className={styles.bottomTopicHeading}>Support</div>
+              <span className={styles.bottomTopic}>Coming soon...</span>
+              <span></span>
+              <span></span>
             </div>
           </div>
-          <div className={`${styles.bottomTopics} ${styles.first}`}>
-            <div className={styles.bottomTopicHeading}>Contact</div>
-            <span className={styles.bottomTopic}>
-              <Link className={styles.bottomTopicLink} to="/contact">
-                Contact Form
-              </Link>
-            </span>
-            <span className={styles.bottomTopic}>
-              <Link className={styles.bottomTopicLink} to="/credits">
-                Credits
-              </Link>
-            </span>
-            <span></span>
-          </div>
-          <div className={styles.bottomTopics}>
-            <div className={styles.bottomTopicHeading}>Support</div>
-            <span className={styles.bottomTopic}>Coming soon...</span>
-            <span></span>
-            <span></span>
-          </div>
-        </div>
-      </section>
+        </section>
 
-      <footer className={styles.footer}>
-        <div className={styles.ft}>©2022 Tempus</div>
-      </footer>
-    </div>
+        <footer className={styles.footer}>
+          <div className={styles.ft}>©2022 Tempus</div>
+        </footer>
+      </div>
+    </>
   );
 }
 
