@@ -1,6 +1,7 @@
 import styles from "./TodoPage.module.css";
 import Sidebar from "../components/Sidebar";
 import AppHeader from "../components/AppHeader";
+import Entry from "../components/Entry";
 import "material-icons/iconfont/material-icons.css";
 import TodoModal from "../components/TodoModal";
 import { useState, useEffect } from "react";
@@ -12,6 +13,19 @@ function TodoPage() {
   const [isTagListVisible, setIsTagListVisible] = useState(false);
   const [bgSrc, setBgSrc] = useState("");
 
+  // define an Entry Type
+  type EntryType = {
+    _id: string;
+    userId: string;
+    description: string;
+    dueDate: string;
+    priority: string;
+    title: string;
+    tags: Array<string>;
+
+    // Add other fields if needed
+  };
+  const [entries, setEntries] = useState<EntryType[]>([]);
   const containerStyle = {
     gridRow: "2/6",
     gridColumn: "2/4",
@@ -30,10 +44,13 @@ function TodoPage() {
       });
       if (res) {
         const data = await res.json();
-        const selectedBg = backgrounds.find((bg) => bg.name == data.bgName);
+        const selectedBg = backgrounds.find(
+          (bg) => bg.name == data.user.bgName
+        );
         if (selectedBg) {
           setBgSrc(selectedBg.src);
         }
+        setEntries(data.todos);
       }
     };
     fetchBg();
@@ -71,7 +88,18 @@ function TodoPage() {
               onClose={() => setShowModal(false)}
             ></TodoModal>
           )}
-          <div className={styles.list}></div>
+          <div className={styles.list}>
+            {entries.map((entry, index) => (
+              <Entry
+                key={index}
+                id={entry._id}
+                title={entry.title}
+                description={entry.description}
+                dueDate={entry.dueDate}
+                priority={entry.priority}
+              ></Entry>
+            ))}
+          </div>
         </div>
 
         <div className={styles.filterContainer}>

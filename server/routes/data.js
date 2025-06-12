@@ -105,7 +105,19 @@ router.get("/home", verifyUser, async (req, res) => {
 router.get("/todo", verifyUser, async (req, res) => {
   let collection = await db.collection("users");
   const user = await collection.findOne({ _id: new ObjectId(req.userId) }); // deprecated
-  res.json(user);
+  let todoCollection = await db.collection("todo");
+  const todos = await todoCollection
+    .find({ userId: new ObjectId(req.userId) })
+    .toArray();
+  res.json({ user: user, todos: todos });
+});
+
+router.post("/todo/delete", verifyUser, async (req, res) => {
+  let todoCollection = db.collection("todo");
+  const result = await todoCollection.deleteOne({
+    _id: new ObjectId(req.body.id),
+  });
+  res.status(200).json({ result });
 });
 
 router.post("/home", verifyUser, async (req, res) => {

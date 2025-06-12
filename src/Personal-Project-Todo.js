@@ -16,19 +16,6 @@ function close() {
   no_title_alert.textContent = "*";
 }
 
-// add button
-var addbutton = document.getElementById("add");
-addbutton.addEventListener("click", add);
-
-// close by clicking on the outside
-window.addEventListener("click", closew);
-
-function closew(event) {
-  if (event.target === modal) {
-    modal.style.display = "none";
-  }
-}
-
 // creating tags
 var tag_container = document.querySelector(".tag-box");
 
