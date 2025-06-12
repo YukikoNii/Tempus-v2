@@ -32,4 +32,3 @@ export const Sounds = [
   },
 ];
 
-console.log("--- AlarmSounds.ts is EXPORTING this: ---", Sounds); // Add this

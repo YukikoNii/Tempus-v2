@@ -29,7 +29,7 @@ export const AccountSettings = ({
   const [isPasswordDisabled, setIsPasswordDisabled] = useState(true);
   const [showProfileImgModal, setShowProfileImgModal] = useState(false);
   const [showDeleteAccountModal, setShowDeleteAccountModal] = useState(false);
-  const [showUsernameAlert, setShowUsernameAlert] = useState(false);
+  const [usernameAlert, setUsernameAlert] = useState("");
   const [showEmailAlert, setShowEmailAlert] = useState(false);
 
   const [profileImgSrc, setProfileImgSrc] = useState("");
@@ -50,64 +50,71 @@ export const AccountSettings = ({
   };
 
   const updateUsername = () => {
-    const saveUsernameToDB = async () => {
-      const res = await fetch(
-        "http://localhost:5050/data/accountSettings/username",
-        {
-          method: "POST",
-          credentials: "include",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({ username: username }),
+    if (username === "") {
+      setUsernameAlert("Username cannot be blank");
+    } else if (username === currentUsername) {
+      setUsernameAlert("");
+      setIsUsernameDisabled(true);
+    } else {
+      const saveUsernameToDB = async () => {
+        const res = await fetch(
+          "http://localhost:5050/data/accountSettings/username",
+          {
+            method: "POST",
+            credentials: "include",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({ username: username }),
+          }
+        );
+        if (res.ok) {
+          currentUsername = username;
+          setUsernameAlert("");
+          setIsUsernameDisabled(true);
+        } else {
+          setUsernameAlert("The username is already taken");
         }
-      );
-      if (res.ok) {
-        currentUsername = username;
-        setShowUsernameAlert(false);
-        setIsUsernameDisabled(true);
-      } else {
-        setShowUsernameAlert(true);
-      }
-    };
-    saveUsernameToDB();
+      };
+      saveUsernameToDB();
+    }
   };
 
   const validateEmail = (email: string) => {
     const expression =
       /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:.[a-zA-Z0-9-]+)*$/;
-    if (email.match(expression)) {
-      return true;
-    } else {
-      return false;
-    }
+    return email.match(expression);
   };
 
   const updateEmail = () => {
     if (!validateEmail(email)) {
       setShowEmailAlert(true);
-    }
-    const saveEmailToDB = async () => {
-      const res = await fetch(
-        "http://localhost:5050/data/accountSettings/email",
-        {
-          method: "POST",
-          credentials: "include",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({ email: email }),
+    } else if (email === currentEmail) {
+      setShowEmailAlert(false);
+      setIsEmailDisabled(true);
+    } else {
+      const saveEmailToDB = async () => {
+        const res = await fetch(
+          "http://localhost:5050/data/accountSettings/email",
+          {
+            method: "POST",
+            credentials: "include",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({ email: email }),
+          }
+        );
+        if (res.ok) {
+          currentEmail = email;
+          setShowEmailAlert(false);
+          setIsEmailDisabled(true);
+        } else {
+          setShowEmailAlert(true);
         }
-      );
-      if (res.ok) {
-        currentEmail = email;
-        setShowEmailAlert(false);
-        setIsEmailDisabled(true);
-      } else {
-        setShowEmailAlert(true);
-      }
-    };
-    saveEmailToDB();
+      };
+      saveEmailToDB();
+    }
   };
 
   useEffect(() => {
@@ -159,7 +166,7 @@ export const AccountSettings = ({
               className={styles.accTexts}
               disabled={isUsernameDisabled}
               onChange={(e) => setUsername(e.target.value)}
-              style={showUsernameAlert ? alertStyle : {}}
+              style={usernameAlert ? alertStyle : {}}
             />
             {isUsernameDisabled && (
               <input
@@ -177,7 +184,7 @@ export const AccountSettings = ({
                   className={styles.cancel}
                   onClick={() => {
                     setIsUsernameDisabled(true);
-                    setShowUsernameAlert(false);
+                    setUsernameAlert("");
                     setUsername(currentUsername);
                   }}
                 />
@@ -191,9 +198,8 @@ export const AccountSettings = ({
                 />
               </div>
             )}
-            {showUsernameAlert && (
-              <p className={styles.alerts}>That username is already taken.</p>
-            )}
+
+            <p className={styles.alerts}>{usernameAlert}</p>
           </div>
 
           <div className={`${styles.con} ${styles.ema}`}>
@@ -270,7 +276,7 @@ export const AccountSettings = ({
                 <input type="button" value="Save" className={styles.save} />
               </div>
             )}
-            {showUsernameAlert && (
+            {usernameAlert && (
               <p className={styles.alerts}>Your username is already taken.</p>
             )}
           </div>
