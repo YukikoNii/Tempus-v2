@@ -20,7 +20,6 @@ export const NotificationSettings = ({ sound }: NotificationSettingsProps) => {
       console.log(selectedSoundData);
       soundRef.current = new Audio(selectedSoundData.src);
       soundRef.current.play();
-      console.log(selectedSoundData);
     }
   };
 
