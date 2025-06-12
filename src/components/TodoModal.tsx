@@ -6,7 +6,7 @@ interface TodoModalProps {
 
 const TodoModal = ({ onClose }: TodoModalProps) => {
   return (
-    <div className={styles.modal}>
+    <div className={styles.container}>
       <div className={styles.modalContent}>
         <div className={styles.heading}>New Task</div>
         <div className={styles.title}>
@@ -21,7 +21,7 @@ const TodoModal = ({ onClose }: TodoModalProps) => {
         </div>
         <div className={styles.options}>
           <label className={styles.oplabel}>Options</label>
-          <div className={styles.dandt}>
+          <div className={styles.dateAndTime}>
             <label className={styles.datelabel}>Due Date</label>
             <input type="date" className={styles.date} />
             <input type="time" className={styles.time} />

@@ -12,7 +12,7 @@ function TodoPage() {
   const [isTagListVisible, setIsTagListVisible] = useState(false);
   const [bgSrc, setBgSrc] = useState("");
 
-  const todoFunctionStyle = {
+  const containerStyle = {
     gridRow: "2/6",
     gridColumn: "2/4",
     backgroundImage: `url(${bgSrc})`,
@@ -60,8 +60,8 @@ function TodoPage() {
       <AppHeader></AppHeader>
       <Sidebar></Sidebar>
 
-      <div className={styles.todofunction} style={todoFunctionStyle}>
-        <div className={styles.todo}>
+      <div className={styles.container} style={containerStyle}>
+        <div className={styles.main}>
           <button className={styles.add} onClick={() => setShowModal(true)}>
             +
           </button>
@@ -71,21 +71,16 @@ function TodoPage() {
           <div className={styles.list}></div>
         </div>
 
-        <div className={styles.right}>
-          <div className={styles.tagsList}>
-            <div className={styles.tagHr}>
-              Tags &nbsp;
-              <span className={styles.tagArrow} onClick={() => toggleTagList()}>
-                {isTagListVisible ? "▼" : "▲"}
-              </span>
-            </div>
+        <div className={styles.filterContainer}>
+          <div className={styles.tagList}>
+            Tags &nbsp;
+            <span onClick={() => toggleTagList()}>
+              {isTagListVisible ? "▼" : "▲"}
+            </span>
           </div>
-          <div className={styles.prioritylist}>
+          <div className={styles.priorityList}>
             Priority &nbsp;
-            <span
-              className={styles.prArrow}
-              onClick={() => togglePriorityList()}
-            >
+            <span onClick={() => togglePriorityList()}>
               {isPriorityListVisible ? "▼" : "▲"}
             </span>
           </div>
@@ -98,8 +93,8 @@ function TodoPage() {
           )}
         </div>
 
-        <div className={styles.right2}>
-          <div className={styles.rightTitle}>Reminders</div>
+        <div className={styles.reminderContainer}>
+          <div className={styles.rightHeading}>Reminders</div>
           <div className={styles.reminders}></div>
         </div>
       </div>

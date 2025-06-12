@@ -7,7 +7,7 @@
   overflow-x: hidden;
 }
 
-.todofunction {
+.container {
   grid-row:2/6;
   grid-column:2/4;
   background-image:url('../assets/images/bgDefault.jpg'); /* maybe fix this */
@@ -18,7 +18,7 @@
 }
 
 /* grids */
-.todo {
+.main {
   grid-row:1/3;
   grid-column:1;
   display:grid;
@@ -105,6 +105,7 @@
   grid-column:3;
   grid-row:1;
 }
+
 /* container */
 .container  {
   display:block;
@@ -118,7 +119,7 @@
 }
 
 /* hiding the default checkbox */
-.container input {
+.checkbox { /* This was originally "container input" */
   position: absolute;
   opacity:0;
   height:0;
@@ -199,7 +200,6 @@
 }
 
 
-
 .entrydes {
   grid-column:2;
   grid-row:2;
@@ -215,7 +215,7 @@
 
 /* right sidebar */
 
-.right {
+.filterContainer {
   margin:1em 1em 1em 0em;
   border-radius:1em;
   grid-column:2;
@@ -227,7 +227,7 @@
 }
 
 /* tags list */
-.tagHr {
+.tagList {
   cursor:pointer;
   font-weight: bold;
 }
@@ -241,7 +241,7 @@
 
 /* priority list */
 
-.prioritylist {
+.priorityList {
   cursor:pointer;
   font-weight: bold;
 }
@@ -288,7 +288,7 @@
 }
 
 
-.right2 {
+.reminderContainer {
   margin:1em 1em 1em 0em;
   grid-row:2;
   background-color:white;
@@ -301,7 +301,7 @@
 }
 
 
-.rightTitle {
+.rightHeading {
   text-align:center;
   align-self:center;
   line-height:1.5em;

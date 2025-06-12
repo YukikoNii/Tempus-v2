@@ -1,7 +1,7 @@
 
 
 /* background */
-.modal {
+.container {
   position:fixed;
   left:0px;
   top:0px;
@@ -71,7 +71,7 @@
   user-select: text;
 }
 
-.titleLabel > span {
+.titleAlert {
   color:#C43D3D;
 }
 
@@ -132,7 +132,7 @@
   grid-row-gap: 1em;
 }
 
-.dandt {
+.dateAndTime {
   grid-row:2;
   grid-column:1/5;
   display:grid;
@@ -187,6 +187,7 @@
   font-size:1em;
   user-select: text;
 }
+
 /*
 reminder toggle
 */
