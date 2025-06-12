@@ -1,19 +1,42 @@
 import styles from "./TodoModal.module.css";
+import { useRef, useEffect } from "react";
 
 interface TodoModalProps {
+  isOpen: boolean;
   onClose: () => void;
 }
 
-const TodoModal = ({ onClose }: TodoModalProps) => {
+const TodoModal = ({ isOpen, onClose }: TodoModalProps) => {
+  const titleRef = useRef<HTMLInputElement>(null);
+  const modalRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const handleClickOutside = (e: MouseEvent) => {
+      if (modalRef.current && !modalRef.current.contains(e.target as Node)) {
+        onClose();
+      }
+    };
+
+    document.addEventListener("mousedown", handleClickOutside);
+
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [onClose]);
+
+  useEffect(() => {
+    titleRef.current?.focus();
+  }, [isOpen]);
+
   return (
-    <div className={styles.container}>
-      <div className={styles.modalContent}>
+    <div className={styles.modalBackdrop}>
+      <div className={styles.modalContent} ref={modalRef}>
         <div className={styles.heading}>New Task</div>
         <div className={styles.title}>
           <label className={styles.titleLabel}>
             Title<span className={styles.titleAlert}>*</span>
           </label>
-          <input type="text" className={styles.titleInput} />
+          <input ref={titleRef} type="text" className={styles.titleInput} />
         </div>
         <div className={styles.description}>
           <label className={styles.deslabel}>Description</label>

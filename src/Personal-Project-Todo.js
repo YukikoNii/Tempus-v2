@@ -20,13 +20,6 @@ function close() {
 var addbutton = document.getElementById("add");
 addbutton.addEventListener("click", add);
 
-function add() {
-  modal.style.display = "block";
-  titleinput.style.border = null;
-  // focus on the title
-  titleinput.focus();
-}
-
 // close by clicking on the outside
 window.addEventListener("click", closew);
 

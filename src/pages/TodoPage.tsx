@@ -66,7 +66,10 @@ function TodoPage() {
             +
           </button>
           {showModal && (
-            <TodoModal onClose={() => setShowModal(false)}></TodoModal>
+            <TodoModal
+              isOpen={showModal}
+              onClose={() => setShowModal(false)}
+            ></TodoModal>
           )}
           <div className={styles.list}></div>
         </div>

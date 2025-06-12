@@ -1,54 +1,3 @@
-/*
-enable the inputs
-*/
-
-// text inputs
-let accTexts = document.querySelectorAll(".accTexts");
-//alerts
-let accAlerts = document.querySelectorAll(".alerts");
-// buttons
-let accBtns = document.querySelectorAll(".accBtns");
-let cancelBtns = document.querySelectorAll(".cancel");
-let saveBtns = document.querySelectorAll(".save");
-// username at header
-// delete button
-document.querySelector(".delete").addEventListener("click", deleteCon);
-
-for (var i = 0; i < accBtns.length; i++) {
-  accBtns[i].addEventListener("click", enable);
-  cancelBtns[i].addEventListener("click", cancel);
-  saveBtns[i].addEventListener("click", save);
-}
-
-function enable() {
-  let aIndex = Array.prototype.indexOf.call(accBtns, this);
-  accTexts[aIndex].disabled = false;
-  cancelBtns[aIndex].style.display = "block";
-  saveBtns[aIndex].style.display = "block";
-  this.style.display = "none";
-}
-
-function cancel() {
-  let cIndex = Array.prototype.indexOf.call(cancelBtns, this);
-  this.style.display = "none";
-  saveBtns[cIndex].style.display = "none";
-  accBtns[cIndex].style.display = "block";
-  accTexts[cIndex].disabled = true;
-  // has to restore the previous value.
-
-  let loginInfo = JSON.parse(window.localStorage.getItem("loginInfo"));
-
-  if (cIndex == 0) {
-    accTexts[0].value = loginInfo.Username;
-  } else if (cIndex == 1) {
-    accTexts[1].value = loginInfo.Email;
-  } else {
-    accTexts[2].value = loginInfo.Password;
-  }
-  accTexts[cIndex].style.border = "1px solid #525252";
-  accAlerts[cIndex].style.display = "none";
-}
-
 function save() {
   // get the index of the textbox that is focused
   let sIndex = Array.prototype.indexOf.call(saveBtns, this);
@@ -102,9 +51,6 @@ function deleteCon() {
   delModal.style.display = "block";
 }
 
-
-
-
 // menu show and hide
 setBtns = document.querySelectorAll(".settingMenu > span");
 bodies = document.querySelectorAll(".body");
@@ -140,19 +86,9 @@ sDropDown.addEventListener("change", function () {
 let alBtn = document.querySelector(".alBtn");
 alBtn.addEventListener("click", function () {
   localStorage.setItem("audioObj", JSON.stringify(audioArr));
-  alBtn.value = "saved";
+  alBtn.value = "saved"; // <- maybe implement this
   const alTimeout = setTimeout(changeBack, 1000);
   function changeBack() {
     alBtn.value = "save";
-  }
-});
-
-window.addEventListener("load", function () {
-  let audio = JSON.parse(localStorage.getItem("audioObj"));
-  if (audio !== null) {
-    let audioIndex = audio[1];
-    options[audioIndex].selected = true;
-  } else {
-    options[0].selected = true;
   }
 });
