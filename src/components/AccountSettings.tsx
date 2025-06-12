@@ -31,7 +31,6 @@ export const AccountSettings = ({
   const [showDeleteAccountModal, setShowDeleteAccountModal] = useState(false);
   const [usernameAlert, setUsernameAlert] = useState("");
   const [showEmailAlert, setShowEmailAlert] = useState(false);
-
   const [profileImgSrc, setProfileImgSrc] = useState("");
 
   const updateProfileImage = (name: string, src: string) => {
@@ -106,7 +105,7 @@ export const AccountSettings = ({
           }
         );
         if (res.ok) {
-          currentEmail = email;
+          currentEmail = email; // TODO: fix direct assign, use state
           setShowEmailAlert(false);
           setIsEmailDisabled(true);
         } else {
@@ -143,27 +142,27 @@ export const AccountSettings = ({
   return (
     <>
       <div className={styles.body}>
-        <span>Account</span>
+        <span className={styles.heading}>Account</span>
         <div className={styles.account}>
-          <div className={`${styles.con} ${styles.pro}`}>
-            <span>Profile picture</span>
+          <div className={`${styles.section}`}>
+            <span className={styles.sectionHeading}>Profile picture</span>
             <img src={profileImgSrc} className={styles.profilePic} />
             <input
               type="button"
               name="button"
-              className={styles.proChoose}
+              className={`${styles.proChoose} ${styles.input}`}
               value="Choose"
               onClick={() => setShowProfileImgModal(true)}
             />
           </div>
 
-          <div className={`${styles.con} ${styles.use}`}>
-            <span>Username</span>
+          <div className={`${styles.section}`}>
+            <span className={styles.sectionHeading}>Username</span>
             <input
               type="text"
               name="username"
               value={username}
-              className={styles.accTexts}
+              className={` ${styles.input} ${styles.textField}`}
               disabled={isUsernameDisabled}
               onChange={(e) => setUsername(e.target.value)}
               style={usernameAlert ? alertStyle : {}}
@@ -172,7 +171,7 @@ export const AccountSettings = ({
               <input
                 type="button"
                 value="Edit"
-                className={styles.accBtns}
+                className={`${styles.edit} ${styles.input}`}
                 onClick={() => setIsUsernameDisabled(false)}
               />
             )}
@@ -181,7 +180,7 @@ export const AccountSettings = ({
                 <input
                   type="button"
                   value="Cancel"
-                  className={styles.cancel}
+                  className={`${styles.cancel} ${styles.input}`}
                   onClick={() => {
                     setIsUsernameDisabled(true);
                     setUsernameAlert("");
@@ -191,7 +190,7 @@ export const AccountSettings = ({
                 <input
                   type="button"
                   value="Save"
-                  className={styles.save}
+                  className={`${styles.save} ${styles.input}`}
                   onClick={() => {
                     updateUsername();
                   }}
@@ -199,16 +198,16 @@ export const AccountSettings = ({
               </div>
             )}
 
-            <p className={styles.alerts}>{usernameAlert}</p>
+            <p className={styles.alert}>{usernameAlert}</p>
           </div>
 
-          <div className={`${styles.con} ${styles.ema}`}>
-            <span>Email</span>
+          <div className={`${styles.section}`}>
+            <span className={styles.sectionHeading}>Email</span>
             <input
               type="email"
               name="email"
               value={email}
-              className={styles.accTexts}
+              className={` ${styles.input} ${styles.textField}`}
               disabled={isEmailDisabled}
               onChange={(e) => setEmail(e.target.value)}
               style={showEmailAlert ? alertStyle : {}}
@@ -217,7 +216,7 @@ export const AccountSettings = ({
               <input
                 type="button"
                 value="Edit"
-                className={styles.accBtns}
+                className={`${styles.edit} ${styles.input}`}
                 onClick={() => setIsEmailDisabled(false)}
               />
             )}
@@ -226,7 +225,7 @@ export const AccountSettings = ({
                 <input
                   type="button"
                   value="Cancel"
-                  className={styles.cancel}
+                  className={`${styles.cancel} ${styles.input}`}
                   onClick={() => {
                     setIsEmailDisabled(true);
                     setShowEmailAlert(false);
@@ -236,7 +235,7 @@ export const AccountSettings = ({
                 <input
                   type="button"
                   value="Save"
-                  className={styles.save}
+                  className={`${styles.save} ${styles.input}`}
                   onClick={() => {
                     updateEmail();
                   }}
@@ -244,24 +243,24 @@ export const AccountSettings = ({
               </div>
             )}
             {showEmailAlert && (
-              <p className={styles.alerts}> That email is not valid.</p>
-            )}{" "}
+              <p className={styles.alert}> That email is not valid.</p>
+            )}
           </div>
 
-          <div className={`${styles.con} ${styles.pas}`}>
-            <span>Password</span>
+          <div className={`${styles.section}`}>
+            <span className={styles.sectionHeading}>Password</span>
             <input
               type="password"
               name="password"
               value=""
-              className={styles.accTexts}
+              className={`${styles.input} ${styles.textField}`}
               disabled={isPasswordDisabled}
             />
             {isPasswordDisabled && (
               <input
                 type="button"
                 value="Edit"
-                className={styles.accBtns}
+                className={`${styles.edit} ${styles.input}`}
                 onClick={() => setIsPasswordDisabled(false)}
               />
             )}
@@ -270,26 +269,30 @@ export const AccountSettings = ({
                 <input
                   type="button"
                   value="Cancel"
-                  className={styles.cancel}
+                  className={`${styles.cancel} ${styles.input}`}
                   onClick={() => setIsPasswordDisabled(true)}
                 />
                 <input type="button" value="Save" className={styles.save} />
               </div>
             )}
             {usernameAlert && (
-              <p className={styles.alerts}>Your username is already taken.</p>
+              <p className={styles.alert}>Your username is already taken.</p>
             )}
           </div>
 
-          <div className={styles.del}>
-            <span>Delete account</span>
+          <div className={`${styles.del} ${styles.section}`}>
+            <span className={`${styles.delHeading} ${styles.sectionHeading}`}>
+              Delete account
+            </span>
             <input
               type="button"
               value="Delete your account"
-              className={styles.delete}
+              className={`${styles.delete} ${styles.input}`}
               onClick={() => setShowDeleteAccountModal(true)}
             />
-            <div>You cannot undo this action.</div>
+            <div className={styles.delMessage}>
+              You cannot undo this action.
+            </div>
           </div>
         </div>
       </div>

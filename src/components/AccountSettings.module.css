@@ -1,4 +1,3 @@
-/* account settings */
 .body {
   display: grid;
   grid-template-rows: 1fr 5fr;
@@ -8,11 +7,10 @@
   overflow-y:scroll;
 }
 
-.body > span {
+.heading {
   font-weight: bold;
   font-size: 3em;
 }
-
 
 .account {
   display:grid;
@@ -20,14 +18,13 @@
   grid-row-gap:1em;
 }
 
-.account > div > span {
+.sectionHeading {
   grid-column:1/3;
   font-weight:bold;
   border-bottom:0.5px solid #525252;
 }
 
-/* profile photo */
-.account > div {
+.section {
   grid-column:2;
   display:grid;
   grid-template-columns: repeat(2, 1fr);
@@ -42,7 +39,7 @@
   margin-left:2em;
 }
 
-.con > input {
+.input {
   align-self:center;
   padding:0.5em;
   outline:none;
@@ -50,17 +47,17 @@
   border-radius:10px;
 }
 
-.con > input:focus {
+.input:focus {
   border:1px solid #026670;
 }
 
 
-input[type="email"],input[type="password"],input[type="text"], select {
+.textField {
   width:80%;
   margin-left:2em;
 }
 
-.alerts {
+.alert {
   text-align:left;
   font-size:0.8em;
   margin-left:2em;
@@ -82,8 +79,30 @@ input[type="email"],input[type="password"],input[type="text"], select {
   cursor:pointer;
 }
 
+.btns {
+  display:grid;
+  grid-template-columns: repeat(2, 1fr);
+}
 
-.accBtns {
+/* common base for all buttons */
+.save, .cancel, .edit, .delete {
+  cursor: pointer;
+  border-radius: 0.5em;
+}
+
+.cancel, .save, .edit {
+  color:#026670;
+}
+
+.cancel, .save {
+  width:40%;
+  align-self:center;
+  padding:0.5em;
+  margin:0em 1em;
+  border: none;
+}
+
+.edit {
   background-color: white;
   width:20%;
   min-width:4em;
@@ -92,24 +111,10 @@ input[type="email"],input[type="password"],input[type="text"], select {
 
 }
 
-.accBtns:hover {
+.edit:hover {
   background-color: #026670;
   color:white;
   transition-duration: 0.2s; 
-}
-
-.cancel, .save, .accBtns {
-  border-radius: 0.5em;
-  border:none;
-  color:#026670;
-  cursor: pointer;
-}
-
-.cancel, .save {
-  width:40%;
-  align-self:center;
-  padding:0.5em;
-  margin:0em 1em;
 }
 
 .save {
@@ -132,16 +137,14 @@ input[type="email"],input[type="password"],input[type="text"], select {
   background-color: #F7F7F7;
 }
 
-.btns {
-  display:grid;
-  grid-template-columns: repeat(2, 1fr);
-}
 
-.del > span {
+
+/* Delete account section */
+.delHeading {
   color:#C43D3D;
 }
 
-.del > div {
+.delMessage {
   justify-self:start;
   align-self:center;
 }
@@ -151,8 +154,6 @@ input[type="email"],input[type="password"],input[type="text"], select {
   border-radius: 0.5em;
   border:none;
   border:0.5px solid #c43d3d;
-  color:#026670;
-  cursor: pointer;
   color:#c43d3d;
   align-self:center;
   padding:0.5em;
