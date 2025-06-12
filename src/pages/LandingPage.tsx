@@ -1,7 +1,7 @@
 import FeatureSummary from "../components/FeatureSummary";
-const clockWoman = "/images/clockWoman.svg";
+const clockWoman = "/images/ClockWoman.svg";
 const hourglass = "/images/logo.png";
-const timer_stopwatch = "/images/timer_stopwatch.png";
+const timer_stopwatch = "/images/Time.png";
 const to_do = "/images/to_do.png";
 const calendar = "/images/calendar.png";
 import { Link } from "react-router-dom";

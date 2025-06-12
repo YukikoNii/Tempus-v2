@@ -16,7 +16,6 @@ const Entry = ({ id, title, description, dueDate, priority }: EntryProps) => {
   };
 
   const deleteEntry = () => {
-    console.log(id);
     const deleteEntryFromDB = async () => {
       await fetch("http://localhost:5050/data/todo/delete", {
         method: "POST",
@@ -36,6 +35,7 @@ const Entry = ({ id, title, description, dueDate, priority }: EntryProps) => {
 
   const containerExpandStyle = {
     gridTemplateRows: "1fr 1fr 1fr",
+    marginTop: "0em",
   };
   return (
     <div className={`${styles.entry}`} onClick={() => toggleEntry()}>

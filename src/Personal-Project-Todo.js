@@ -313,22 +313,6 @@ function save() {
         list.removeChild(liMes);
       }
     } else {
-      const shake_animation = [
-        { transform: "translate(0, 0)" },
-        { transform: "translate(3px, 0px)" },
-        { transform: "translate(0, 0)" },
-        { transform: "translate(-3px, 0px)" },
-        { transform: "translate(0, 0)" },
-      ];
-
-      const shake_timing = {
-        duration: 100,
-        iterations: 1,
-      };
-
-      todomodal.animate(shake_animation, shake_timing);
-      no_title_alert.textContent = "* Please enter a title."; // apparently better than innerHTML as it is vulnerable when the next text is userinput. (so either way is fine in this case.)
-      titleinput.style = "border:2px solid #C43D3D";
     }
   } else {
     alert("A task with the same name already exists");
@@ -345,19 +329,6 @@ END OF SAVE FUNCTION
 
 
 */
-
-titleinput.addEventListener("keyup", addenter);
-prlabel.addEventListener("keyup", addenter);
-time.addEventListener("keyup", addenter);
-date.addEventListener("keyup", addenter);
-var select = document.getElementById("prchoice");
-select.addEventListener("keyup", addenter);
-
-function addenter(event) {
-  if (event.key === "Enter") {
-    save();
-  }
-}
 
 // remove on check
 var checkbox = document.getElementsByClassName("checkbox");
@@ -489,16 +460,6 @@ function expand(event) {
     }
     expand2 = 0;
   }
-}
-
-// change the border to green on focus
-function highlight() {
-  box.style = "border:2px solid #026670";
-}
-
-// change the border to grey when out of focus
-function remhigh() {
-  box.style = "border:1px solid #525252";
 }
 
 window.addEventListener("click", prExpand);

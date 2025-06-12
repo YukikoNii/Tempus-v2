@@ -10,8 +10,10 @@ import { backgrounds } from "../assets/BackgroundImages";
 function TodoPage() {
   const [showModal, setShowModal] = useState(false);
   const [isPriorityListVisible, setIsPriorityListVisible] = useState(false);
+  const [priority, setPriority] = useState("");
   const [isTagListVisible, setIsTagListVisible] = useState(false);
   const [bgSrc, setBgSrc] = useState("");
+  let priorityCounts = { low: 0, medium: 0, high: 0 };
 
   // define an Entry Type
   type EntryType = {
@@ -36,6 +38,15 @@ function TodoPage() {
     gridTemplateRows: "1fr 1fr",
   };
 
+  const handlePriority = (selected: string) => {
+    selected = selected.toLowerCase();
+    if (selected === priority) {
+      setPriority("");
+    } else {
+      setPriority(selected);
+    }
+  };
+
   useEffect(() => {
     const fetchBg = async () => {
       const res = await fetch("http://localhost:5050/data/todo", {
@@ -50,7 +61,6 @@ function TodoPage() {
         if (selectedBg) {
           setBgSrc(selectedBg.src);
         }
-        console.log(data.todos);
         setEntries(data.todos);
       }
     };
@@ -90,16 +100,24 @@ function TodoPage() {
             ></TodoModal>
           )}
           <div className={styles.list}>
-            {entries.map((entry, index) => (
-              <Entry
-                key={index}
-                id={entry._id}
-                title={entry.title}
-                description={entry.description}
-                dueDate={entry.dueDate}
-                priority={entry.priority}
-              ></Entry>
-            ))}
+            {entries.map((entry) => {
+              const key = entry.priority;
+              if (key === "low" || key === "medium" || key == "high") {
+                priorityCounts[key] += 1;
+              }
+              return priority === "" || priority === entry.priority ? (
+                <Entry
+                  key={entry._id}
+                  id={entry._id}
+                  title={entry.title}
+                  description={entry.description}
+                  dueDate={entry.dueDate}
+                  priority={entry.priority}
+                ></Entry>
+              ) : (
+                <div key={entry._id}></div>
+              );
+            })}
           </div>
         </div>
 
@@ -118,9 +136,37 @@ function TodoPage() {
           </div>
           {isPriorityListVisible && (
             <div>
-              <div className={`${styles.pr} ${styles.high}`}>High</div>
-              <div className={`${styles.pr} ${styles.medium}`}>Medium</div>
-              <div className={`${styles.pr} ${styles.low}`}>Low</div>
+              <div
+                className={`${styles.pr} ${styles.high}`}
+                onClick={(e) =>
+                  handlePriority((e.target as HTMLElement).innerText)
+                }
+                style={
+                  priority === "high" ? { backgroundColor: "#E4A8A8" } : {}
+                }
+              >
+                High <span>{priorityCounts["high"]}</span>
+              </div>
+              <div
+                className={`${styles.pr} ${styles.medium}`}
+                onClick={(e) =>
+                  handlePriority((e.target as HTMLElement).innerText)
+                }
+                style={
+                  priority === "medium" ? { backgroundColor: "#EEEAA6" } : {}
+                }
+              >
+                Medium <span>{priorityCounts["medium"]}</span>
+              </div>
+              <div
+                className={`${styles.pr} ${styles.low}`}
+                onClick={(e) =>
+                  handlePriority((e.target as HTMLElement).innerText)
+                }
+                style={priority === "low" ? { backgroundColor: "#B0E8C0" } : {}}
+              >
+                Low <span>{priorityCounts["low"]}</span>
+              </div>
             </div>
           )}
         </div>

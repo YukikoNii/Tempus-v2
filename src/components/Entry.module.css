@@ -27,7 +27,7 @@
   color:green;
 }
 
-.mid {
+.medium {
   color:#D3D56B;
 }
 
@@ -35,7 +35,7 @@
   color:#D86E6E;
 }
 
-.low, .mid, .high {
+.low, .medium, .high {
   font-size:1.5em;
   text-align:center;
   justify-self:center;

@@ -1,8 +1,8 @@
-const hamburgerMenuImg2 = "/images/Hamburger Menu2.png";
-const homeImg = "/images/Home3.png";
-const clockImg = "/images/Clock2.png";
-const todoImg = "/images/Todo2.png";
-const calendarImg = "/images/Calendar2.png";
+const hamburgerMenuImg2 = "/images/menuOpened.png";
+const homeImg = "/images/homeUnselected.png";
+const clockImg = "/images/clockUnselected.png";
+const todoImg = "/images/todoUnselected.png";
+const calendarImg = "/images/calendarUnselected.png";
 import { sidebarImages } from "../assets/SidebarImages";
 import styles from "./Sidebar.module.css";
 import { Link } from "react-router-dom";
