@@ -323,7 +323,7 @@ function save() {
 
       const shake_timing = {
         duration: 100,
-        interation: 1,
+        iterations: 1,
       };
 
       todomodal.animate(shake_animation, shake_timing);

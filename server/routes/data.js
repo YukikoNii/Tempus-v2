@@ -112,6 +112,21 @@ router.get("/todo", verifyUser, async (req, res) => {
   res.json({ user: user, todos: todos });
 });
 
+router.post("/todo/add", verifyUser, async (req, res) => {
+  console.log(req.userId);
+  let newTodo = {
+    userId: new ObjectId(req.userId),
+    title: req.body.title,
+    description: req.body.description,
+    dueDate: req.body.dueDate,
+    priority: req.body.priority,
+    tags: [],
+  };
+  let todoCollection = db.collection("todo");
+  const result = await todoCollection.insertOne(newTodo);
+  res.status(204).json(result);
+});
+
 router.post("/todo/delete", verifyUser, async (req, res) => {
   let todoCollection = db.collection("todo");
   const result = await todoCollection.deleteOne({

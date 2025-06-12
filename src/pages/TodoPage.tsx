@@ -50,6 +50,7 @@ function TodoPage() {
         if (selectedBg) {
           setBgSrc(selectedBg.src);
         }
+        console.log(data.todos);
         setEntries(data.todos);
       }
     };
