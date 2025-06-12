@@ -7,8 +7,7 @@ const AppHeader = () => {
   const logoImg = "/images/logo.png";
   const [profileImgSrc, setProfileImgSrc] = useState("");
   const [showDropDown, setShowDropDown] = useState(false);
-  const location = useLocation();
-  const { username } = location.state || {};
+  const [username, setUsername] = useState("");
 
   useEffect(() => {
     const fetchBg = async () => {
@@ -23,6 +22,9 @@ const AppHeader = () => {
         );
         if (selectedImg) {
           setProfileImgSrc(selectedImg.src);
+        }
+        if (data.username) {
+          setUsername(data.username);
         }
       }
     };
