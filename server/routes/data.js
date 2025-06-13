@@ -98,8 +98,15 @@ router.get("/settings", verifyUser, async (req, res) => {
 
 router.get("/home", verifyUser, async (req, res) => {
   let collection = await db.collection("users");
+  let todoCollection = await db.collection("todo");
+  const todos = await todoCollection
+    .find({
+      userId: new ObjectId(req.userId),
+      dueDate: { $regex: new Date().toISOString().split("T")[0] },
+    })
+    .toArray();
   const user = await collection.findOne({ _id: new ObjectId(req.userId) }); // deprecated
-  res.json(user);
+  res.json({ user: user, todos: todos });
 });
 
 router.get("/todo", verifyUser, async (req, res) => {

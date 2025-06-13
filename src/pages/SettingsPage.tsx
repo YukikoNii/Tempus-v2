@@ -15,6 +15,7 @@ function SettingsPage() {
   const [email, setEmail] = useState("");
   const [profileImgSrc, setProfileImgSrc] = useState("");
   const [sound, setSound] = useState("");
+  const [isOpen, setIsOpen] = useState(true);
 
   useEffect(() => {
     const fetchSettings = async () => {
@@ -42,9 +43,12 @@ function SettingsPage() {
   }, []);
 
   return (
-    <div className={styles.grid}>
-      <AppHeader />
-      <Sidebar />
+    <div
+      className={styles.grid}
+      style={isOpen ? {} : { gridTemplateColumns: "0.29fr 4fr 1fr" }}
+    >
+      <AppHeader></AppHeader>
+      <Sidebar onToggle={() => setIsOpen(!isOpen)}></Sidebar>
       <section className={styles.section}>
         <div className={styles.settingMenu}>
           <img src={profileImgSrc} className={styles.menuPic} />

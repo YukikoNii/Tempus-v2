@@ -14,6 +14,18 @@ function Home() {
   const [date, setDate] = useState("");
   const [clockDivColor, setClockDivColor] = useState("");
   const [isOpen, setIsOpen] = useState(true);
+  type EntryType = {
+    _id: string;
+    userId: string;
+    description: string;
+    dueDate: string;
+    priority: string;
+    title: string;
+    tags: Array<string>;
+
+    // Add other fields if needed
+  };
+  const [entries, setEntries] = useState<EntryType[]>([]);
 
   const updateBgImage = (name: string, src: string, color: string) => {
     setBgSrc(src);
@@ -39,11 +51,14 @@ function Home() {
       });
       if (res) {
         const data = await res.json();
-        const selectedBg = backgrounds.find((bg) => bg.name == data.bgName);
+        const selectedBg = backgrounds.find(
+          (bg) => bg.name == data.user.bgName
+        );
         if (selectedBg) {
           setBgSrc(selectedBg.src);
           setClockDivColor(selectedBg.color);
         }
+        setEntries(data.todos);
       }
     };
     fetchBg();
@@ -154,6 +169,21 @@ function Home() {
           <div className={styles.inContainer}>
             <div className={styles.task}>
               <span>Today's tasks</span>
+              {entries.length != 0 ? (
+                <ul>
+                  {" "}
+                  {entries.map((entry) => (
+                    <li key={entry._id} className={styles.toTask}>
+                      {entry.title}
+                    </li>
+                  ))}
+                </ul>
+              ) : (
+                <div className={styles.noTask}>
+                  There is no task for today.
+                  <br /> <div className={styles.linkTodo}>add new task</div>
+                </div>
+              )}
             </div>
             <div className={styles.stats}>
               <span>Stats</span>

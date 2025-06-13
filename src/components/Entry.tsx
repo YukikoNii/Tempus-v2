@@ -1,4 +1,3 @@
-import { ObjectId } from "mongoose";
 import styles from "./Entry.module.css";
 import { useState } from "react";
 
