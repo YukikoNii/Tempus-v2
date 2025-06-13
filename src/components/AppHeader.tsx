@@ -54,10 +54,12 @@ const AppHeader = () => {
         {showDropDown && (
           <div className={styles.dropDown}>
             <div className={styles.dropDownContent}>
-              <Link to="/settings" className={styles.setting}>
+              <Link to="/settings" className={styles.dropDownLink}>
                 Settings
               </Link>
-              <div className={styles.logout}>Log out</div>
+              <Link to="/" className={styles.dropDownLink}>
+                Log out
+              </Link>
             </div>
           </div>
         )}

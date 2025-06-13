@@ -2,7 +2,7 @@ import styles from "./TimePage.module.css";
 import Sidebar from "../components/Sidebar";
 import { Timer } from "../components/Timer";
 import AppHeader from "../components/AppHeader";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { Stopwatch } from "../components/Stopwatch";
 
 function Time() {
