@@ -23,7 +23,7 @@ function App() {
         <Route path="/contact" element={<ContactFormPage />} />
         <Route path="/resetPassword" element={<ResetPasswordPage />} />
         <Route path="/home" element={<Home />} />
-        <Route path="/stopwatch" element={<Time />} />
+        <Route path="/time" element={<Time />} />
         <Route path="/todo" element={<TodoPage />} />
         <Route path="/calendar" element={<Calendar />} />
         <Route path="/settings" element={<SettingsPage />} />

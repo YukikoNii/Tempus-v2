@@ -13,6 +13,7 @@ function TodoPage() {
   const [priority, setPriority] = useState("");
   const [isTagListVisible, setIsTagListVisible] = useState(false);
   const [bgSrc, setBgSrc] = useState("");
+  const [isOpen, setIsOpen] = useState(true);
   let priorityCounts = { low: 0, medium: 0, high: 0 };
 
   // define an Entry Type
@@ -84,9 +85,12 @@ function TodoPage() {
   };
 
   return (
-    <div className={styles.grid}>
+    <div
+      className={styles.grid}
+      style={isOpen ? {} : { gridTemplateColumns: "0.29fr 4fr 1fr" }}
+    >
       <AppHeader></AppHeader>
-      <Sidebar></Sidebar>
+      <Sidebar onToggle={() => setIsOpen(!isOpen)}></Sidebar>
 
       <div className={styles.container} style={containerStyle}>
         <div className={styles.main}>

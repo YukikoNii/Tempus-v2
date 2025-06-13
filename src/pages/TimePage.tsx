@@ -7,11 +7,15 @@ import { Stopwatch } from "../components/Stopwatch";
 
 function Time() {
   const [isStopwatchVisible, setIsStopwatchVisible] = useState(true);
+  const [isOpen, setIsOpen] = useState(true);
 
   return (
-    <div className={styles.grid}>
-      <AppHeader />
-      <Sidebar />
+    <div
+      className={styles.grid}
+      style={isOpen ? {} : { gridTemplateColumns: "0.29fr 4fr 1fr" }}
+    >
+      <AppHeader></AppHeader>
+      <Sidebar onToggle={() => setIsOpen(!isOpen)}></Sidebar>
 
       <div className={styles.carousel}>
         <button

@@ -13,6 +13,7 @@ function Home() {
   const [time, setTime] = useState("");
   const [date, setDate] = useState("");
   const [clockDivColor, setClockDivColor] = useState("");
+  const [isOpen, setIsOpen] = useState(true);
 
   const updateBgImage = (name: string, src: string, color: string) => {
     setBgSrc(src);
@@ -120,9 +121,12 @@ function Home() {
   // display facts
   return (
     <>
-      <div className={styles.grid}>
+      <div
+        className={styles.grid}
+        style={isOpen ? {} : { gridTemplateColumns: "0.29fr 4fr 1fr" }}
+      >
         <AppHeader></AppHeader>
-        <Sidebar></Sidebar>
+        <Sidebar onToggle={() => setIsOpen(!isOpen)}></Sidebar>
 
         <div className={styles.container}>
           <div className={styles.clock} style={clockStyle}>

@@ -4,12 +4,18 @@ import Sidebar from "../components/Sidebar";
 import { Link } from "react-router-dom";
 import AppHeader from "../components/AppHeader";
 import "material-icons/iconfont/material-icons.css";
+import { useState } from "react";
 
 function Calendar() {
+  const [isOpen, setIsOpen] = useState(true);
+
   return (
-    <div className={styles.grid}>
+    <div
+      className={styles.grid}
+      style={isOpen ? {} : { gridTemplateColumns: "0.29fr 4fr 1fr" }}
+    >
       <AppHeader></AppHeader>
-      <Sidebar></Sidebar>
+      <Sidebar onToggle={() => setIsOpen(!isOpen)}></Sidebar>
 
       <div className={styles.calendarFunction}>
         <div className={styles.month}>
