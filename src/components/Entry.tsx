@@ -1,5 +1,6 @@
 import styles from "./Entry.module.css";
 import { useState } from "react";
+import { Priorities } from "./Priorities";
 
 interface EntryProps {
   id: string;
@@ -10,6 +11,7 @@ interface EntryProps {
 }
 const Entry = ({ id, title, description, dueDate, priority }: EntryProps) => {
   const [isExpanded, setIsExpanded] = useState(false);
+  const selectedPriority = Priorities.find((pr) => pr.name == priority);
   const toggleEntry = () => {
     setIsExpanded(!isExpanded);
   };
@@ -57,7 +59,7 @@ const Entry = ({ id, title, description, dueDate, priority }: EntryProps) => {
         {dueDate}
       </div>
       <div className={`${styles.tagEach}`}></div>
-      <div className={styles[priority]}>{priority}</div>
+      <div className={styles[priority]}>{selectedPriority?.symbol}</div>
     </div>
   );
 };

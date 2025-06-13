@@ -6,15 +6,20 @@ import "material-icons/iconfont/material-icons.css";
 import TodoModal from "../components/TodoModal";
 import { useState, useEffect } from "react";
 import { backgrounds } from "../assets/BackgroundImages";
+import { Priorities } from "../components/Priorities";
 
 function TodoPage() {
   const [showModal, setShowModal] = useState(false);
   const [isPriorityListVisible, setIsPriorityListVisible] = useState(false);
-  const [priority, setPriority] = useState("");
+  const [selectedPriority, setSelectedPriority] = useState("");
   const [isTagListVisible, setIsTagListVisible] = useState(false);
   const [bgSrc, setBgSrc] = useState("");
   const [isOpen, setIsOpen] = useState(true);
-  let priorityCounts = { low: 0, medium: 0, high: 0 };
+
+  type countDict = {
+    [key: string]: number;
+  };
+  let priorityCounts: countDict = {};
 
   // define an Entry Type
   type EntryType = {
@@ -39,12 +44,12 @@ function TodoPage() {
     gridTemplateRows: "1fr 1fr",
   };
 
-  const handlePriority = (selected: string) => {
-    selected = selected.toLowerCase();
-    if (selected === priority) {
-      setPriority("");
+  const handlePriority = (newPriority: string) => {
+    newPriority = newPriority.toLowerCase();
+    if (newPriority === selectedPriority) {
+      setSelectedPriority("");
     } else {
-      setPriority(selected);
+      setSelectedPriority(newPriority);
     }
   };
 
@@ -106,10 +111,9 @@ function TodoPage() {
           <div className={styles.list}>
             {entries.map((entry) => {
               const key = entry.priority;
-              if (key === "low" || key === "medium" || key == "high") {
-                priorityCounts[key] += 1;
-              }
-              return priority === "" || priority === entry.priority ? (
+              priorityCounts[key] = (priorityCounts[key] || 0) + 1;
+              return selectedPriority === "" ||
+                selectedPriority === entry.priority ? (
                 <Entry
                   key={entry._id}
                   id={entry._id}
@@ -140,37 +144,25 @@ function TodoPage() {
           </div>
           {isPriorityListVisible && (
             <div>
-              <div
-                className={`${styles.pr} ${styles.high}`}
-                onClick={(e) =>
-                  handlePriority((e.target as HTMLElement).innerText)
-                }
-                style={
-                  priority === "high" ? { backgroundColor: "#E4A8A8" } : {}
-                }
-              >
-                High <span>{priorityCounts["high"]}</span>
-              </div>
-              <div
-                className={`${styles.pr} ${styles.medium}`}
-                onClick={(e) =>
-                  handlePriority((e.target as HTMLElement).innerText)
-                }
-                style={
-                  priority === "medium" ? { backgroundColor: "#EEEAA6" } : {}
-                }
-              >
-                Medium <span>{priorityCounts["medium"]}</span>
-              </div>
-              <div
-                className={`${styles.pr} ${styles.low}`}
-                onClick={(e) =>
-                  handlePriority((e.target as HTMLElement).innerText)
-                }
-                style={priority === "low" ? { backgroundColor: "#B0E8C0" } : {}}
-              >
-                Low <span>{priorityCounts["low"]}</span>
-              </div>
+              {Priorities.map((priority, index) => {
+                return (
+                  <div
+                    key={index}
+                    className={styles.pr}
+                    onClick={(e) => handlePriority(priority.name)}
+                    style={
+                      selectedPriority === priority.name
+                        ? { backgroundColor: priority.selectedColor }
+                        : { backgroundColor: priority.defaultColor }
+                    }
+                  >
+                    {priority.name}{" "}
+                    <span className={styles.priorityCount}>
+                      {priorityCounts[priority.name]}
+                    </span>
+                  </div>
+                );
+              })}
             </div>
           )}
         </div>

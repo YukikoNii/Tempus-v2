@@ -168,7 +168,7 @@ function Home() {
 
           <div className={styles.inContainer}>
             <div className={styles.task}>
-              <span>Today's tasks</span>
+              <span className={styles.taskHeading}>Today's tasks</span>
               {entries.length != 0 ? (
                 <ul>
                   {" "}

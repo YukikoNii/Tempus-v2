@@ -1,6 +1,6 @@
 const menuOpenedImg = "/images/menuOpened.png";
 const menuClosedImg = "/images/menuClosed.png";
-import { Pages } from "../assets/Pages";
+import { Pages } from "./Pages";
 import styles from "./Sidebar.module.css";
 import { Link } from "react-router-dom";
 import { useLocation } from "react-router-dom";

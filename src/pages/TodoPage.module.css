@@ -257,34 +257,7 @@
   margin:0.2em;
 }
 
-.high {
-  background-color:#FFD3D3;
-  display:block;
-}
-
-.high:hover {
-  background-color:#E4A8A8 !important;
-}
-
-.medium {
-  background-color:#FFFDD3;
-  display:block;
-}
-
-.medium:hover {
-  background-color:#EEEAA6 !important;
-}
-
-.low {
-  background-color:#D3FFE0;
-  display:block;
-}
-
-.low:hover {
-  background-color: #B0E8C0 !important;
-}
-
-.low > span, .medium > span, .high > span {
+.priorityCount {
   font-weight: bold;
 }
 
