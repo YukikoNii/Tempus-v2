@@ -24,7 +24,11 @@ const ProfileImgModal = ({ onClose, onSelect }: ProfileImgModalProps) => {
                 onSelect(ProfileImage.name, ProfileImage.src);
               }}
             >
-              <img src={ProfileImage.src} alt={ProfileImage.name}></img>
+              <img
+                className={styles.img}
+                src={ProfileImage.src}
+                alt={ProfileImage.name}
+              ></img>
             </div>
           ))}
         </div>
