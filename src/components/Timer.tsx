@@ -129,13 +129,10 @@ export const Timer = () => {
       </form>
 
       <div className={styles.timerButtons}>
-        <button className={styles.tb} onClick={() => runTimer()}>
+        <button className={styles.start} onClick={() => runTimer()}>
           {isRunning ? "STOP" : "START"}
         </button>
-        <button
-          className={`${styles.tb} ${styles.reset}`}
-          onClick={() => resetTimer()}
-        >
+        <button className={styles.reset} onClick={() => resetTimer()}>
           RESET
         </button>
       </div>
