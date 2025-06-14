@@ -142,6 +142,20 @@ router.post("/todo/delete", verifyUser, async (req, res) => {
   res.status(200).json({ result });
 });
 
+router.get("/calendar", verifyUser, async (req, res) => {
+  const projection = {
+    title: 1,
+    dueDate: 1,
+  };
+  let todoCollection = await db.collection("todo");
+  const todos = await todoCollection
+    .find({ userId: new ObjectId(req.userId) })
+    .project(projection)
+    .toArray();
+
+  res.json({ todos });
+});
+
 router.post("/home", verifyUser, async (req, res) => {
   let collection = await db.collection("users");
   const user = await collection.updateOne(

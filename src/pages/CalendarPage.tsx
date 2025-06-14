@@ -27,85 +27,127 @@ function Calendar() {
     "December",
   ];
 
+  type eventDict = {
+    [key: string]: string[];
+  };
+
   useEffect(() => {
-    // set the date to 1
-    date.setDate(1);
+    let events: eventDict = {};
+    const fetchEvents = async () => {
+      const res = await fetch("http://localhost:5050/data/calendar", {
+        method: "GET",
+        credentials: "include",
+      });
+      if (res) {
+        const data = await res.json();
+        for (let i = 0; i < data.todos.length; i++) {
+          events[data.todos[i].dueDate] = (
+            events[data.todos[i].dueDate] || []
+          ).concat([data.todos[i].title]);
+        }
 
-    const lastDate = new Date(date.getFullYear(), date.getMonth() + 1, 0);
+        // set the date to 1
+        date.setDate(1);
 
-    // get last day of the month
-    const lastDay = lastDate.getDate();
+        const lastDate = new Date(date.getFullYear(), date.getMonth() + 1, 0);
 
-    // get day of the week of the first day of the month
-    const firstDayIndex = date.getDay();
+        // get last day of the month
+        const lastDay = lastDate.getDate();
 
-    // get last day of last month
-    const prevLastDay = new Date(
-      date.getFullYear(),
-      date.getMonth(),
-      0
-    ).getDate();
+        // get day of the week of the first day of the month
+        const firstDayIndex = date.getDay();
 
-    // get day of the week of the last day of the month
-    const lastDayIndex = lastDate.getDay();
+        // get last day of last month
+        const prevLastDay = new Date(
+          date.getFullYear(),
+          date.getMonth(),
+          0
+        ).getDate();
 
-    // calculate how many days of the next month will be on the calendar
-    const nextMonthDays = 6 - lastDayIndex;
+        // get day of the week of the last day of the month
+        const lastDayIndex = lastDate.getDay();
 
-    let newDays: JSX.Element[] = [];
+        // calculate how many days of the next month will be on the calendar
+        const nextMonthDays = 6 - lastDayIndex;
 
-    // display last few days of the last month, depending on what day of the week this month starts
-    for (let i = firstDayIndex; i > 0; i--) {
-      newDays.push(
-        <div
-          key={String(date.getMonth() - 1) + String(i)}
-          className={styles.prevDate}
-        >
-          {prevLastDay - i + 1}
-        </div>
-      ); // Push JSX elements
-    }
+        let newDays: JSX.Element[] = [];
 
-    for (let i = 1; i <= lastDay; i++) {
-      // if the date matches with today's date
-      if (
-        i === new Date().getDate() &&
-        date.getMonth() === new Date().getMonth() &&
-        date.getFullYear() === new Date().getFullYear()
-      ) {
-        newDays.push(
-          <div
-            key={String(date.getMonth()) + String(i)}
-            className={styles.today}
-          >
-            <span>{i}</span>
-          </div>
-        );
-      } else {
-        newDays.push(
-          <div
-            key={String(date.getMonth() + 1) + String(i)}
-            className={styles.day}
-          >
-            <span>{i}</span>
-          </div>
-        );
+        // display last few days of the last month, depending on what day of the week this month starts
+        for (let i = firstDayIndex; i > 0; i--) {
+          newDays.push(
+            <div
+              key={String(date.getMonth() - 1) + String(i)}
+              className={styles.prevDate}
+            >
+              {prevLastDay - i + 1}
+            </div>
+          ); // Push JSX elements
+        }
+
+        for (let i = 1; i <= lastDay; i++) {
+          const dayEvents =
+            events[
+              date.toISOString().split("T")[0].slice(0, 8) +
+                String(i).padStart(2, "0")
+            ] || [];
+
+          // if the date matches with today's date
+          if (
+            i === new Date().getDate() &&
+            date.getMonth() === new Date().getMonth() &&
+            date.getFullYear() === new Date().getFullYear()
+          ) {
+            newDays.push(
+              <div
+                key={String(date.getMonth()) + String(i)}
+                className={styles.today}
+              >
+                <span>{i}</span>
+                {dayEvents.map((title, index) => {
+                  return (
+                    <div key={index} className={styles.eventCal}>
+                      {title}
+                    </div>
+                  );
+                })}
+              </div>
+            );
+          } else {
+            newDays.push(
+              <div
+                key={String(date.getMonth() + 1) + String(i)}
+                className={styles.day}
+              >
+                <span>{i}</span>
+                {dayEvents.map((title, index) => {
+                  return (
+                    <div key={index} className={styles.eventCal}>
+                      {title}
+                    </div>
+                  );
+                })}
+              </div>
+            );
+          }
+        }
+
+        // display the first few days of next month
+        for (let i = 1; i <= nextMonthDays; i++) {
+          newDays.push(
+            <div
+              key={String(date.getMonth()) + String(i)}
+              className={styles.nextDate}
+            >
+              {i}
+            </div>
+          );
+        }
+
+        setDays(newDays);
       }
-    }
+    };
 
-    // display the first few days of next month
-    for (let i = 1; i <= nextMonthDays; i++) {
-      newDays.push(
-        <div
-          key={String(date.getMonth()) + String(i)}
-          className={styles.nextDate}
-        >
-          {i}
-        </div>
-      );
-    }
-
-    setDays(newDays);
+    fetchEvents();
   }, [date]);
 
   // get prev arrow

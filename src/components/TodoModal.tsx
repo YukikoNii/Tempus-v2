@@ -72,7 +72,8 @@ const TodoModal = ({ isOpen, onClose }: TodoModalProps) => {
           body: JSON.stringify({
             title: title,
             description: description,
-            dueDate: "Due by : " + date + " " + time,
+            dueDate: date,
+            dueTime: time,
             priority: priority.toLowerCase(),
           }),
         });
