@@ -278,6 +278,21 @@ input:checked + .remtoggle:before {
   overflow: scroll;
 }
 
+.tagItem {
+  padding:0.1em;
+  margin:0.05em;
+  align-items:center;
+  border-radius:3px;
+  display:flex;
+  background:#F6FFFA;
+  border:1px solid #026670;
+}
+
+.tagItemName {
+  font-size:16px;
+  margin-left:5px;
+}
+
 .tagInput {
   font-size:16px;
   padding:0px;
@@ -286,7 +301,7 @@ input:checked + .remtoggle:before {
   overflow: scroll;
 }
 
-.material-icons {
+.icon {
   cursor:Pointer;
 }
 

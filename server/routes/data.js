@@ -29,7 +29,6 @@ router.post("/signup", async (req, res) => {
     let result = await collection.insertOne(newUserInfo);
     res.status(204).send(result);
   } catch (e) {
-    console.error(e);
     res.status(500).send("Error creating new user");
   }
 });
@@ -85,7 +84,6 @@ router.post("/login", async (req, res) => {
       return res.status(401).send("Incorrect login information");
     }
   } catch (e) {
-    console.error(e);
     res.status(500).send("Some error occured");
   }
 });
@@ -120,14 +118,13 @@ router.get("/todo", verifyUser, async (req, res) => {
 });
 
 router.post("/todo/add", verifyUser, async (req, res) => {
-  console.log(req.userId);
   let newTodo = {
     userId: new ObjectId(req.userId),
     title: req.body.title,
     description: req.body.description,
     dueDate: req.body.dueDate,
     priority: req.body.priority,
-    tags: [],
+    tags: req.body.tags,
   };
   let todoCollection = db.collection("todo");
   const result = await todoCollection.insertOne(newTodo);

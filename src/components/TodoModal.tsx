@@ -21,6 +21,9 @@ const TodoModal = ({ isOpen, onClose }: TodoModalProps) => {
     const today = new Date();
     return today.toISOString().split("T")[1].slice(0, 5);
   });
+  const [tags, setTags] = useState<string[]>([]);
+  const [tag, setTag] = useState("");
+
   useEffect(() => {
     const handleClickOutside = (e: MouseEvent) => {
       if (modalRef.current && !modalRef.current.contains(e.target as Node)) {
@@ -75,6 +78,7 @@ const TodoModal = ({ isOpen, onClose }: TodoModalProps) => {
             dueDate: date,
             dueTime: time,
             priority: priority.toLowerCase(),
+            tags: tags,
           }),
         });
       };
@@ -83,18 +87,17 @@ const TodoModal = ({ isOpen, onClose }: TodoModalProps) => {
     }
   };
 
-  useEffect(() => {
-    const handleKeyDown = (event: KeyboardEvent) => {
-      if (event.code === "Enter") {
-        event.preventDefault(); // prevent page scrolling
-        save();
-      }
-    };
+  const addTag = (tag: string) => {
+    setTags((tags) => [...tags, tag]);
+  };
 
-    window.addEventListener("keydown", handleKeyDown);
+  const popTagFromTail = () => {
+    setTags((tags) => tags.slice(0, tags.length - 1));
+  };
 
-    return () => window.removeEventListener("keydown", handleKeyDown);
-  }, [isOpen, title]);
+  const removeTag = (tagToRemove: string) => {
+    setTags((tags) => tags.filter((tag) => tag !== tagToRemove));
+  };
 
   const alertStyle = {
     border: "2px solid #C43D3D",
@@ -104,7 +107,15 @@ const TodoModal = ({ isOpen, onClose }: TodoModalProps) => {
     <div className={styles.modalBackdrop}>
       <div className={styles.modalContent} ref={modalRef}>
         <div className={styles.heading}>New Task</div>
-        <div className={styles.title}>
+        <div
+          className={styles.title}
+          onKeyDown={(e) => {
+            if (e.code === "Enter") {
+              e.preventDefault(); // prevent page scrolling
+              save();
+            }
+          }}
+        >
           <label className={styles.titleLabel}>
             Title
             <span className={styles.titleAlert}>
@@ -154,7 +165,32 @@ const TodoModal = ({ isOpen, onClose }: TodoModalProps) => {
             <label className={styles.taglabel}>Tag</label>
             <div className={styles.tagContainer}>
               <div className={styles.tagBox}>
-                <input className={styles.tagInput} />
+                {[...tags].map((tag, index) => {
+                  return (
+                    <div key={index} className={styles.tagItem}>
+                      <span className={styles.tagItemName}>{tag}</span>
+                      <span
+                        className={`material-icons ${styles.icon}`}
+                        onClick={() => removeTag(tag)}
+                      >
+                        close
+                      </span>
+                    </div>
+                  );
+                })}
+                <input
+                  className={styles.tagInput}
+                  value={tag}
+                  onChange={(e) => setTag(e.target.value)}
+                  onKeyDown={(e) => {
+                    if (e.key === "Enter") {
+                      addTag(tag);
+                      setTag("");
+                    } else if (e.key === "Backspace") {
+                      popTagFromTail();
+                    }
+                  }}
+                />
               </div>
             </div>
           </div>
