@@ -7,11 +7,13 @@ import { useState, useEffect } from "react";
 interface AccountSettingsProp {
   currentUsername: string;
   currentEmail: string;
+  changePic: (src: string) => void;
 }
 
 export const AccountSettings = ({
   currentUsername,
   currentEmail,
+  changePic,
 }: AccountSettingsProp) => {
   const [username, setUsername] = useState(currentUsername || "");
   const [email, setEmail] = useState(currentEmail || "");
@@ -35,6 +37,7 @@ export const AccountSettings = ({
 
   const updateProfileImage = (name: string, src: string) => {
     setProfileImgSrc(src);
+    changePic(src);
     const saveProfileImageToDB = async () => {
       const res = await fetch("http://localhost:5050/data/accountSettings", {
         method: "POST",

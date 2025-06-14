@@ -47,7 +47,8 @@ function SettingsPage() {
       className={styles.grid}
       style={isOpen ? {} : { gridTemplateColumns: "0.29fr 4fr 1fr" }}
     >
-      <AppHeader></AppHeader>
+      <AppHeader></AppHeader>{" "}
+      {/* should change profile pic in the header too */}
       <Sidebar onToggle={() => setIsOpen(!isOpen)}></Sidebar>
       <section className={styles.section}>
         <div className={styles.settingMenu}>
@@ -65,7 +66,11 @@ function SettingsPage() {
 
         <div className={styles.settingBody}>
           {showAccountSettings && (
-            <AccountSettings currentUsername={username} currentEmail={email} />
+            <AccountSettings
+              currentUsername={username}
+              currentEmail={email}
+              changePic={(src) => setProfileImgSrc(src)}
+            />
           )}
           {showNotificationSettings && (
             <NotificationSettings sound={sound}></NotificationSettings>
