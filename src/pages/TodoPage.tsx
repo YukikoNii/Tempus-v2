@@ -9,6 +9,7 @@ import { backgrounds } from "../assets/BackgroundImages";
 import { Priorities } from "../components/Priorities";
 
 function TodoPage() {
+  console.log("hello");
   const [showModal, setShowModal] = useState(false);
   const [isPriorityListVisible, setIsPriorityListVisible] = useState(false);
   const [selectedPriority, setSelectedPriority] = useState("");
@@ -22,7 +23,7 @@ function TodoPage() {
   let priorityCounts: countDict = {};
 
   // define an Entry Type
-  type EntryType = {
+  type Entry = {
     _id: string;
     userId: string;
     description: string;
@@ -33,7 +34,7 @@ function TodoPage() {
 
     // Add other fields if needed
   };
-  const [entries, setEntries] = useState<EntryType[]>([]);
+  const [entries, setEntries] = useState<Entry[]>([]);
   const containerStyle = {
     gridRow: "2/6",
     gridColumn: "2/4",
@@ -51,6 +52,20 @@ function TodoPage() {
     } else {
       setSelectedPriority(newPriority);
     }
+  };
+
+  const removeEntry = (completedEntry: Entry) => {
+    setTimeout(
+      () =>
+        setEntries((entries) =>
+          entries.filter((entry) => entry._id !== completedEntry._id)
+        ),
+      200
+    );
+  };
+
+  const addEntry = (newEntry: Entry) => {
+    setTimeout(() => setEntries((entries) => [...entries, newEntry]), 100);
   };
 
   useEffect(() => {
@@ -71,7 +86,7 @@ function TodoPage() {
       }
     };
     fetchBg();
-  }, []);
+  }, [showModal]);
 
   const togglePriorityList = () => {
     if (isPriorityListVisible) {
@@ -121,6 +136,7 @@ function TodoPage() {
                   description={entry.description}
                   dueDate={entry.dueDate}
                   priority={entry.priority}
+                  onCheck={() => removeEntry(entry)}
                 ></Entry>
               ) : null;
             })}

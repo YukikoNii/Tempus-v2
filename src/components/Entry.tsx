@@ -8,8 +8,17 @@ interface EntryProps {
   description: string;
   dueDate: string;
   priority: string;
+  onCheck: () => void;
 }
-const Entry = ({ id, title, description, dueDate, priority }: EntryProps) => {
+
+const Entry = ({
+  id,
+  title,
+  description,
+  dueDate,
+  priority,
+  onCheck,
+}: EntryProps) => {
   const [isExpanded, setIsExpanded] = useState(false);
   const selectedPriority = Priorities.find((pr) => pr.name == priority);
   const toggleEntry = () => {
@@ -17,6 +26,7 @@ const Entry = ({ id, title, description, dueDate, priority }: EntryProps) => {
   };
 
   const deleteEntry = () => {
+    onCheck();
     const deleteEntryFromDB = async () => {
       await fetch("http://localhost:5050/data/todo/delete", {
         method: "POST",
@@ -41,7 +51,7 @@ const Entry = ({ id, title, description, dueDate, priority }: EntryProps) => {
     <div
       className={`${styles.entry}`}
       style={isExpanded ? containerExpandStyle : { height: "30px" }}
-      onClick={() => toggleEntry()}
+      onClick={toggleEntry}
     >
       <label className={styles.container}>
         <input
