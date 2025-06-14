@@ -46,14 +46,14 @@
 
 /* container */
 .container  {
-  display:block;
+  display: flex;
+  justify-content: center;
+  align-items: center;
   position:relative;
   padding-left:35px;
-  margin-bottom:12px;
   font-size:1em;
   justify-self:center;
   cursor:pointer;
-
 }
 
 /* hiding the default checkbox */
@@ -67,7 +67,7 @@
 /* custom checkbox */
 .checkmark {
   position:absolute;
-  top:0;
+  top:3px;
   left:0;
   height:25px;
   width:25px;

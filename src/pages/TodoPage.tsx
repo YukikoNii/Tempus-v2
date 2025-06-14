@@ -122,9 +122,7 @@ function TodoPage() {
                   dueDate={entry.dueDate}
                   priority={entry.priority}
                 ></Entry>
-              ) : (
-                <div key={entry._id}></div>
-              );
+              ) : null;
             })}
           </div>
         </div>

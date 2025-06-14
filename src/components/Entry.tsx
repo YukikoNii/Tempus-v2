@@ -36,14 +36,14 @@ const Entry = ({ id, title, description, dueDate, priority }: EntryProps) => {
 
   const containerExpandStyle = {
     gridTemplateRows: "1fr 1fr 1fr",
-    marginTop: "0em",
   };
   return (
-    <div className={`${styles.entry}`} onClick={() => toggleEntry()}>
-      <label
-        className={styles.container}
-        style={isExpanded ? containerExpandStyle : {}}
-      >
+    <div
+      className={`${styles.entry}`}
+      style={isExpanded ? containerExpandStyle : { height: "30px" }}
+      onClick={() => toggleEntry()}
+    >
+      <label className={styles.container}>
         <input
           type="checkbox"
           className={styles.checkbox}
