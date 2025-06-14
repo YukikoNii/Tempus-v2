@@ -81,13 +81,24 @@
   font-weight: bold;
 }
 
-.tagE {
+.tag {
   cursor:default;
   border-radius:0.18em;
   overflow-wrap: break-word;
   padding:0.1em;
+  display: block;
+  font-weight:normal;
 }
 
+.tag:hover {
+  cursor:default;
+  border-radius:0.18em;
+  overflow-wrap: break-word;
+  padding:0.1em;
+  display: block;
+  font-weight:normal;
+  background-color:rgb(221, 221, 221);
+}
 /* priority list */
 
 .priorityList {

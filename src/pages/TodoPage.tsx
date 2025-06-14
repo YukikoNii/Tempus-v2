@@ -9,13 +9,14 @@ import { backgrounds } from "../assets/BackgroundImages";
 import { Priorities } from "../components/Priorities";
 
 function TodoPage() {
-  console.log("hello");
   const [showModal, setShowModal] = useState(false);
   const [isPriorityListVisible, setIsPriorityListVisible] = useState(false);
   const [selectedPriority, setSelectedPriority] = useState("");
   const [isTagListVisible, setIsTagListVisible] = useState(false);
+  const [selectedTag, setSelectedTag] = useState("");
   const [bgSrc, setBgSrc] = useState("");
   const [isOpen, setIsOpen] = useState(true);
+  const [tags, setTags] = useState(new Set<string>());
 
   type countDict = {
     [key: string]: number;
@@ -54,6 +55,14 @@ function TodoPage() {
     }
   };
 
+  const handleTag = (newTag: string) => {
+    if (newTag === selectedTag) {
+      setSelectedTag("");
+    } else {
+      setSelectedTag(newTag);
+    }
+  };
+
   const removeEntry = (completedEntry: Entry) => {
     setTimeout(
       () =>
@@ -62,10 +71,6 @@ function TodoPage() {
         ),
       200
     );
-  };
-
-  const addEntry = (newEntry: Entry) => {
-    setTimeout(() => setEntries((entries) => [...entries, newEntry]), 100);
   };
 
   useEffect(() => {
@@ -83,6 +88,11 @@ function TodoPage() {
           setBgSrc(selectedBg.src);
         }
         setEntries(data.todos);
+        for (let i = 0; i < data.todos.length; i++) {
+          for (let j = 0; j < data.todos[i].tags.length; j++) {
+            setTags((tags) => new Set(tags).add(data.todos[i].tags[j]));
+          }
+        }
       }
     };
     fetchBg();
@@ -127,8 +137,9 @@ function TodoPage() {
             {entries.map((entry) => {
               const key = entry.priority;
               priorityCounts[key] = (priorityCounts[key] || 0) + 1;
-              return selectedPriority === "" ||
-                selectedPriority === entry.priority ? (
+              return (selectedPriority === "" ||
+                selectedPriority === entry.priority) &&
+                (selectedTag === "" || entry.tags.includes(selectedTag)) ? (
                 <Entry
                   key={entry._id}
                   id={entry._id}
@@ -150,6 +161,23 @@ function TodoPage() {
               {isTagListVisible ? "▼" : "▲"}
             </span>
           </div>
+          {isTagListVisible &&
+            [...tags].map((name, index) => {
+              return (
+                <div
+                  key={index}
+                  className={styles.tag}
+                  onClick={(e) => handleTag(name)}
+                  style={
+                    selectedTag === name
+                      ? { backgroundColor: "rgb(221, 221, 221)" }
+                      : { backgroundColor: "white" }
+                  }
+                >
+                  {name}
+                </div>
+              );
+            })}
           <div className={styles.priorityList}>
             Priority &nbsp;
             <span onClick={() => togglePriorityList()}>
