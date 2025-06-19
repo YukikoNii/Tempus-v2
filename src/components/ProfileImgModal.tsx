@@ -1,5 +1,6 @@
 import { ProfileImages } from "../assets/ProfileImages";
 import styles from "./ProfileImgModal.module.css";
+import { useEffect, useRef } from "react";
 
 interface ProfileImgModalProps {
   onClose: () => void;
@@ -7,9 +8,25 @@ interface ProfileImgModalProps {
 }
 
 const ProfileImgModal = ({ onClose, onSelect }: ProfileImgModalProps) => {
+  const modalRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const handleClickOutside = (e: MouseEvent) => {
+      if (modalRef.current && !modalRef.current.contains(e.target as Node)) {
+        onClose();
+      }
+    };
+
+    document.addEventListener("mousedown", handleClickOutside);
+
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [onClose]);
+
   return (
     <div className={styles.proModal}>
-      <div className={styles.proModalContent}>
+      <div className={styles.proModalContent} ref={modalRef}>
         <div className={styles.proTitle}>Change Profile Picture</div>
         <div className={styles.proClose} onClick={onClose}>
           &times;

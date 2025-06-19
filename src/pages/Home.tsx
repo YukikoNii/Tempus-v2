@@ -181,7 +181,10 @@ function Home() {
               ) : (
                 <div className={styles.noTask}>
                   There is no task for today.
-                  <br /> <div className={styles.linkTodo}>add new task</div>
+                  <br />{" "}
+                  <Link to="/todo" className={styles.linkTodo}>
+                    add new task{" "}
+                  </Link>
                 </div>
               )}
             </div>
