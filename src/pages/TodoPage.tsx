@@ -208,11 +208,6 @@ function TodoPage() {
             </div>
           )}
         </div>
-
-        <div className={styles.reminderContainer}>
-          <div className={styles.rightHeading}>Reminders</div>
-          <div className={styles.reminders}></div>
-        </div>
       </div>
     </div>
   );

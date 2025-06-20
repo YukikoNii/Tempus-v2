@@ -155,11 +155,6 @@ const TodoModal = ({ isOpen, onClose }: TodoModalProps) => {
               value={time}
               onChange={(e) => setTime(e.target.value)}
             />
-            <label className={styles.remlabel}>Reminder</label>
-            <label className={styles.reminder}>
-              <input type="checkbox" />
-              <span className={styles.remtoggle}></span>
-            </label>
           </div>
           <div className={styles.tag}>
             <label className={styles.taglabel}>Tag</label>
