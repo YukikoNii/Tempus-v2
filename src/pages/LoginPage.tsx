@@ -5,6 +5,7 @@ import { useState } from "react";
 import Header from "../components/Header";
 
 function LoginPage() {
+  const URL = import.meta.env.URL;
   const navigate = useNavigate();
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
@@ -16,7 +17,7 @@ function LoginPage() {
 
     try {
       const info = { username: username, password: password };
-      const response = await fetch("http://localhost:5050/data/login", {
+      const response = await fetch(`${URL}/data/login`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

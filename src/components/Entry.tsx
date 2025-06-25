@@ -30,10 +30,12 @@ const Entry = ({
     setIsExpanded(!isExpanded);
   };
 
+  const URL = import.meta.env.URL;
+
   const deleteEntry = () => {
     onCheck();
     const deleteEntryFromDB = async () => {
-      await fetch("http://localhost:5050/data/todo/delete", {
+      await fetch(`${URL}/data/todo/delete`, {
         method: "POST",
         credentials: "include",
         headers: {
