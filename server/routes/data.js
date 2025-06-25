@@ -118,16 +118,33 @@ router.get("/todo", verifyUser, async (req, res) => {
 });
 
 router.post("/todo/add", verifyUser, async (req, res) => {
-  let newTodo = {
-    userId: new ObjectId(req.userId),
-    title: req.body.title,
-    description: req.body.description,
-    dueDate: req.body.dueDate,
-    priority: req.body.priority,
-    tags: req.body.tags,
-  };
   let todoCollection = db.collection("todo");
-  const result = await todoCollection.insertOne(newTodo);
+  let result;
+  if (req.body.editMode) {
+    let updatedTodo = {
+      userId: new ObjectId(req.userId),
+      title: req.body.title,
+      description: req.body.description,
+      dueDate: req.body.dueDate,
+      priority: req.body.priority,
+      tags: req.body.tags,
+    };
+
+    result = await todoCollection.updateOne(
+      { _id: new ObjectId(req.body.id) },
+      { $set: updatedTodo }
+    );
+  } else {
+    let newTodo = {
+      userId: new ObjectId(req.userId),
+      title: req.body.title,
+      description: req.body.description,
+      dueDate: req.body.dueDate,
+      priority: req.body.priority,
+      tags: req.body.tags,
+    };
+    result = await todoCollection.insertOne(newTodo);
+  }
   res.status(204).json(result);
 });
 

@@ -17,6 +17,13 @@ function TodoPage() {
   const [bgSrc, setBgSrc] = useState("");
   const [isOpen, setIsOpen] = useState(true);
   const [tags, setTags] = useState(new Set<string>());
+  const [isEditMode, setIsEditMode] = useState(false);
+  const [id, setId] = useState("");
+  const [title, setTitle] = useState("");
+  const [description, setDescription] = useState("");
+  const [dueDate, setDueDate] = useState("");
+  const [dueTime, setDueTime] = useState("");
+  const [priority, setPriority] = useState("");
 
   type countDict = {
     [key: string]: number;
@@ -29,6 +36,7 @@ function TodoPage() {
     userId: string;
     description: string;
     dueDate: string;
+    dueTime: string;
     priority: string;
     title: string;
     tags: Array<string>;
@@ -47,7 +55,6 @@ function TodoPage() {
   };
 
   const handlePriority = (newPriority: string) => {
-    newPriority = newPriority.toLowerCase();
     if (newPriority === selectedPriority) {
       setSelectedPriority("");
     } else {
@@ -129,6 +136,13 @@ function TodoPage() {
           </button>
           {showModal && (
             <TodoModal
+              isEditModeOn={isEditMode}
+              id={id}
+              savedTitle={title}
+              savedDescription={description}
+              savedDueDate={dueDate}
+              savedDueTime={dueTime}
+              savedPriority={priority}
               isOpen={showModal}
               onClose={() => setShowModal(false)}
             ></TodoModal>
@@ -148,6 +162,16 @@ function TodoPage() {
                   dueDate={entry.dueDate}
                   priority={entry.priority}
                   onCheck={() => removeEntry(entry)}
+                  onEdit={() => {
+                    setShowModal(true);
+                    setIsEditMode(true);
+                    setId(entry._id);
+                    setTitle(entry.title);
+                    setDescription(entry.description);
+                    setDueDate(entry.dueDate);
+                    setDueTime(entry.dueTime);
+                    setPriority(entry.priority);
+                  }}
                 ></Entry>
               ) : null;
             })}

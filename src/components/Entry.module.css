@@ -4,7 +4,7 @@
   display:grid;
   grid-template-rows: 1fr; 
   margin-top: 0em;
-  grid-template-columns: 1fr 8fr 1fr;
+  grid-template-columns: 1fr 8fr 1fr 1fr 1fr;
   opacity:1;
   transition:opacity 1000ms linear;
   border-radius:20px;
@@ -23,19 +23,19 @@
 }
 
 
-.low {
+.Low {
   color:green;
 }
 
-.medium {
+.Medium {
   color:#D3D56B;
 }
 
-.high {
+.High {
   color:#D86E6E;
 }
 
-.low, .medium, .high {
+.Low, .Medium, .High {
   font-size:1.5em;
   text-align:center;
   justify-self:center;
@@ -148,6 +148,20 @@
   grid-column:2;
   grid-row:3;
   display: none;
+}
+
+.editIcon {
+  margin-top:0.2em;
+  grid-column:4;
+  grid-row:1;
+  cursor:pointer;
+}
+
+.deleteIcon {
+  margin-top:0.2em;
+  grid-column:5;
+  grid-row:1;
+  cursor:pointer;
 }
 
 

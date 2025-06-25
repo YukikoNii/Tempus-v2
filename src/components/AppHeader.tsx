@@ -48,7 +48,8 @@ const AppHeader = () => {
         </Link>
         <img src={profileImgSrc} alt="avatar" className={styles.usericon}></img>
         <div className={styles.username} onClick={toggleDropDown}>
-          {username}&nbsp;<span className={styles.arrow}>&#9660;</span>
+          {username}&nbsp;
+          <span className={styles.arrow}>{showDropDown ? "▼" : "▲"}</span>
         </div>
 
         {showDropDown && (

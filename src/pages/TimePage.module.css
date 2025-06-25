@@ -4,7 +4,8 @@
   grid-template-rows:5em 22em 5em 16em 7.5em;
   width:100vw;
   height:100vh;
-  overflow-x: hidden;
+  overflow: hidden;
+
 }
 
 /* stopwatch display position */

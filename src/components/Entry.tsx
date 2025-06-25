@@ -1,6 +1,7 @@
 import styles from "./Entry.module.css";
 import { useState } from "react";
 import { Priorities } from "./Priorities";
+import "material-symbols";
 
 interface EntryProps {
   id: string;
@@ -9,6 +10,7 @@ interface EntryProps {
   dueDate: string;
   priority: string;
   onCheck: () => void;
+  onEdit: () => void;
 }
 
 const Entry = ({
@@ -18,6 +20,7 @@ const Entry = ({
   dueDate,
   priority,
   onCheck,
+  onEdit,
 }: EntryProps) => {
   const [isExpanded, setIsExpanded] = useState(false);
   const selectedPriority = Priorities.find((pr) => pr.name == priority);
@@ -70,6 +73,19 @@ const Entry = ({
       </div>
       <div className={`${styles.tagEach}`}></div>
       <div className={styles[priority]}>{selectedPriority?.symbol}</div>
+      <div className={styles[priority]}>{selectedPriority?.symbol}</div>
+      <div
+        className={`material-symbols-outlined ${styles.editIcon}`}
+        onClick={onEdit}
+      >
+        edit
+      </div>
+      <div
+        className={`material-symbols-outlined ${styles.deleteIcon}`}
+        onClick={deleteEntry}
+      >
+        delete
+      </div>
     </div>
   );
 };

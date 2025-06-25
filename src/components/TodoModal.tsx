@@ -2,24 +2,50 @@ import styles from "./TodoModal.module.css";
 import { useRef, useEffect, useState } from "react";
 
 interface TodoModalProps {
+  isEditModeOn: boolean;
+  id: string;
+  savedTitle: string;
+  savedDescription: string;
+  savedDueDate: string;
+  savedDueTime: string;
+  savedPriority: string;
   isOpen: boolean;
   onClose: () => void;
 }
 
-const TodoModal = ({ isOpen, onClose }: TodoModalProps) => {
+const TodoModal = ({
+  isEditModeOn,
+  id,
+  savedTitle,
+  savedDescription,
+  savedDueDate,
+  savedDueTime,
+  savedPriority,
+  isOpen,
+  onClose,
+}: TodoModalProps) => {
+  console.log(savedPriority);
   const titleRef = useRef<HTMLInputElement>(null);
   const modalRef = useRef<HTMLDivElement>(null);
   const [showTitleAlert, setShowTitleAlert] = useState(false);
-  const [title, setTitle] = useState("");
-  const [description, setDescription] = useState("");
-  const [priority, setPriority] = useState("Low");
+  const [title, setTitle] = useState(savedTitle);
+  const [description, setDescription] = useState(savedDescription);
+  const [priority, setPriority] = useState(savedPriority);
   const [date, setDate] = useState(() => {
-    const today = new Date();
-    return today.toISOString().split("T")[0];
+    if (isEditModeOn) {
+      return savedDueDate;
+    } else {
+      const today = new Date();
+      return today.toISOString().split("T")[0];
+    }
   });
   const [time, setTime] = useState(() => {
-    const today = new Date();
-    return today.toISOString().split("T")[1].slice(0, 5);
+    if (isEditModeOn) {
+      return savedDueTime;
+    } else {
+      const today = new Date();
+      return today.toISOString().split("T")[1].slice(0, 5);
+    }
   });
   const [tags, setTags] = useState<string[]>([]);
   const [tag, setTag] = useState("");
@@ -77,8 +103,10 @@ const TodoModal = ({ isOpen, onClose }: TodoModalProps) => {
             description: description,
             dueDate: date,
             dueTime: time,
-            priority: priority.toLowerCase(),
+            priority: priority,
             tags: tags,
+            editMode: isEditModeOn,
+            id: id,
           }),
         });
       };
@@ -106,7 +134,9 @@ const TodoModal = ({ isOpen, onClose }: TodoModalProps) => {
   return (
     <div className={styles.modalBackdrop}>
       <div className={styles.modalContent} ref={modalRef}>
-        <div className={styles.heading}>New Task</div>
+        <div className={styles.heading}>
+          {isEditModeOn ? "Edit Task" : "New Task"}
+        </div>
         <div
           className={styles.title}
           onKeyDown={(e) => {
@@ -203,7 +233,7 @@ const TodoModal = ({ isOpen, onClose }: TodoModalProps) => {
           </div>
         </div>
         <button className={styles.save} onClick={save}>
-          Add
+          {isEditModeOn ? "Save" : "Add"}
         </button>
         <button className={styles.close} onClick={onClose}>
           &times;

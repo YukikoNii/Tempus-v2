@@ -50,7 +50,7 @@
 
 /* to do list entry */
 .list {
-  background-color:rgba(237, 237, 237, 0.863);
+  background-color:white;
   border-radius:1em;
   grid-row:2;
   grid-column:1/4;
@@ -118,18 +118,6 @@
   font-weight: bold;
 }
 
-
-.reminderContainer {
-  margin:1em 1em 1em 0em;
-  grid-row:2;
-  background-color:white;
-  border-radius:1em;
-  display:grid;
-  grid-template-rows:1fr 7fr;
-  overflow-y:scroll;
-  padding:0.5em;
-  opacity:0.9;
-}
 
 
 .rightHeading {
