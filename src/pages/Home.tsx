@@ -2,6 +2,7 @@ import styles from "./Home.module.css";
 import Sidebar from "../components/Sidebar";
 import { Link } from "react-router-dom";
 import AppHeader from "../components/AppHeader";
+import Memo from "../components/Memo";
 import BgModal from "../components/BgModal";
 import { useEffect, useState } from "react";
 import { backgrounds } from "../assets/BackgroundImages";
@@ -188,9 +189,7 @@ function Home() {
                 </div>
               )}
             </div>
-            <div className={styles.stats}>
-              <span>Stats</span>
-            </div>
+            <Memo></Memo>
           </div>
         </div>
       </div>

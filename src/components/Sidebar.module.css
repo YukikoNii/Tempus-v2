@@ -17,8 +17,8 @@
 }
 
 
-
 .iconbar {
+  transition: 100ms linear;
   grid-column:1;
   grid-row:1/6;
   background-color:#026670;

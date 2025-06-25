@@ -1,0 +1,43 @@
+.stats {
+  box-shadow: 0 0 20px 8px #d4d3d3;
+  border-width: 0px;
+  transition-duration: 0.3s;
+}
+
+.stats:hover {
+  box-shadow: 0 0 20px 8px #818181;
+  border-color:#026670;
+  border-width: 1px
+  ;
+  transition-duration: 0.3s;
+}
+
+.stats {
+  border-radius: 1em;
+  display:grid;
+  grid-template-rows:1fr 3fr;
+  transition-duration: 0.3s;
+}
+
+.stats > div {
+  text-align:center;
+  align-self:center;
+  font-size: 1.5em;
+  padding:1em;
+  color:#525252;
+  user-select: text;
+  cursor:text;
+}
+
+.stats > span {
+  margin:auto;
+  font-weight: bold;
+  font-size: 2em;
+  color:#525252;
+  user-select: text;
+  cursor:text;
+}
+
+.textarea {
+    margin: 2em;
+}

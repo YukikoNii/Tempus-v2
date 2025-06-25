@@ -107,6 +107,20 @@ router.get("/home", verifyUser, async (req, res) => {
   res.json({ user: user, todos: todos });
 });
 
+router.get("/home/memo", verifyUser, async (req, res) => {
+  let collection = await db.collection("users");
+  const user = await collection.findOne({ _id: new ObjectId(req.userId) }); // deprecated
+  res.json(user);
+});
+
+router.post("/home/memo", verifyUser, async (req, res) => {
+  let collection = await db.collection("users");
+  const user = await collection.updateOne(
+    { _id: new ObjectId(req.userId) },
+    { $set: { memo: req.body.memo } }
+  ); // deprecated
+});
+
 router.get("/todo", verifyUser, async (req, res) => {
   let collection = await db.collection("users");
   const user = await collection.findOne({ _id: new ObjectId(req.userId) }); // deprecated
