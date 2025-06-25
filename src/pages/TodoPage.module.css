@@ -4,7 +4,7 @@
   grid-template-rows:5em 22em 5em 16em 7.5em;
   width:100vw;
   height:100vh;
-  overflow-x: hidden;
+  overflow: hidden;
 }
 
 .container {
@@ -26,6 +26,7 @@
   grid-template-rows:1fr 6fr;
   grid-gap:1em;
   padding:1em;
+  height:90vh;
 }
 
 

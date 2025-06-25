@@ -9,6 +9,7 @@ interface EntryProps {
   description: string;
   dueDate: string;
   priority: string;
+  tags: string[];
   onCheck: () => void;
   onEdit: () => void;
 }
@@ -19,6 +20,7 @@ const Entry = ({
   description,
   dueDate,
   priority,
+  tags,
   onCheck,
   onEdit,
 }: EntryProps) => {
@@ -48,7 +50,7 @@ const Entry = ({
   };
 
   const containerExpandStyle = {
-    gridTemplateRows: "1fr 1fr 1fr",
+    gridTemplateRows: "1fr 1fr 1fr 1fr",
   };
   return (
     <div
@@ -71,7 +73,13 @@ const Entry = ({
       <div className={styles.entrydate} style={isExpanded ? expandStyle : {}}>
         {dueDate}
       </div>
-      <div className={`${styles.tagEach}`}></div>
+      <div className={styles.tags} style={isExpanded ? expandStyle : {}}>
+        {tags.map((name, index) => (
+          <span key={index} className={styles.tag}>
+            {name}
+          </span>
+        ))}
+      </div>
       <div className={styles[priority]}>{selectedPriority?.symbol}</div>
       <div className={styles[priority]}>{selectedPriority?.symbol}</div>
       <div

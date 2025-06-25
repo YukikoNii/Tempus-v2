@@ -161,6 +161,7 @@ function TodoPage() {
                   description={entry.description}
                   dueDate={entry.dueDate}
                   priority={entry.priority}
+                  tags={entry.tags}
                   onCheck={() => removeEntry(entry)}
                   onEdit={() => {
                     setShowModal(true);
