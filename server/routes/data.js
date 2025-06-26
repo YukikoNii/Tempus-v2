@@ -132,6 +132,8 @@ router.get("/todo", verifyUser, async (req, res) => {
 });
 
 router.post("/todo/add", verifyUser, async (req, res) => {
+  console.log("userId: ", req.userId);
+  console.log("mode: ", req.body.editMode);
   let todoCollection = db.collection("todo");
   let result;
   if (req.body.editMode) {
@@ -140,6 +142,7 @@ router.post("/todo/add", verifyUser, async (req, res) => {
       title: req.body.title,
       description: req.body.description,
       dueDate: req.body.dueDate,
+      dueTime: req.body.dueTime,
       priority: req.body.priority,
       tags: req.body.tags,
     };
@@ -154,6 +157,7 @@ router.post("/todo/add", verifyUser, async (req, res) => {
       title: req.body.title,
       description: req.body.description,
       dueDate: req.body.dueDate,
+      dueTime: req.body.dueTime,
       priority: req.body.priority,
       tags: req.body.tags,
     };

@@ -1,31 +1,18 @@
 import styles from "./Entry.module.css";
 import { useState } from "react";
 import { Priorities } from "./Priorities";
+import { EntryType } from "../types/EntryType";
 import "material-symbols";
 
 interface EntryProps {
-  id: string;
-  title: string;
-  description: string;
-  dueDate: string;
-  priority: string;
-  tags: string[];
+  entry: EntryType;
   onCheck: () => void;
   onEdit: () => void;
 }
 
-const Entry = ({
-  id,
-  title,
-  description,
-  dueDate,
-  priority,
-  tags,
-  onCheck,
-  onEdit,
-}: EntryProps) => {
+const Entry = ({ entry, onCheck, onEdit }: EntryProps) => {
   const [isExpanded, setIsExpanded] = useState(false);
-  const selectedPriority = Priorities.find((pr) => pr.name == priority);
+  const selectedPriority = Priorities.find((pr) => pr.name == entry.priority);
   const toggleEntry = () => {
     setIsExpanded(!isExpanded);
   };
@@ -41,7 +28,7 @@ const Entry = ({
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ id: id }),
+        body: JSON.stringify({ id: entry._id }),
       });
     };
     deleteEntryFromDB();
@@ -68,22 +55,22 @@ const Entry = ({
         />
         <span className={styles.checkmark}></span>
       </label>
-      <div className={styles.entrytitle}>{title}</div>
+      <div className={styles.entrytitle}>{entry.title}</div>
       <div className={styles.entrydes} style={isExpanded ? expandStyle : {}}>
-        {description}{" "}
+        {entry.description}{" "}
       </div>
       <div className={styles.entrydate} style={isExpanded ? expandStyle : {}}>
-        {dueDate}
+        {entry.dueDate} {entry.dueTime}
       </div>
       <div className={styles.tags} style={isExpanded ? expandStyle : {}}>
-        {tags.map((name, index) => (
+        {entry.tags.map((name, index) => (
           <span key={index} className={styles.tag}>
             {name}
           </span>
         ))}
       </div>
-      <div className={styles[priority]}>{selectedPriority?.symbol}</div>
-      <div className={styles[priority]}>{selectedPriority?.symbol}</div>
+      <div className={styles[entry.priority]}>{selectedPriority?.symbol}</div>
+      <div className={styles[entry.priority]}>{selectedPriority?.symbol}</div>
       <div
         className={`material-symbols-outlined ${styles.editIcon}`}
         onClick={onEdit}
