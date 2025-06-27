@@ -17,7 +17,6 @@ function LoginPage() {
 
     try {
       const info = { username: username, password: password };
-      console.log(URL);
       const response = await fetch(`${URL}/data/login`, {
         method: "POST",
         headers: {
@@ -30,6 +29,7 @@ function LoginPage() {
         console.log("successful");
         navigate("/home");
       } else {
+        console.log(URL);
         console.log("unsuccessful");
         setLoginInfoAlert("Incorrect username or password");
       }
