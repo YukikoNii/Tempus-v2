@@ -9,6 +9,13 @@ const AppHeader = () => {
   const [showDropDown, setShowDropDown] = useState(false);
   const [username, setUsername] = useState("");
 
+  const logout = async () => {
+    await fetch("http://localhost:5050/data/logout", {
+      method: "POST",
+      credentials: "include",
+    });
+  };
+
   useEffect(() => {
     const fetchBg = async () => {
       const res = await fetch("http://localhost:5050/data/appheader", {
@@ -58,7 +65,11 @@ const AppHeader = () => {
               <Link to="/settings" className={styles.dropDownLink}>
                 Settings
               </Link>
-              <Link to="/" className={styles.dropDownLink}>
+              <Link
+                to="/"
+                className={styles.dropDownLink}
+                onClick={() => logout()}
+              >
                 Log out
               </Link>
             </div>

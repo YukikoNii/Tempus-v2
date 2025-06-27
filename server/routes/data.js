@@ -3,6 +3,7 @@ import db from "../db/connection.js";
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
 import verifyUser from "./middleware.js";
+import logout from "./logout.js";
 import { ObjectId } from "mongodb";
 
 const router = express.Router();
@@ -32,6 +33,8 @@ router.post("/signup", async (req, res) => {
     res.status(500).send("Error creating new user");
   }
 });
+
+router.post("/logout", logout);
 
 const doesEmailExist = async (email, collection) => {
   const result = await collection.countDocuments(
