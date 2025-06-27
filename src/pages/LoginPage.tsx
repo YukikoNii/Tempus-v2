@@ -17,6 +17,7 @@ function LoginPage() {
 
     try {
       const info = { username: username, password: password };
+      console.log(URL);
       const response = await fetch(`${URL}/data/login`, {
         method: "POST",
         headers: {
