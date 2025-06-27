@@ -29,6 +29,7 @@ function TodoPage() {
     title: "",
     tags: [],
   });
+
   const [entries, setEntries] = useState<EntryType[]>([]);
 
   const priorityCounts = useMemo(() => {
@@ -194,7 +195,7 @@ function TodoPage() {
                   <div
                     key={index}
                     className={styles.pr}
-                    onClick={(e) => handlePriority(priority.name)}
+                    onClick={() => handlePriority(priority.name)}
                     style={
                       selectedPriority === priority.name
                         ? { backgroundColor: priority.selectedColor }

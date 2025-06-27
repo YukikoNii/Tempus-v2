@@ -15,6 +15,7 @@ function Home() {
   const [date, setDate] = useState("");
   const [clockDivColor, setClockDivColor] = useState("");
   const [isOpen, setIsOpen] = useState(true);
+
   type EntryType = {
     _id: string;
     userId: string;
@@ -23,8 +24,6 @@ function Home() {
     priority: string;
     title: string;
     tags: Array<string>;
-
-    // Add other fields if needed
   };
   const [entries, setEntries] = useState<EntryType[]>([]);
 

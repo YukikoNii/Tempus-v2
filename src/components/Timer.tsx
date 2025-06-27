@@ -13,7 +13,6 @@ export const Timer = () => {
   useEffect(() => {
     const handleKeyDown = (event: KeyboardEvent) => {
       if (event.code === "Space") {
-        // i don't think space bar is working
         event.preventDefault(); // prevent page scrolling
         runTimer();
       }
