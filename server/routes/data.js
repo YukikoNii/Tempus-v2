@@ -81,9 +81,7 @@ router.post("/login", async (req, res) => {
       });
 
       console.log("token defined: ", token);
-      res.setHeader("Cache-Control", "no-store");
       res.cookie("token", token, {
-        domain: "tempus-v2.onrender.com",
         httpOnly: true,
         secure: process.env.NODE_ENV == "production",
         sameSite: "None",
@@ -100,6 +98,15 @@ router.post("/login", async (req, res) => {
   } catch (e) {
     res.status(500).send("Some error occured");
   }
+});
+
+app.get("/set-test-cookie", (req, res) => {
+  res
+    .cookie("test", "123", {
+      secure: true,
+      sameSite: "none",
+    })
+    .send("Cookie set");
 });
 
 router.get("/settings", verifyUser, async (req, res) => {
