@@ -75,13 +75,12 @@ router.post("/login", async (req, res) => {
       collection
     );
     console.log("user obtained");
-    console.log("JWT SECRET:", process.env.JWT_SECRET);
     if (user) {
       const token = jwt.sign({ userId: user._id }, process.env.JWT_SECRET, {
         expiresIn: "300h",
       });
 
-      console.log("token defined");
+      console.log("token defined: ", token);
 
       res.cookie("token", token, {
         httpOnly: true,
