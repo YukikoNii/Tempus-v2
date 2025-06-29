@@ -10,13 +10,14 @@ function LoginPage() {
   const [password, setPassword] = useState("");
   const [loginInfoAlert, setLoginInfoAlert] = useState("");
   interface LoginFormEvent extends React.FormEvent<HTMLFormElement> {}
+  const URL = import.meta.env.URL;
 
   async function handleSubmit(e: LoginFormEvent) {
     e.preventDefault();
 
     try {
       const info = { username: username, password: password };
-      const response = await fetch("http://localhost:5050/data/login", {
+      const response = await fetch(`${URL}/data/login`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
