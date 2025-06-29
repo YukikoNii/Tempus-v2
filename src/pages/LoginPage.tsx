@@ -10,7 +10,7 @@ function LoginPage() {
   const [password, setPassword] = useState("");
   const [loginInfoAlert, setLoginInfoAlert] = useState("");
   interface LoginFormEvent extends React.FormEvent<HTMLFormElement> {}
-  const URL = import.meta.env.URL;
+  const URL = import.meta.env.VITE_URL;
 
   async function handleSubmit(e: LoginFormEvent) {
     e.preventDefault();
