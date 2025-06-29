@@ -53,7 +53,9 @@ const doesUsernameExist = async (username, collection) => {
 };
 
 const getUser = async (username, password, collection) => {
+  console.log("getUser called");
   const result = await collection.findOne({ username: username });
+  console.log("user found");
   if (!result) {
     return null;
   } else {
