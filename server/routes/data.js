@@ -88,6 +88,7 @@ router.post("/login", async (req, res) => {
         secure: process.env.NODE_ENV == "production",
         sameSite: "None",
         maxAge: 300 * 60 * 60 * 1000,
+        path: "/",
       });
 
       console.log("cookie is set.");
