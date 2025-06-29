@@ -38,6 +38,9 @@ const Memo = () => {
       const res = await fetch(`${URL}data/home/memo`, {
         method: "GET",
         credentials: "include",
+        headers: {
+          "Content-Type": "application/json",
+        },
       });
       if (res) {
         const data = await res.json();

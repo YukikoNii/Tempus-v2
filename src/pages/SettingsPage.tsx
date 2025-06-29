@@ -23,6 +23,9 @@ function SettingsPage() {
       const res = await fetch(`${URL}data/settings`, {
         method: "GET",
         credentials: "include",
+        headers: {
+          "Content-Type": "application/json",
+        },
       });
       if (res) {
         const data = await res.json();

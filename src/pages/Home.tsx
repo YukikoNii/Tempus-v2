@@ -48,6 +48,9 @@ function Home() {
     const fetchBg = async () => {
       const res = await fetch(`${URL}data/home`, {
         method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+        },
         credentials: "include",
       });
       if (res) {

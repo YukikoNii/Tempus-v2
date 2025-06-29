@@ -14,6 +14,9 @@ const AppHeader = () => {
     await fetch(`${URL}data/logout`, {
       method: "POST",
       credentials: "include",
+      headers: {
+        "Content-Type": "application/json",
+      },
     });
   };
 
@@ -22,6 +25,9 @@ const AppHeader = () => {
       const res = await fetch(`${URL}data/appheader`, {
         method: "GET",
         credentials: "include",
+        headers: {
+          "Content-Type": "application/json",
+        },
       });
       if (res) {
         const data = await res.json();

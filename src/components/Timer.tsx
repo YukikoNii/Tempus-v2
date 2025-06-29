@@ -40,6 +40,9 @@ export const Timer = () => {
       const res = await fetch(`${URL}data/timer`, {
         method: "GET",
         credentials: "include",
+        headers: {
+          "Content-Type": "application/json",
+        },
       });
       if (res) {
         const data = await res.json();

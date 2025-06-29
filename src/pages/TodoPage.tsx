@@ -82,6 +82,9 @@ function TodoPage() {
       const res = await fetch(`${URL}data/todo`, {
         method: "GET",
         credentials: "include",
+        headers: {
+          "Content-Type": "application/json",
+        },
       });
       if (res) {
         const data = await res.json();
