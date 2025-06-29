@@ -83,7 +83,7 @@ router.post("/login", async (req, res) => {
       console.log("token defined: ", token);
       res.setHeader("Cache-Control", "no-store");
       res.cookie("token", token, {
-        domain: ".onrender.com",
+        domain: "tempus-v2.onrender.com",
         httpOnly: true,
         secure: process.env.NODE_ENV == "production",
         sameSite: "None",
