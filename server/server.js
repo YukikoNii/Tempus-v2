@@ -9,10 +9,7 @@ const PORT = process.env.PORT || 5050;
 
 const app = express();
 
-const origins = [
-  "http://localhost:5173",
-  "https://tempus-v2-git-develop-yukikoniis-projects.vercel.app",
-];
+const origins = ["http://localhost:5173", "https://tempus-v2-1.onrender.com"];
 
 app.use(
   cors({
