@@ -3,11 +3,9 @@ import express from "express";
 import cors from "cors";
 import data from "./routes/data.js";
 import cookieParser from "cookie-parser";
-import path from "path";
 
 console.log("Server starting...");
 const PORT = process.env.PORT || 5050;
-const dirname = path.resolve();
 
 const app = express();
 
@@ -29,7 +27,6 @@ app.use(
 app.use(express.json());
 app.use(cookieParser());
 app.use("/data", data);
-app.use(express.static(path.join(dirname, "dist")));
 
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
