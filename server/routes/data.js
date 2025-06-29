@@ -100,7 +100,7 @@ router.post("/login", async (req, res) => {
   }
 });
 
-app.get("/set-test-cookie", (req, res) => {
+router.get("/set-test-cookie", (req, res) => {
   res
     .cookie("test", "123", {
       secure: true,
