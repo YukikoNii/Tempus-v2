@@ -6,7 +6,6 @@ const Memo = () => {
   const [text, setText] = useState("");
   const isInitialMount = useRef(true);
   useEffect(() => {
-    console.log(text);
     const handler = setTimeout(() => {
       const saveMemo = async () => {
         const res = await fetch(`${URL}data/home/memo`, {

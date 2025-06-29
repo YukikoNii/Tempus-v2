@@ -48,10 +48,10 @@ function Home() {
     const fetchBg = async () => {
       const res = await fetch(`${URL}data/home`, {
         method: "GET",
+        credentials: "include",
         headers: {
           "Content-Type": "application/json",
         },
-        credentials: "include",
       });
       if (res) {
         const data = await res.json();
