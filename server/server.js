@@ -29,7 +29,7 @@ app.use(
 app.use(express.json());
 app.use(cookieParser());
 app.use("/data", data);
-app.use(express.static(path.join(dirname, "/src/dist")));
+app.use(express.static(path.join(dirname, "dist")));
 
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
