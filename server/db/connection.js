@@ -1,8 +1,12 @@
 import { MongoClient, ServerApiVersion } from "mongodb";
 
 const client = new MongoClient(process.env.MONGO_URI, {
-  useNewUrlParser: true,
-  useUnifiedTopology: true,
+  serverApi: {
+    version: ServerApiVersion.v1,
+    strict: true,
+    deprecationErrors: true,
+    tls: true,
+  },
 });
 
 try {
