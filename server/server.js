@@ -9,9 +9,18 @@ const PORT = process.env.PORT || 5050;
 
 const app = express();
 
+const origins = [
+  "http://localhost:5173",
+  "https://tempus-v2-git-develop-yukikoniis-projects.vercel.app",
+];
+
 app.use(
   cors({
-    origin: "http://localhost:5173",
+    origin: function (origin, callback) {
+      if (!origin || origins.includes(origin)) {
+        callback(null, true);
+      }
+    },
     credentials: true,
   })
 );
