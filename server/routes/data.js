@@ -89,6 +89,8 @@ router.post("/login", async (req, res) => {
         maxAge: 300 * 60 * 60 * 1000,
       });
 
+      console.log("cookie is set.");
+
       return res.status(200).send("Successfully logged in");
     } else {
       return res.status(401).send("Incorrect login information");
