@@ -27,6 +27,7 @@ app.use(
 app.use(express.json());
 app.use(cookieParser());
 app.use("/data", data);
+app.set("trust proxy", 1);
 
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
