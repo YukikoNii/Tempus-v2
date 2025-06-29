@@ -4,7 +4,7 @@ import { Link, useLocation } from "react-router-dom";
 import { useState, useEffect } from "react";
 
 const AppHeader = () => {
-  const URL = import.meta.env.URL;
+  const URL = import.meta.env.VITE_URL;
   const logoImg = "/images/logo.png";
   const [profileImgSrc, setProfileImgSrc] = useState("");
   const [showDropDown, setShowDropDown] = useState(false);

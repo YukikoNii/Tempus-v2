@@ -15,7 +15,7 @@ export const AccountSettings = ({
   currentEmail,
   changePic,
 }: AccountSettingsProp) => {
-  const URL = import.meta.env.URL;
+  const URL = import.meta.env.VITE_URL;
   const [username, setUsername] = useState(currentUsername || "");
   const [email, setEmail] = useState(currentEmail || "");
 

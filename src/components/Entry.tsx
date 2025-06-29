@@ -11,7 +11,7 @@ interface EntryProps {
 }
 
 const Entry = ({ entry, onCheck, onEdit }: EntryProps) => {
-  const URL = import.meta.env.URL;
+  const URL = import.meta.env.VITE_URL;
   const [isExpanded, setIsExpanded] = useState(false);
   const selectedPriority = Priorities.find((pr) => pr.name == entry.priority);
   const toggleEntry = () => {
