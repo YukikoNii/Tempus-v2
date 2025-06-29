@@ -65,16 +65,21 @@ const getUser = async (username, password, collection) => {
 
 router.post("/login", async (req, res) => {
   try {
+    console.log("login route successfully reached");
     let collection = await db.collection("users");
+    console.log("collection obtained");
     const user = await getUser(
       req.body.username,
       req.body.password,
       collection
     );
+    console.log("user obtained");
     if (user) {
       const token = jwt.sign({ userId: user._id }, process.env.JWT_SECRET, {
         expiresIn: "300h",
       });
+
+      console.log("token defined");
 
       res.cookie("token", token, {
         httpOnly: true,

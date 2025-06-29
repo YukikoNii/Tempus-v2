@@ -11,7 +11,6 @@ function LoginPage() {
   const [loginInfoAlert, setLoginInfoAlert] = useState("");
   interface LoginFormEvent extends React.FormEvent<HTMLFormElement> {}
   const URL = import.meta.env.VITE_URL;
-  console.log(URL);
 
   async function handleSubmit(e: LoginFormEvent) {
     e.preventDefault();
