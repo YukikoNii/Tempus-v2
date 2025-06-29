@@ -69,7 +69,7 @@ router.post("/login", async (req, res) => {
   try {
     console.log("login route successfully reached");
     let collection = await db.collection("users");
-    console.log("collection obtained");
+    console.log("collection:", collection);
     const user = await getUser(
       req.body.username,
       req.body.password,
