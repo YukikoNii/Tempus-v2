@@ -37,7 +37,7 @@ export const Timer = () => {
   }, [isRunning]);
   useEffect(() => {
     const fetchBg = async () => {
-      const res = await fetch("http://localhost:5050/data/timer", {
+      const res = await fetch(`${URL}data/timer`, {
         method: "GET",
         credentials: "include",
       });

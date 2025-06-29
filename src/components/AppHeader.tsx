@@ -4,13 +4,14 @@ import { Link, useLocation } from "react-router-dom";
 import { useState, useEffect } from "react";
 
 const AppHeader = () => {
+  const URL = import.meta.env.URL;
   const logoImg = "/images/logo.png";
   const [profileImgSrc, setProfileImgSrc] = useState("");
   const [showDropDown, setShowDropDown] = useState(false);
   const [username, setUsername] = useState("");
 
   const logout = async () => {
-    await fetch("http://localhost:5050/data/logout", {
+    await fetch(`${URL}data/logout`, {
       method: "POST",
       credentials: "include",
     });
@@ -18,7 +19,7 @@ const AppHeader = () => {
 
   useEffect(() => {
     const fetchBg = async () => {
-      const res = await fetch("http://localhost:5050/data/appheader", {
+      const res = await fetch(`${URL}data/appheader`, {
         method: "GET",
         credentials: "include",
       });

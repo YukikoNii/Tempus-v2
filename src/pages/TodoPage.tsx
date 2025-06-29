@@ -10,6 +10,7 @@ import { Priorities } from "../components/Priorities";
 import { EntryType } from "../types/EntryType";
 
 function TodoPage() {
+  const URL = import.meta.env.VITE_URL;
   const [showModal, setShowModal] = useState(false);
   const [isPriorityListVisible, setIsPriorityListVisible] = useState(false);
   const [selectedPriority, setSelectedPriority] = useState("");
@@ -78,7 +79,7 @@ function TodoPage() {
 
   useEffect(() => {
     const fetchBg = async () => {
-      const res = await fetch("http://localhost:5050/data/todo", {
+      const res = await fetch(`${URL}data/todo`, {
         method: "GET",
         credentials: "include",
       });

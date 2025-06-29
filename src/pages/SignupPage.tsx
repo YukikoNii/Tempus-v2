@@ -14,6 +14,7 @@ function SignupPage() {
   const [passwordAlert, setPasswordAlert] = useState("");
   const [usernameExistsAlert, setUsernameExistsAlert] = useState("");
   const [emailExistsAlert, setEmailExistsAlert] = useState("");
+  const URL = import.meta.env.VITE_URL;
 
   interface SignupFormEvent extends React.FormEvent<HTMLFormElement> {}
 
@@ -29,7 +30,7 @@ function SignupPage() {
       try {
         const info = { username, email, password };
 
-        const response = await fetch("http://localhost:5050/data/signup", {
+        const response = await fetch(`${URL}data/signup`, {
           method: "POST",
           headers: {
             "Content-Type": "application/json",

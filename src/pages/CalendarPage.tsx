@@ -7,6 +7,7 @@ import "material-icons/iconfont/material-icons.css";
 import { useState, useEffect } from "react";
 
 function Calendar() {
+  const URL = import.meta.env.VITE_URL;
   const [isOpen, setIsOpen] = useState(true);
   const [days, setDays] = useState<JSX.Element[]>([]); // create an array of JSX Elements
   const [date, setDate] = useState(new Date());
@@ -34,7 +35,7 @@ function Calendar() {
   useEffect(() => {
     let events: eventDict = {};
     const fetchEvents = async () => {
-      const res = await fetch("http://localhost:5050/data/calendar", {
+      const res = await fetch(`${URL}data/calendar`, {
         method: "GET",
         credentials: "include",
       });

@@ -2,13 +2,14 @@ import styles from "./Memo.module.css";
 import { useEffect, useState, useRef } from "react";
 
 const Memo = () => {
+  const URL = import.meta.env.VITE_URL;
   const [text, setText] = useState("");
   const isInitialMount = useRef(true);
   useEffect(() => {
     console.log(text);
     const handler = setTimeout(() => {
       const saveMemo = async () => {
-        const res = await fetch("http://localhost:5050/data/home/memo", {
+        const res = await fetch(`${URL}data/home/memo`, {
           method: "POST",
           credentials: "include",
           headers: {
@@ -34,7 +35,7 @@ const Memo = () => {
     }
 
     const fetchBg = async () => {
-      const res = await fetch("http://localhost:5050/data/home/memo", {
+      const res = await fetch(`${URL}data/home/memo`, {
         method: "GET",
         credentials: "include",
       });

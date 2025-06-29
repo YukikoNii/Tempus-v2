@@ -16,10 +16,11 @@ function SettingsPage() {
   const [profileImgSrc, setProfileImgSrc] = useState("");
   const [sound, setSound] = useState("");
   const [isOpen, setIsOpen] = useState(true);
+  const URL = import.meta.env.VITE_URL;
 
   useEffect(() => {
     const fetchSettings = async () => {
-      const res = await fetch("http://localhost:5050/data/settings", {
+      const res = await fetch(`${URL}data/settings`, {
         method: "GET",
         credentials: "include",
       });

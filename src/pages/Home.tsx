@@ -8,6 +8,7 @@ import { useEffect, useState } from "react";
 import { backgrounds } from "../assets/BackgroundImages";
 
 function Home() {
+  const URL = import.meta.env.VITE_URL;
   const greetArr = ["Good Morning", "Hello", "Good Evening"];
   const [showBgModal, setShowBgModal] = useState(false);
   const [bgSrc, setBgSrc] = useState("");
@@ -31,7 +32,7 @@ function Home() {
     setBgSrc(src);
     setClockDivColor(color);
     const updateBgSetting = async () => {
-      const res = await fetch("http://localhost:5050/data/home", {
+      const res = await fetch(`${URL}data/home`, {
         method: "POST",
         credentials: "include",
         headers: {
@@ -45,7 +46,7 @@ function Home() {
 
   useEffect(() => {
     const fetchBg = async () => {
-      const res = await fetch("http://localhost:5050/data/home", {
+      const res = await fetch(`${URL}data/home`, {
         method: "GET",
         credentials: "include",
       });

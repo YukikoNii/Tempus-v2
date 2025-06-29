@@ -11,18 +11,17 @@ interface EntryProps {
 }
 
 const Entry = ({ entry, onCheck, onEdit }: EntryProps) => {
+  const URL = import.meta.env.URL;
   const [isExpanded, setIsExpanded] = useState(false);
   const selectedPriority = Priorities.find((pr) => pr.name == entry.priority);
   const toggleEntry = () => {
     setIsExpanded(!isExpanded);
   };
 
-  const URL = import.meta.env.URL;
-
   const deleteEntry = () => {
     onCheck();
     const deleteEntryFromDB = async () => {
-      await fetch(`${URL}/data/todo/delete`, {
+      await fetch(`${URL}data/todo/delete`, {
         method: "POST",
         credentials: "include",
         headers: {

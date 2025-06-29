@@ -16,6 +16,7 @@ const TodoModal = ({
   isOpen,
   onClose,
 }: TodoModalProps) => {
+  const URL = import.meta.env.VITE_URL;
   const titleRef = useRef<HTMLInputElement>(null);
   const modalRef = useRef<HTMLDivElement>(null);
   const [showTitleAlert, setShowTitleAlert] = useState(false);
@@ -83,7 +84,7 @@ const TodoModal = ({
     } else {
       setShowTitleAlert(false);
       const addEntry = async () => {
-        await fetch("http://localhost:5050/data/todo/add", {
+        await fetch(`${URL}data/todo/add`, {
           method: "POST",
           credentials: "include",
           headers: {
