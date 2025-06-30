@@ -24,7 +24,10 @@ router.post("/signup", async (req, res) => {
       username: req.body.username,
       email: req.body.email,
       password: hashedPassword,
-      salt: salt, // not needed
+      bgName: "Mountains",
+      profileImgName: "Default",
+      soundName: "Default",
+      memo: "",
     };
 
     let result = await collection.insertOne(newUserInfo);
