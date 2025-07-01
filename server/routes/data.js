@@ -3,6 +3,7 @@ import db from "../db/connection.js";
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
 import verifyUser from "./middleware.js";
+import logout from "./logout.js";
 import { ObjectId } from "mongodb";
 
 const router = express.Router();
@@ -23,7 +24,10 @@ router.post("/signup", async (req, res) => {
       username: req.body.username,
       email: req.body.email,
       password: hashedPassword,
-      salt: salt, // not needed
+      bgName: "Mountains",
+      profileImgName: "Default",
+      soundName: "Default",
+      memo: "",
     };
 
     let result = await collection.insertOne(newUserInfo);
@@ -32,6 +36,8 @@ router.post("/signup", async (req, res) => {
     res.status(500).send("Error creating new user");
   }
 });
+
+router.post("/logout", logout);
 
 const doesEmailExist = async (email, collection) => {
   const result = await collection.countDocuments(
@@ -50,7 +56,9 @@ const doesUsernameExist = async (username, collection) => {
 };
 
 const getUser = async (username, password, collection) => {
+  console.log("getUser called");
   const result = await collection.findOne({ username: username });
+  console.log("user found");
   if (!result) {
     return null;
   } else {
@@ -62,23 +70,30 @@ const getUser = async (username, password, collection) => {
 
 router.post("/login", async (req, res) => {
   try {
+    console.log("login route successfully reached");
     let collection = await db.collection("users");
     const user = await getUser(
       req.body.username,
       req.body.password,
       collection
     );
+    console.log("user obtained");
     if (user) {
       const token = jwt.sign({ userId: user._id }, process.env.JWT_SECRET, {
         expiresIn: "300h",
       });
 
+      console.log("token defined: ", token);
       res.cookie("token", token, {
         httpOnly: true,
-        secure: false, // for development
-        sameSite: "lax",
+        secure: process.env.NODE_ENV == "production",
+        sameSite: "None",
         maxAge: 300 * 60 * 60 * 1000,
+        path: "/",
       });
+
+      console.log("cookie is set.");
+
       return res.status(200).send("Successfully logged in");
     } else {
       return res.status(401).send("Incorrect login information");
@@ -86,6 +101,15 @@ router.post("/login", async (req, res) => {
   } catch (e) {
     res.status(500).send("Some error occured");
   }
+});
+
+router.get("/set-test-cookie", (req, res) => {
+  res
+    .cookie("test", "123", {
+      secure: true,
+      sameSite: "none",
+    })
+    .send("Cookie set");
 });
 
 router.get("/settings", verifyUser, async (req, res) => {
@@ -132,6 +156,8 @@ router.get("/todo", verifyUser, async (req, res) => {
 });
 
 router.post("/todo/add", verifyUser, async (req, res) => {
+  console.log("userId: ", req.userId);
+  console.log("mode: ", req.body.editMode);
   let todoCollection = db.collection("todo");
   let result;
   if (req.body.editMode) {
@@ -140,6 +166,7 @@ router.post("/todo/add", verifyUser, async (req, res) => {
       title: req.body.title,
       description: req.body.description,
       dueDate: req.body.dueDate,
+      dueTime: req.body.dueTime,
       priority: req.body.priority,
       tags: req.body.tags,
     };
@@ -154,6 +181,7 @@ router.post("/todo/add", verifyUser, async (req, res) => {
       title: req.body.title,
       description: req.body.description,
       dueDate: req.body.dueDate,
+      dueTime: req.body.dueTime,
       priority: req.body.priority,
       tags: req.body.tags,
     };

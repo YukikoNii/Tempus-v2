@@ -1,10 +1,7 @@
 import styles from "../pages/TimePage.module.css";
 import { useState, useEffect, useRef } from "react";
-import { Sounds } from "../assets/AlarmSounds";
 
 export const Stopwatch = () => {
-  const [isStartBtnVisible, setIsStartBtnVisible] = useState(true);
-  const [isStopBtnVisible, setIsStopBtnVisible] = useState(false);
   const [milisecond, setMilisecond] = useState(0);
   const [centisecond, setCentisecond] = useState("00");
   const [second, setSecond] = useState("00");
@@ -115,16 +112,15 @@ export const Stopwatch = () => {
       </div>
 
       <div className={styles.stopwatchButtons}>
-        {isStartBtnVisible && (
-          <button
-            className={`${styles.swb} ${styles.start}`}
-            onClick={() => {
-              run();
-            }}
-          >
-            {isRunning ? "STOP" : "START"}
-          </button>
-        )}
+        <button
+          className={`${styles.swb} ${styles.start}`}
+          onClick={() => {
+            run();
+          }}
+        >
+          {isRunning ? "STOP" : "START"}
+        </button>
+
         <button
           className={`${styles.swb} ${styles.reset}`}
           onClick={() => reset()}

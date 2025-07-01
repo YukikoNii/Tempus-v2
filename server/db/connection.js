@@ -5,6 +5,7 @@ const client = new MongoClient(process.env.MONGO_URI, {
     version: ServerApiVersion.v1,
     strict: true,
     deprecationErrors: true,
+    tls: true,
   },
 });
 

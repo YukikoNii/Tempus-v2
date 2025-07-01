@@ -5,19 +5,20 @@ import { useState } from "react";
 import Header from "../components/Header";
 
 function LoginPage() {
-  const URL = import.meta.env.URL;
   const navigate = useNavigate();
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [loginInfoAlert, setLoginInfoAlert] = useState("");
   interface LoginFormEvent extends React.FormEvent<HTMLFormElement> {}
+  const URL = import.meta.env.VITE_URL;
+  console.log(URL);
 
   async function handleSubmit(e: LoginFormEvent) {
     e.preventDefault();
 
     try {
       const info = { username: username, password: password };
-      const response = await fetch(`${URL}/data/login`, {
+      const response = await fetch(`${URL}data/login`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

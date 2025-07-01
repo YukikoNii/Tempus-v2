@@ -1,39 +1,31 @@
 import styles from "./TodoModal.module.css";
 import { useRef, useEffect, useState } from "react";
+import { EntryType } from "../types/EntryType";
+import { Priorities } from "./Priorities";
 
 interface TodoModalProps {
   isEditModeOn: boolean;
-  id: string;
-  savedTitle: string;
-  savedDescription: string;
-  savedDueDate: string;
-  savedDueTime: string;
-  savedPriority: string;
+  savedEntryDetails: EntryType;
   isOpen: boolean;
   onClose: () => void;
 }
 
 const TodoModal = ({
   isEditModeOn,
-  id,
-  savedTitle,
-  savedDescription,
-  savedDueDate,
-  savedDueTime,
-  savedPriority,
+  savedEntryDetails,
   isOpen,
   onClose,
 }: TodoModalProps) => {
-  console.log(savedPriority);
+  const URL = import.meta.env.VITE_URL;
   const titleRef = useRef<HTMLInputElement>(null);
   const modalRef = useRef<HTMLDivElement>(null);
   const [showTitleAlert, setShowTitleAlert] = useState(false);
-  const [title, setTitle] = useState(savedTitle);
-  const [description, setDescription] = useState(savedDescription);
-  const [priority, setPriority] = useState(savedPriority);
+  const [title, setTitle] = useState(savedEntryDetails.title);
+  const [description, setDescription] = useState(savedEntryDetails.description);
+  const [priority, setPriority] = useState(savedEntryDetails.priority);
   const [date, setDate] = useState(() => {
     if (isEditModeOn) {
-      return savedDueDate;
+      return savedEntryDetails.dueDate;
     } else {
       const today = new Date();
       return today.toISOString().split("T")[0];
@@ -41,7 +33,7 @@ const TodoModal = ({
   });
   const [time, setTime] = useState(() => {
     if (isEditModeOn) {
-      return savedDueTime;
+      return savedEntryDetails.dueTime;
     } else {
       const today = new Date();
       return today.toISOString().split("T")[1].slice(0, 5);
@@ -92,7 +84,7 @@ const TodoModal = ({
     } else {
       setShowTitleAlert(false);
       const addEntry = async () => {
-        await fetch("http://localhost:5050/data/todo/add", {
+        await fetch(`${URL}data/todo/add`, {
           method: "POST",
           credentials: "include",
           headers: {
@@ -106,7 +98,7 @@ const TodoModal = ({
             priority: priority,
             tags: tags,
             editMode: isEditModeOn,
-            id: id,
+            id: savedEntryDetails._id,
           }),
         });
       };
@@ -190,7 +182,7 @@ const TodoModal = ({
             <label className={styles.taglabel}>Tag</label>
             <div className={styles.tagContainer}>
               <div className={styles.tagBox}>
-                {[...tags].map((tag, index) => {
+                {tags.map((tag, index) => {
                   return (
                     <div key={index} className={styles.tagItem}>
                       <span className={styles.tagItemName}>{tag}</span>
@@ -226,9 +218,9 @@ const TodoModal = ({
               value={priority}
               onChange={(e) => setPriority(e.target.value)}
             >
-              <option>High </option>
-              <option>Medium</option>
-              <option>Low</option>
+              {Priorities.map((priority) => (
+                <option>{priority.name}</option>
+              ))}
             </select>
           </div>
         </div>

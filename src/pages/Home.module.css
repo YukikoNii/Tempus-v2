@@ -24,8 +24,6 @@
   transition-duration: 0.3s;
 }
 
-
-
 .clock, .task, .stats {
   box-shadow: 0 0 20px 8px #d4d3d3;
   border-width: 0px;

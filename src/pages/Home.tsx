@@ -8,6 +8,7 @@ import { useEffect, useState } from "react";
 import { backgrounds } from "../assets/BackgroundImages";
 
 function Home() {
+  const URL = import.meta.env.VITE_URL;
   const greetArr = ["Good Morning", "Hello", "Good Evening"];
   const [showBgModal, setShowBgModal] = useState(false);
   const [bgSrc, setBgSrc] = useState("");
@@ -15,6 +16,7 @@ function Home() {
   const [date, setDate] = useState("");
   const [clockDivColor, setClockDivColor] = useState("");
   const [isOpen, setIsOpen] = useState(true);
+
   type EntryType = {
     _id: string;
     userId: string;
@@ -23,8 +25,6 @@ function Home() {
     priority: string;
     title: string;
     tags: Array<string>;
-
-    // Add other fields if needed
   };
   const [entries, setEntries] = useState<EntryType[]>([]);
 
@@ -32,7 +32,7 @@ function Home() {
     setBgSrc(src);
     setClockDivColor(color);
     const updateBgSetting = async () => {
-      const res = await fetch("http://localhost:5050/data/home", {
+      const res = await fetch(`${URL}data/home`, {
         method: "POST",
         credentials: "include",
         headers: {
@@ -46,9 +46,12 @@ function Home() {
 
   useEffect(() => {
     const fetchBg = async () => {
-      const res = await fetch("http://localhost:5050/data/home", {
+      const res = await fetch(`${URL}data/home`, {
         method: "GET",
         credentials: "include",
+        headers: {
+          "Content-Type": "application/json",
+        },
       });
       if (res) {
         const data = await res.json();

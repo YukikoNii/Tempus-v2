@@ -4,11 +4,13 @@ import AppHeader from "../components/AppHeader";
 import Entry from "../components/Entry";
 import "material-icons/iconfont/material-icons.css";
 import TodoModal from "../components/TodoModal";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo } from "react";
 import { backgrounds } from "../assets/BackgroundImages";
 import { Priorities } from "../components/Priorities";
+import { EntryType } from "../types/EntryType";
 
 function TodoPage() {
+  const URL = import.meta.env.VITE_URL;
   const [showModal, setShowModal] = useState(false);
   const [isPriorityListVisible, setIsPriorityListVisible] = useState(false);
   const [selectedPriority, setSelectedPriority] = useState("");
@@ -18,32 +20,27 @@ function TodoPage() {
   const [isOpen, setIsOpen] = useState(true);
   const [tags, setTags] = useState(new Set<string>());
   const [isEditMode, setIsEditMode] = useState(false);
-  const [id, setId] = useState("");
-  const [title, setTitle] = useState("");
-  const [description, setDescription] = useState("");
-  const [dueDate, setDueDate] = useState("");
-  const [dueTime, setDueTime] = useState("");
-  const [priority, setPriority] = useState("");
+  const [entryDetails, setEntryDetails] = useState<EntryType>({
+    _id: "",
+    userId: "",
+    description: "",
+    dueDate: "",
+    dueTime: "",
+    priority: "",
+    title: "",
+    tags: [],
+  });
 
-  type countDict = {
-    [key: string]: number;
-  };
-  let priorityCounts: countDict = {};
+  const [entries, setEntries] = useState<EntryType[]>([]);
 
-  // define an Entry Type
-  type Entry = {
-    _id: string;
-    userId: string;
-    description: string;
-    dueDate: string;
-    dueTime: string;
-    priority: string;
-    title: string;
-    tags: Array<string>;
+  const priorityCounts = useMemo(() => {
+    const counts: { [key: string]: number } = {};
+    entries.forEach((entry) => {
+      counts[entry.priority] = (counts[entry.priority] || 0) + 1;
+    });
+    return counts;
+  }, [entries]);
 
-    // Add other fields if needed
-  };
-  const [entries, setEntries] = useState<Entry[]>([]);
   const containerStyle = {
     gridRow: "2/6",
     gridColumn: "2/4",
@@ -70,7 +67,7 @@ function TodoPage() {
     }
   };
 
-  const removeEntry = (completedEntry: Entry) => {
+  const removeEntry = (completedEntry: EntryType) => {
     setTimeout(
       () =>
         setEntries((entries) =>
@@ -82,9 +79,12 @@ function TodoPage() {
 
   useEffect(() => {
     const fetchBg = async () => {
-      const res = await fetch("http://localhost:5050/data/todo", {
+      const res = await fetch(`${URL}data/todo`, {
         method: "GET",
         credentials: "include",
+        headers: {
+          "Content-Type": "application/json",
+        },
       });
       if (res) {
         const data = await res.json();
@@ -137,41 +137,24 @@ function TodoPage() {
           {showModal && (
             <TodoModal
               isEditModeOn={isEditMode}
-              id={id}
-              savedTitle={title}
-              savedDescription={description}
-              savedDueDate={dueDate}
-              savedDueTime={dueTime}
-              savedPriority={priority}
+              savedEntryDetails={entryDetails}
               isOpen={showModal}
               onClose={() => setShowModal(false)}
             ></TodoModal>
           )}
           <div className={styles.list}>
             {entries.map((entry) => {
-              const key = entry.priority;
-              priorityCounts[key] = (priorityCounts[key] || 0) + 1;
               return (selectedPriority === "" ||
                 selectedPriority === entry.priority) &&
                 (selectedTag === "" || entry.tags.includes(selectedTag)) ? (
                 <Entry
                   key={entry._id}
-                  id={entry._id}
-                  title={entry.title}
-                  description={entry.description}
-                  dueDate={entry.dueDate}
-                  priority={entry.priority}
-                  tags={entry.tags}
+                  entry={entry}
                   onCheck={() => removeEntry(entry)}
                   onEdit={() => {
                     setShowModal(true);
                     setIsEditMode(true);
-                    setId(entry._id);
-                    setTitle(entry.title);
-                    setDescription(entry.description);
-                    setDueDate(entry.dueDate);
-                    setDueTime(entry.dueTime);
-                    setPriority(entry.priority);
+                    setEntryDetails(entry);
                   }}
                 ></Entry>
               ) : null;
@@ -192,7 +175,7 @@ function TodoPage() {
                 <div
                   key={index}
                   className={styles.tag}
-                  onClick={(e) => handleTag(name)}
+                  onClick={() => handleTag(name)}
                   style={
                     selectedTag === name
                       ? { backgroundColor: "rgb(221, 221, 221)" }
@@ -216,7 +199,7 @@ function TodoPage() {
                   <div
                     key={index}
                     className={styles.pr}
-                    onClick={(e) => handlePriority(priority.name)}
+                    onClick={() => handlePriority(priority.name)}
                     style={
                       selectedPriority === priority.name
                         ? { backgroundColor: priority.selectedColor }

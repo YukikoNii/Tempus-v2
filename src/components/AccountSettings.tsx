@@ -15,6 +15,7 @@ export const AccountSettings = ({
   currentEmail,
   changePic,
 }: AccountSettingsProp) => {
+  const URL = import.meta.env.VITE_URL;
   const [username, setUsername] = useState(currentUsername || "");
   const [email, setEmail] = useState(currentEmail || "");
 
@@ -39,7 +40,7 @@ export const AccountSettings = ({
     setProfileImgSrc(src);
     changePic(src);
     const saveProfileImageToDB = async () => {
-      const res = await fetch("http://localhost:5050/data/accountSettings", {
+      const res = await fetch(`${URL}data/accountSettings`, {
         method: "POST",
         credentials: "include",
         headers: {
@@ -59,17 +60,14 @@ export const AccountSettings = ({
       setIsUsernameDisabled(true);
     } else {
       const saveUsernameToDB = async () => {
-        const res = await fetch(
-          "http://localhost:5050/data/accountSettings/username",
-          {
-            method: "POST",
-            credentials: "include",
-            headers: {
-              "Content-Type": "application/json",
-            },
-            body: JSON.stringify({ username: username }),
-          }
-        );
+        const res = await fetch(`${URL}data/accountSettings/username`, {
+          method: "POST",
+          credentials: "include",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ username: username }),
+        });
         if (res.ok) {
           currentUsername = username;
           setUsernameAlert("");
@@ -96,17 +94,14 @@ export const AccountSettings = ({
       setIsEmailDisabled(true);
     } else {
       const saveEmailToDB = async () => {
-        const res = await fetch(
-          "http://localhost:5050/data/accountSettings/email",
-          {
-            method: "POST",
-            credentials: "include",
-            headers: {
-              "Content-Type": "application/json",
-            },
-            body: JSON.stringify({ email: email }),
-          }
-        );
+        const res = await fetch(`${URL}data/accountSettings/email`, {
+          method: "POST",
+          credentials: "include",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ email: email }),
+        });
         if (res.ok) {
           currentEmail = email; // TODO: fix direct assign, use state
           setShowEmailAlert(false);
@@ -121,9 +116,12 @@ export const AccountSettings = ({
 
   useEffect(() => {
     const fetchBg = async () => {
-      const res = await fetch("http://localhost:5050/data/accountSettings", {
+      const res = await fetch(`${URL}data/accountSettings`, {
         method: "GET",
         credentials: "include",
+        headers: {
+          "Content-Type": "application/json",
+        },
       });
       if (res) {
         const data = await res.json();

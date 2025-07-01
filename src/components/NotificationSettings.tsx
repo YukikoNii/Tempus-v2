@@ -7,6 +7,7 @@ interface NotificationSettingsProps {
 }
 
 export const NotificationSettings = ({ sound }: NotificationSettingsProps) => {
+  const URL = import.meta.env.VITE_URL;
   const [selectedSound, setSelectedSound] = useState(sound);
   const soundRef = useRef<HTMLAudioElement | null>(null); // I don't fully understand this
 
@@ -25,17 +26,14 @@ export const NotificationSettings = ({ sound }: NotificationSettingsProps) => {
 
   const updateSound = () => {
     const saveSoundToDB = async () => {
-      const res = await fetch(
-        "http://localhost:5050/data/notificationSettings",
-        {
-          method: "POST",
-          credentials: "include",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({ soundName: selectedSound }),
-        }
-      );
+      const res = await fetch(`${URL}data/notificationSettings`, {
+        method: "POST",
+        credentials: "include",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ soundName: selectedSound }),
+      });
     };
     saveSoundToDB();
   };
