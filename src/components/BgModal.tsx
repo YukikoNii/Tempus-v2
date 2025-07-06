@@ -4,7 +4,7 @@ import { useEffect, useRef } from "react";
 
 interface BgModalProps {
   onClose: () => void;
-  onSelect: (arg0: string, arg1: string, arg2: string) => void;
+  onSelect: (name: string, src: string, color: string) => void;
 }
 
 const BgModal = ({ onClose, onSelect }: BgModalProps) => {

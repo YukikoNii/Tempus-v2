@@ -3,9 +3,9 @@ import { MongoClient, ServerApiVersion } from "mongodb";
 const client = new MongoClient(process.env.MONGO_URI, {
   serverApi: {
     version: ServerApiVersion.v1,
-    strict: true,
+    strict: true, // enforce strict adherence to the specified serverApi version
     deprecationErrors: true,
-    tls: true,
+    tls: true, // tls = transport layer security. This means connection to MongoDB uses encryption
   },
 });
 

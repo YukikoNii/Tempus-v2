@@ -6,6 +6,8 @@ import verifyUser from "./middleware.js";
 import logout from "./logout.js";
 import { ObjectId } from "mongodb";
 
+// create router object (to define routes separately from main express app)
+// not exactly necessary at the moment
 const router = express.Router();
 
 router.post("/signup", async (req, res) => {
@@ -33,7 +35,7 @@ router.post("/signup", async (req, res) => {
     let result = await collection.insertOne(newUserInfo);
     res.status(204).send(result);
   } catch (e) {
-    res.status(500).send("Error creating new user");
+    res.status(500).send("Error signing up");
   }
 });
 
@@ -101,15 +103,6 @@ router.post("/login", async (req, res) => {
   } catch (e) {
     res.status(500).send("Some error occured");
   }
-});
-
-router.get("/set-test-cookie", (req, res) => {
-  res
-    .cookie("test", "123", {
-      secure: true,
-      sameSite: "none",
-    })
-    .send("Cookie set");
 });
 
 router.get("/settings", verifyUser, async (req, res) => {
@@ -268,11 +261,17 @@ router.get("/accountSettings", verifyUser, async (req, res) => {
 });
 
 router.post("/notificationSettings", verifyUser, async (req, res) => {
-  let collection = await db.collection("users");
-  const user = await collection.updateOne(
-    { _id: new ObjectId(req.userId) },
-    { $set: { soundName: req.body.soundName } }
-  ); // deprecated
+  try {
+    let collection = await db.collection("users");
+
+    let user = await collection.updateOne(
+      { _id: new ObjectId(req.userId) },
+      { $set: { soundName: req.body.soundName } }
+    ); // deprecated
+    res.status(204).send(user);
+  } catch (e) {
+    res.status(500).send("Database error");
+  }
 });
 
 router.get("/timer", verifyUser, async (req, res) => {
