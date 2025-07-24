@@ -9,6 +9,7 @@ import Home from "./pages/Home";
 import Calendar from "./pages/CalendarPage";
 import TodoPage from "./pages/TodoPage";
 import Time from "./pages/TimePage";
+import TimeTracking from "./pages/TimeTrackingPage";
 import SettingsPage from "./pages/SettingsPage";
 import { Routes, Route } from "react-router-dom";
 
@@ -24,6 +25,7 @@ function App() {
         <Route path="/resetPassword" element={<ResetPasswordPage />} />
         <Route path="/home" element={<Home />} />
         <Route path="/time" element={<Time />} />
+        <Route path="/time Tracking" element={<TimeTracking />} />
         <Route path="/todo" element={<TodoPage />} />
         <Route path="/calendar" element={<Calendar />} />
         <Route path="/settings" element={<SettingsPage />} />

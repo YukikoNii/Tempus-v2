@@ -72,6 +72,7 @@ const getUser = async (username, password, collection) => {
 
 router.post("/login", async (req, res) => {
   try {
+    console.log("NODE_ENV: ", process.env.NODE_ENV);
     console.log("login route successfully reached");
     let collection = await db.collection("users");
     const user = await getUser(
@@ -85,11 +86,12 @@ router.post("/login", async (req, res) => {
         expiresIn: "300h",
       });
 
+      console.log("JWT_SECRET: ", process.env.JWT_SECRET);
       console.log("token defined: ", token);
       res.cookie("token", token, {
         httpOnly: true,
         secure: process.env.NODE_ENV == "production",
-        sameSite: "None",
+        sameSite: "Lax",
         maxAge: 300 * 60 * 60 * 1000,
         path: "/",
       });

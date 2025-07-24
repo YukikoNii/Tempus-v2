@@ -13,5 +13,6 @@ export const Pages = [
   {name: "calendar", unselected: calendarUnselected, selected : calendarSelected},
   {name: "todo", unselected: todoUnselected, selected : todoSelected},
   {name: "time", unselected: timeUnselected, selected : timeSelected},
+  {name: "time Tracking", unselected: timeUnselected, selected : timeSelected},
 ];
 
