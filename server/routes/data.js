@@ -282,4 +282,38 @@ router.get("/timer", verifyUser, async (req, res) => {
   res.json(user);
 });
 
+router.get("/timeTracking", verifyUser, async (req, res) => {
+  let timeLogCollection = await db.collection("timeLog");
+  const timeLogs = 
+    await timeLogCollection
+      .find({ userId: new ObjectId(req.userId)})
+      .toArray();
+  res.json(timeLogs);
+});
+
+router.post("/timeTracking", verifyUser, async (req, res) => {
+  console.log("hello");
+  let timeLogCollection = await db.collection("timeLog");
+
+   let newTimeLog = {
+      name: req.body.name,
+      project: req.body.project,
+      duration: req.body.duration,
+      startTime: req.body.startTime,
+      endTime: req.body.endTime,
+      userId: new ObjectId(req.userId),
+    };
+  const result = await timeLogCollection.insertOne(newTimeLog);
+});
+
+router.post("/timeTracking/delete", verifyUser, async (req, res) => {
+  console.log(req.body.id);
+  let timeLogCollection = await db.collection("timeLog");
+  const result = await timeLogCollection.deleteOne({
+    _id: new ObjectId(req.body.id),
+  });
+  console.log(result);
+  res.status(200).json({ result });
+});
+
 export default router;

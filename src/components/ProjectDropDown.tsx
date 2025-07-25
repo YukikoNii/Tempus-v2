@@ -1,16 +1,15 @@
 
 import styles from "./ProjectDropDown.module.css";
 import { useEffect, useState, useRef } from "react";
-import { Link } from "react-router-dom";
 
-interface projectNamePos {
+interface projectProp {
   x: number,
   y: number
+  onSelect: (selectedProject : string) => void;
 }
 
-const ProjectDropDown = ({ x, y }: projectNamePos) => {
+const ProjectDropDown = ({ x, y, onSelect }: projectProp) => {
   const URL = import.meta.env.VITE_URL;
-  const [text, setText] = useState("");
   const isInitialMount = useRef(true);
 
   const style: React.CSSProperties= { 
@@ -22,9 +21,10 @@ const ProjectDropDown = ({ x, y }: projectNamePos) => {
     <>
         <div className={styles.dropDown} style={style}>
             <div className={styles.dropDownContent}>
-                <div>Personal Development</div>
-                <div>Health</div>
-                <div>Leisure</div>
+                <button value="No Project" className={styles.projectOption} onClick={() => onSelect("No Project")}>No Project</button>
+                <button className={styles.projectOption} onClick={() => onSelect("Personal Development")}>Personal Development</button>
+                <button className={styles.projectOption} onClick={() => onSelect("Health")}>Health</button>
+                <button className={styles.projectOption} onClick={() => onSelect("Leisure")}>Leisure</button>
             </div>
         </div>
     </>

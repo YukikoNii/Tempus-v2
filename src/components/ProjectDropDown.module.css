@@ -7,7 +7,7 @@
 
 .dropDownContent {
   background-color:white;
-  width:7em;
+  width:15em;
   border:0.5px solid #ddd;
   display:grid;
   grid-template-rows: 1fr 1fr;
@@ -16,18 +16,15 @@
   opacity:1; 
 }
 
-.dropDownLink {
-  height:2em;
-  align-self:start;
-  padding-left:0.7em;
-  cursor:default;
-  transition-duration:0.5s;
-  color : #525252;
-  text-decoration: none;
-
+.projectOption {
+    margin:0.2em;
+    padding:0.4em 0em 0.4em 1em;
+    text-wrap-mode: nowrap;
+    text-align:left;
+    border-radius:0.5em;
 }
 
-.dropDownLink:hover {
-  background-color:#eee;
-  transition-duration:0.5s;
+.projectOption:hover {
+    background-color:#f3e3e3;
+    transition-duration: 0.3s;
 }

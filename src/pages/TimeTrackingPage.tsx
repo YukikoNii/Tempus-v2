@@ -3,7 +3,6 @@ import Sidebar from "../components/Sidebar";
 import AppHeader from "../components/AppHeader";
 import Entry from "../components/Entry";
 import "material-icons/iconfont/material-icons.css";
-import TodoModal from "../components/TodoModal";
 import { useState, useEffect, useRef } from "react";
 import { backgrounds } from "../assets/BackgroundImages";
 import { Priorities } from "../components/Priorities";
@@ -12,19 +11,20 @@ import ProjectDropDown from "../components/ProjectDropDown";
 
 function TimeTrackingPage() {
   const URL = import.meta.env.VITE_URL;
-  const [newTaskName, setNewTaskName] = useState("");
-  const [entries, setEntries] = useState<EntryType[]>([]);
+  const [newLogName, setnewLogName] = useState("");
+  const [newLogProject, setNewLogProject] = useState("Personal Development");
   const [isOpen, setIsOpen] = useState(true);
-  const [newTaskRun, IsNewTaskRun] = useState(false);
+  const [newLogRun, IsNewLogRun] = useState(false);
   const [elapsedTime, setElapsedTime] = useState(0);
   const [startTime, setStartTime] = useState(0);
   const [formattedTime, setFormattedTime] = useState("00:00:00");
-  const [records, setRecords] = useState<TimeRecord[]>([]);
+  const [logs, setLogs] = useState<TimeLog[]>([]);
   const [showDropDown, setShowDropDown] = useState(false);
-  const projectRef = useRef<HTMLDivElement>(null);
-  type TimeRecord = {
+  const projectRef = useRef<HTMLButtonElement>(null);
+  type TimeLog = {
+    _id: string,
     name: string, 
-    category: string,
+    project: string,
     duration: number, 
     startTime: Date,
     endTime: Date,
@@ -34,15 +34,60 @@ function TimeTrackingPage() {
     backgroundColor: "#026670"
   }
 
+  const addLog = async () => {
+    if (!newLogRun && elapsedTime != 0) {
+      await fetch(`${URL}data/timeTracking`, {
+        method: "POST",
+        credentials: "include",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+              name: newLogName,
+              project: newLogProject,
+              duration: elapsedTime,
+              startTime: new Date(startTime),
+              endTime: new Date(startTime + elapsedTime)
+        }),
+      });
+    }
+  };
+
+  const deleteLog = async (log : TimeLog) => {
+    console.log(log);
+      await fetch(`${URL}data/timeTracking/delete`, {
+        method: "POST",
+        credentials: "include",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({id:log._id}),
+      });
+  };
 
   useEffect(() => {
-    console.log(projectRef.current?.getBoundingClientRect());
-  })
-
+      const fetchTimeLogs = async () => {
+        const res = await fetch(`${URL}data/timeTracking`, {
+          method: "GET",
+          credentials: "include",
+          headers: {
+            "Content-Type": "application/json",
+          },
+        });
+        if (res) {
+          const data = await res.json();
+          console.log(data);
+          const parsedTimeLogs = data.map((log : any) => ({
+            ...log, startTime: new Date(log.startTime), endTime: new Date(log.endTime)
+          }));
+          setLogs(parsedTimeLogs);
+        }
+      };
+      fetchTimeLogs();
+  }, [newLogRun]);
 
   useEffect(() => {
-    if (newTaskRun) {
-      console.log("run");
+    if (newLogRun) {
       const interval = setInterval(() => {
         const currentTime = Date.now();
         setElapsedTime(currentTime - startTime);
@@ -50,25 +95,11 @@ function TimeTrackingPage() {
       }, 10);
       return () => clearInterval(interval);
     } else {
-        addTask();
+        addLog();
         setFormattedTime("00:00:00");
+        setElapsedTime(0);
     }
-  },[newTaskRun, elapsedTime]);
-
-  const addTask = () => {
-    if (!newTaskRun && elapsedTime != 0) { 
-      setRecords([
-        ...records,
-        {
-          name: newTaskName,
-          category: "Personal Development",
-          duration: elapsedTime,
-          startTime: new Date(startTime),
-          endTime: new Date(startTime + elapsedTime)
-        }
-      ])
-    }
-  }
+  },[newLogRun, elapsedTime]);
 
   const formatTime = (miliseconds:number) => {
       const sec_str = (Math.floor(miliseconds / 1000) % 60).toString().padStart(2, "0");
@@ -90,12 +121,12 @@ function TimeTrackingPage() {
         <div className={styles.main}>
             <div className={styles.newTaskBox}>
             <input
-                className={styles.newTaskName}
-                value={newTaskName}
+                className={styles.newLogName}
+                value={newLogName}
                 placeholder="What are you going to work on?"
-                onChange={(e) => setNewTaskName(e.target.value)}
+                onChange={(e) => setnewLogName(e.target.value)}
             />
-            <button ref={projectRef} className={styles.projectName} onClick={() => setShowDropDown(!showDropDown)}>Personal Development</button>
+            <button ref={projectRef} className={styles.projectName} onClick={() => setShowDropDown(!showDropDown)}>{newLogProject}</button>
             <div className={styles.stopwatch}>
               <div className={styles.stopWatchDiv}>
                 <div className={`${styles.swelement} ${styles.sp}`}>{formattedTime}</div>
@@ -104,27 +135,29 @@ function TimeTrackingPage() {
             <button
               className={`material-symbols-outlined ${styles.newTaskBtn}`} 
               onClick={() => {
-                IsNewTaskRun(!newTaskRun);
+                IsNewLogRun(!newLogRun);
                 setStartTime(Date.now());
                 }}
-                style={newTaskRun ? {backgroundColor: "#525252"} : btnPlayStyle}
+                style={newLogRun ? {backgroundColor: "#525252"} : btnPlayStyle}
                 >
-              {newTaskRun ? "stop" : "play_arrow"}
+              {newLogRun ? "stop" : "play_arrow"}
             </button>
-            <button className={`material-symbols-outlined ${styles.deleteBtn}`} onClick={() => IsNewTaskRun(!newTaskRun)}>
+            <button className={`material-symbols-outlined ${styles.deleteBtn}`} onClick={() => IsNewLogRun(!newLogRun)}>
               delete
             </button>
             </div>
             <div className={styles.list}>
-              {records.map((record, key) => {
+              {logs.map((log, key) => {
                 return (
                   <div key={key} className={styles.record}>
                     <input
-                      value={record.name}
-                    ></input> {/* make this editable */}
-                    <div>{record.category}</div>
-                    <div>{record.startTime.toTimeString().substring(0,8)} - {record.endTime.toTimeString().substring(0,8)}</div>
-                    <div>{formatTime(record.duration)}</div>
+                      value={log.name}
+                    ></input> 
+                    <div>{log.project}</div>
+
+                    <div>{log.startTime.toTimeString().substring(0,8)} - {log.endTime.toTimeString().substring(0,8)}</div>
+                    <div>{formatTime(log.duration)}</div>
+                    <button className={`material-symbols-outlined ${styles.deleteBtn}`} onClick={() => deleteLog(log)}>delete</button>
                   </div>
                 )
               })}
@@ -133,7 +166,7 @@ function TimeTrackingPage() {
         </div>
       </div>
     </div>
-    {(showDropDown && projectRef.current) && <ProjectDropDown x={projectRef.current?.getBoundingClientRect().left} y={projectRef.current?.getBoundingClientRect().y + projectRef.current?.getBoundingClientRect().height}></ProjectDropDown>}
+    {(showDropDown && projectRef.current) && <ProjectDropDown x={projectRef.current?.getBoundingClientRect().left} y={projectRef.current?.getBoundingClientRect().y + projectRef.current?.getBoundingClientRect().height} onSelect={(selected) => {setNewLogProject(selected); console.log("working");}}></ProjectDropDown>}
     </>
   );
 }
