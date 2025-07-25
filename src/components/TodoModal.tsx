@@ -23,6 +23,8 @@ const TodoModal = ({
   const [title, setTitle] = useState(savedEntryDetails.title);
   const [description, setDescription] = useState(savedEntryDetails.description);
   const [priority, setPriority] = useState(savedEntryDetails.priority);
+  const [tags, setTags] = useState<string[]>([]);
+  const [tag, setTag] = useState("");
   const [date, setDate] = useState(() => {
     if (isEditModeOn) {
       return savedEntryDetails.dueDate;
@@ -39,8 +41,6 @@ const TodoModal = ({
       return today.toISOString().split("T")[1].slice(0, 5);
     }
   });
-  const [tags, setTags] = useState<string[]>([]);
-  const [tag, setTag] = useState("");
 
   useEffect(() => {
     const handleClickOutside = (e: MouseEvent) => {
