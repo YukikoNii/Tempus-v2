@@ -291,8 +291,13 @@ router.get("/timeTracking", verifyUser, async (req, res) => {
   res.json(timeLogs);
 });
 
+router.get("/projectDropDown", verifyUser, async (req, res) => {
+  let projects = await db.collection("projects").find().toArray();
+  console.log(projects);
+  res.json(projects);
+});
+
 router.post("/timeTracking", verifyUser, async (req, res) => {
-  console.log("hello");
   let timeLogCollection = await db.collection("timeLog");
 
    let newTimeLog = {
@@ -314,6 +319,17 @@ router.post("/timeTracking/delete", verifyUser, async (req, res) => {
   });
   console.log(result);
   res.status(200).json({ result });
+});
+
+router.get("/timeLogCalendar/events/thisWeek", verifyUser, async (req, res) => {
+  let timeLogCollection = await db.collection("timeLog");
+  console.log("weekstart", req.query.weekStart);
+  const result = await timeLogCollection.find({
+    userId: new ObjectId(req.userId),
+    startTime: {$gt: parseInt(req.query.weekStart)},
+    startTime: {$lt: parseInt(req.query.weekStart) + 604800000},
+  }).toArray();
+  res.json(result);
 });
 
 export default router;

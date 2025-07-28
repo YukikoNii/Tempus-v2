@@ -10,21 +10,50 @@ interface projectProp {
 
 const ProjectDropDown = ({ x, y, onSelect }: projectProp) => {
   const URL = import.meta.env.VITE_URL;
-  const isInitialMount = useRef(true);
+  const [projects, setProjects] = useState<ProjectType[]>([]);
 
   const style: React.CSSProperties= { 
     position: "absolute",
     left: x,
     top: y,
   };
+
+  type ProjectType = {
+    name: string,
+    color: string
+  }
+
+  const fetchProjects = async () => {
+    const res = await fetch(`${URL}data/projectDropDown`, {
+      method: "GET",
+      credentials: "include",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+    if (res) {
+      const data = await res.json();
+      setProjects(data);
+    }
+  };
+
+  useEffect(() => {
+    fetchProjects();
+  }, [])
+
   return (
     <>
         <div className={styles.dropDown} style={style}>
             <div className={styles.dropDownContent}>
-                <button value="No Project" className={styles.projectOption} onClick={() => onSelect("No Project")}>No Project</button>
-                <button className={styles.projectOption} onClick={() => onSelect("Personal Development")}>Personal Development</button>
-                <button className={styles.projectOption} onClick={() => onSelect("Health")}>Health</button>
-                <button className={styles.projectOption} onClick={() => onSelect("Leisure")}>Leisure</button>
+                {projects.map((project, key) => (
+                  <button
+                    key={key}
+                    className={styles.projectOption}
+                    onClick={() => onSelect(project.name)}
+                    style={{backgroundColor: project.color}}
+                    >{project.name}</button>
+                  )
+                )}
             </div>
         </div>
     </>

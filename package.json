@@ -21,6 +21,7 @@
     "cors": "^2.8.5",
     "dotenv": "^16.5.0",
     "express": "^5.1.0",
+    "fast-csv": "^5.0.2",
     "jsonwebtoken": "^9.0.2",
     "material-icons": "^1.13.14",
     "material-symbols": "^0.31.8",

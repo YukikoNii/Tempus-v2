@@ -8,9 +8,11 @@ import { backgrounds } from "../assets/BackgroundImages";
 import { Priorities } from "../components/Priorities";
 import { EntryType } from "../types/EntryType";
 import ProjectDropDown from "../components/ProjectDropDown";
+import * as csv from "fast-csv";
+import TimeLogCalendarView from "../components/TimeLogCalendarView";
 
 function TimeTrackingPage() {
-  const URL = import.meta.env.VITE_URL;
+  const VITE_URL = import.meta.env.VITE_URL;
   const [newLogName, setnewLogName] = useState("");
   const [newLogProject, setNewLogProject] = useState("Personal Development");
   const [isOpen, setIsOpen] = useState(true);
@@ -21,6 +23,7 @@ function TimeTrackingPage() {
   const [logs, setLogs] = useState<TimeLog[]>([]);
   const [showDropDown, setShowDropDown] = useState(false);
   const projectRef = useRef<HTMLButtonElement>(null);
+  const anchorRef = useRef<HTMLAnchorElement>(null);
   type TimeLog = {
     _id: string,
     name: string, 
@@ -46,16 +49,16 @@ function TimeTrackingPage() {
               name: newLogName,
               project: newLogProject,
               duration: elapsedTime,
-              startTime: new Date(startTime),
-              endTime: new Date(startTime + elapsedTime)
+              startTime: startTime,
+              endTime: startTime + elapsedTime
         }),
       });
     }
+    fetchTimeLogs();
   };
 
   const deleteLog = async (log : TimeLog) => {
-    console.log(log);
-      await fetch(`${URL}data/timeTracking/delete`, {
+      await fetch(`${VITE_URL}data/timeTracking/delete`, {
         method: "POST",
         credentials: "include",
         headers: {
@@ -63,28 +66,26 @@ function TimeTrackingPage() {
         },
         body: JSON.stringify({id:log._id}),
       });
+    fetchTimeLogs();
   };
 
-  useEffect(() => {
-      const fetchTimeLogs = async () => {
-        const res = await fetch(`${URL}data/timeTracking`, {
-          method: "GET",
-          credentials: "include",
-          headers: {
-            "Content-Type": "application/json",
-          },
-        });
-        if (res) {
-          const data = await res.json();
-          console.log(data);
-          const parsedTimeLogs = data.map((log : any) => ({
-            ...log, startTime: new Date(log.startTime), endTime: new Date(log.endTime)
-          }));
-          setLogs(parsedTimeLogs);
-        }
-      };
-      fetchTimeLogs();
-  }, [newLogRun]);
+  const fetchTimeLogs = async () => {
+    const res = await fetch(`${VITE_URL}data/timeTracking`, {
+      method: "GET",
+      credentials: "include",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+    if (res) {
+      const data = await res.json();
+      const parsedTimeLogs = data.map((log : any) => ({
+        ...log, startTime: new Date(log.startTime), endTime: new Date(log.endTime)
+      }));
+      setLogs(parsedTimeLogs);
+    }
+  };
+
 
   useEffect(() => {
     if (newLogRun) {
@@ -108,6 +109,25 @@ function TimeTrackingPage() {
       
       return hour_str + ":" + min_str + ":" + sec_str; 
   }
+
+  const downloadCSV = () => {
+    const link = anchorRef.current;
+    if (!link) return 
+    const arr = [
+      ["name", "project", "duration", "start", "end"],
+      ...logs.map(log => [log.name, log.project, log.duration, log.startTime, log.endTime])
+    ]
+    .map(row => row.join(","))
+    .join("\n");
+
+
+    const blob = new Blob([arr], {type: 'text/csv;charset=utf-8;'});
+    const url = URL.createObjectURL(blob);
+    link.setAttribute('href', url)
+    link.setAttribute('download', "file.csv")
+    link.click();
+  }
+
 
 
   return (
@@ -146,6 +166,11 @@ function TimeTrackingPage() {
               delete
             </button>
             </div>
+            <div className={styles.viewOption}>
+              <div className={styles.viewOptions}>Calendar</div>
+              <div className={styles.viewOptions}>List</div>
+            </div>
+            <TimeLogCalendarView></TimeLogCalendarView>
             <div className={styles.list}>
               {logs.map((log, key) => {
                 return (
@@ -163,6 +188,8 @@ function TimeTrackingPage() {
               })}
 
             </div>
+            <button onClick={downloadCSV} className={styles.downloadBtn}>Download as CSV</button>
+            <a ref={anchorRef} style={{display: "None"}}></a> {/* hidden and automatically clicked when download button is pressed  */}
         </div>
       </div>
     </div>
