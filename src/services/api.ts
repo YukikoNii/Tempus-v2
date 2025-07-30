@@ -16,9 +16,7 @@ const http = {
             body: JSON.stringify(body)
         });
 
-        if (!res.ok) {
-            return res.json();
-        }
+        return res.json();
     }
 }
 
@@ -38,6 +36,9 @@ export const todoApi = {
 }
 
 export const homeApi = {
-    get: () => http.get("data/todo"),
+    get: () => http.get("data/home"),
     updateBg: (name : string) => http.post("data/home", { bgName : name }),
+    getMemo: () => http.get("data/home/memo"),
+    saveMemo: (text : string) => http.post("data/home/memo", { memo: text })
 }
+

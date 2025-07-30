@@ -1,23 +1,16 @@
 import styles from "./Memo.module.css";
 import { useEffect, useState, useRef } from "react";
+import { homeApi } from "../services/api";
+
 
 const Memo = () => {
-  const URL = import.meta.env.VITE_URL;
   const [text, setText] = useState("");
   const isInitialMount = useRef(true);
+  
   useEffect(() => {
     const handler = setTimeout(() => {
       const saveMemo = async () => {
-        const res = await fetch(`${URL}data/home/memo`, {
-          method: "POST",
-          credentials: "include",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            memo: text,
-          }),
-        });
+        await homeApi.saveMemo(text);
       };
       saveMemo();
     }, 1000);
@@ -34,17 +27,8 @@ const Memo = () => {
     }
 
     const fetchBg = async () => {
-      const res = await fetch(`${URL}data/home/memo`, {
-        method: "GET",
-        credentials: "include",
-        headers: {
-          "Content-Type": "application/json",
-        },
-      });
-      if (res) {
-        const data = await res.json();
-        setText(data.memo);
-      }
+      const data = await homeApi.getMemo();
+      setText(data.memo);
     };
     fetchBg();
   }, []);

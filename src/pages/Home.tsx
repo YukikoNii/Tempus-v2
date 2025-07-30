@@ -9,7 +9,6 @@ import { backgrounds } from "../assets/BackgroundImages";
 import { homeApi } from "../services/api";
 
 function Home() {
-  const URL = import.meta.env.VITE_URL;
   const greetArr = ["Good Morning", "Hello", "Good Evening"];
   const [showBgModal, setShowBgModal] = useState(false);
   const [bgSrc, setBgSrc] = useState("");
@@ -40,25 +39,18 @@ function Home() {
 
   useEffect(() => {
     const fetchBg = async () => {
-      const res = await fetch(`${URL}data/home`, {
-        method: "GET",
-        credentials: "include",
-        headers: {
-          "Content-Type": "application/json",
-        },
-      });
-      if (res) {
-        const data = await res.json();
-        const selectedBg = backgrounds.find(
+      const data = await homeApi.get();
+      
+      const selectedBg = backgrounds.find(
           (bg) => bg.name == data.user.bgName
         );
-        if (selectedBg) {
+      if (selectedBg) {
           setBgSrc(selectedBg.src);
           setClockDivColor(selectedBg.color);
-        }
-        setEntries(data.todos);
       }
-    };
+      
+      setEntries(data.todos);
+    }
     fetchBg();
   }, []); // [] to only execute once
 
