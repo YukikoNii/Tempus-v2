@@ -167,7 +167,7 @@ router.post("/todo/add", verifyUser, async (req, res) => {
     };
 
     result = await todoCollection.updateOne(
-      { _id: new ObjectId(req.body.id) },
+      { _id: new ObjectId(req.body._id) },
       { $set: updatedTodo }
     );
   } else {
