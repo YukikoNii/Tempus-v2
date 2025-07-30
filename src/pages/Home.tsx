@@ -6,6 +6,7 @@ import Memo from "../components/Memo";
 import BgModal from "../components/BgModal";
 import { useEffect, useState } from "react";
 import { backgrounds } from "../assets/BackgroundImages";
+import { homeApi } from "../services/api";
 
 function Home() {
   const URL = import.meta.env.VITE_URL;
@@ -32,14 +33,7 @@ function Home() {
     setBgSrc(src);
     setClockDivColor(color);
     const updateBgSetting = async () => {
-      const res = await fetch(`${URL}data/home`, {
-        method: "POST",
-        credentials: "include",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ bgName: name }),
-      });
+      await homeApi.updateBg(name);
     };
     updateBgSetting();
   };

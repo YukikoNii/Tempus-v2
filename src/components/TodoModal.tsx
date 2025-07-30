@@ -2,6 +2,7 @@ import styles from "./TodoModal.module.css";
 import { useRef, useEffect, useState } from "react";
 import { EntryType } from "../types/EntryType";
 import { Priorities } from "./Priorities";
+import { todoApi } from "../services/api";
 
 interface TodoModalProps {
   isEditModeOn: boolean;
@@ -10,13 +11,13 @@ interface TodoModalProps {
   onClose: () => void;
 }
 
+
 const TodoModal = ({
   isEditModeOn,
   savedEntryDetails,
   isOpen,
   onClose,
 }: TodoModalProps) => {
-  const URL = import.meta.env.VITE_URL;
   const titleRef = useRef<HTMLInputElement>(null);
   const modalRef = useRef<HTMLDivElement>(null);
   const [showTitleAlert, setShowTitleAlert] = useState(false);
@@ -77,32 +78,21 @@ const TodoModal = ({
     titleRef.current?.focus();
   }, [isOpen]);
 
-  const save = () => {
+  const save = async () => {
     if (title === "") {
       setShowTitleAlert(true);
       handleShake();
     } else {
       setShowTitleAlert(false);
-      const addEntry = async () => {
-        await fetch(`${URL}data/todo/add`, {
-          method: "POST",
-          credentials: "include",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            title: title,
-            description: description,
-            dueDate: date,
-            dueTime: time,
-            priority: priority,
-            tags: tags,
-            editMode: isEditModeOn,
-            id: savedEntryDetails._id,
-          }),
-        });
-      };
-      addEntry();
+      await todoApi.add(
+          savedEntryDetails._id,
+          title, 
+          description,
+          date,
+          time,
+          priority, 
+          tags     
+      )
       onClose();
     }
   };

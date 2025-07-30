@@ -51,7 +51,6 @@
   border:1px solid #026670;
 }
 
-
 .textField {
   width:80%;
   margin-left:2em;
@@ -136,8 +135,6 @@
 .cancel:hover {
   background-color: #F7F7F7;
 }
-
-
 
 /* Delete account section */
 .delHeading {

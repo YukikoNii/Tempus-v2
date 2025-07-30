@@ -2,6 +2,7 @@ import styles from "./Entry.module.css";
 import { useState } from "react";
 import { Priorities } from "./Priorities";
 import { EntryType } from "../types/EntryType";
+import { todoApi } from "../services/api";
 import "material-symbols";
 
 interface EntryProps {
@@ -11,26 +12,15 @@ interface EntryProps {
 }
 
 const Entry = ({ entry, onCheck, onEdit }: EntryProps) => {
-  const URL = import.meta.env.VITE_URL;
   const [isExpanded, setIsExpanded] = useState(false);
   const selectedPriority = Priorities.find((pr) => pr.name == entry.priority);
   const toggleEntry = () => {
     setIsExpanded(!isExpanded);
   };
 
-  const deleteEntry = () => {
+  const deleteEntry = async () => {
+    await todoApi.delete(entry._id);
     onCheck();
-    const deleteEntryFromDB = async () => {
-      await fetch(`${URL}data/todo/delete`, {
-        method: "POST",
-        credentials: "include",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ id: entry._id }),
-      });
-    };
-    deleteEntryFromDB();
   };
 
   const expandStyle = {
@@ -40,6 +30,7 @@ const Entry = ({ entry, onCheck, onEdit }: EntryProps) => {
   const containerExpandStyle = {
     gridTemplateRows: "1fr 1fr 1fr 1fr",
   };
+
   return (
     <div
       className={`${styles.entry}`}
@@ -68,7 +59,6 @@ const Entry = ({ entry, onCheck, onEdit }: EntryProps) => {
           </span>
         ))}
       </div>
-      <div className={styles[entry.priority]}>{selectedPriority?.symbol}</div>
       <div className={styles[entry.priority]}>{selectedPriority?.symbol}</div>
       <div
         className={`material-symbols-outlined ${styles.editIcon}`}

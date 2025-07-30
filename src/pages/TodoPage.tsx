@@ -8,6 +8,7 @@ import { useState, useEffect, useMemo } from "react";
 import { backgrounds } from "../assets/BackgroundImages";
 import { Priorities } from "../components/Priorities";
 import { EntryType } from "../types/EntryType";
+import { todoApi } from "../services/api";
 
 function TodoPage() {
   const URL = import.meta.env.VITE_URL;
@@ -79,15 +80,7 @@ function TodoPage() {
 
   useEffect(() => {
     const fetchBg = async () => {
-      const res = await fetch(`${URL}data/todo`, {
-        method: "GET",
-        credentials: "include",
-        headers: {
-          "Content-Type": "application/json",
-        },
-      });
-      if (res) {
-        const data = await res.json();
+        const data = await todoApi.get();
         const selectedBg = backgrounds.find(
           (bg) => bg.name == data.user.bgName
         );
@@ -101,24 +94,15 @@ function TodoPage() {
           }
         }
       }
-    };
     fetchBg();
   }, [showModal]);
 
   const togglePriorityList = () => {
-    if (isPriorityListVisible) {
-      setIsPriorityListVisible(false);
-    } else {
-      setIsPriorityListVisible(true);
-    }
+      setIsPriorityListVisible(!isPriorityListVisible);
   };
 
   const toggleTagList = () => {
-    if (isTagListVisible) {
-      setIsTagListVisible(false);
-    } else {
-      setIsTagListVisible(true);
-    }
+      setIsTagListVisible(!isTagListVisible);
   };
 
   return (
@@ -128,7 +112,6 @@ function TodoPage() {
     >
       <AppHeader></AppHeader>
       <Sidebar onToggle={() => setIsOpen(!isOpen)}></Sidebar>
-
       <div className={styles.container} style={containerStyle}>
         <div className={styles.main}>
           <button className={styles.add} onClick={() => setShowModal(true)}>
