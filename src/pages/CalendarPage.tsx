@@ -1,13 +1,11 @@
-import logoImg from "../assets/images/logo.png";
 import styles from "./CalendarPage.module.css";
 import Sidebar from "../components/Sidebar";
-import { Link } from "react-router-dom";
 import AppHeader from "../components/AppHeader";
 import "material-icons/iconfont/material-icons.css";
 import { useState, useEffect } from "react";
+import { calendarApi } from "../services/api";
 
 function Calendar() {
-  const URL = import.meta.env.VITE_URL;
   const [isOpen, setIsOpen] = useState(true);
   const [days, setDays] = useState<JSX.Element[]>([]); // create an array of JSX Elements
   const [date, setDate] = useState(new Date());
@@ -35,15 +33,8 @@ function Calendar() {
   useEffect(() => {
     let events: eventDict = {};
     const fetchEvents = async () => {
-      const res = await fetch(`${URL}data/calendar`, {
-        method: "GET",
-        credentials: "include",
-        headers: {
-          "Content-Type": "application/json",
-        },
-      });
-      if (res) {
-        const data = await res.json();
+      const data = await calendarApi.get();
+
         for (let i = 0; i < data.todos.length; i++) {
           events[data.todos[i].dueDate] = (
             events[data.todos[i].dueDate] || []
@@ -149,8 +140,6 @@ function Calendar() {
 
         setDays(newDays);
       }
-    };
-
     fetchEvents();
   }, [date]);
 

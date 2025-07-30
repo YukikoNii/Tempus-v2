@@ -42,3 +42,7 @@ export const homeApi = {
     saveMemo: (text : string) => http.post("data/home/memo", { memo: text })
 }
 
+export const calendarApi = {
+    get: () => http.get("data/calendar")
+}
+
