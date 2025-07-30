@@ -3,6 +3,7 @@ import styles from "./AccountSettings.module.css";
 import ProfileImgModal from "./ProfileImgModal";
 import DeleteAccountModal from "./DeleteAccountModal";
 import { useState, useEffect } from "react";
+import { settingsApi } from "../services/api";
 
 interface AccountSettingsProp {
   currentUsername: string;
@@ -15,7 +16,6 @@ export const AccountSettings = ({
   currentEmail,
   changePic,
 }: AccountSettingsProp) => {
-  const URL = import.meta.env.VITE_URL;
   const [username, setUsername] = useState(currentUsername || "");
   const [email, setEmail] = useState(currentEmail || "");
 
@@ -40,14 +40,7 @@ export const AccountSettings = ({
     setProfileImgSrc(src);
     changePic(src);
     const saveProfileImageToDB = async () => {
-      const res = await fetch(`${URL}data/accountSettings`, {
-        method: "POST",
-        credentials: "include",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ profileImgName: name }),
-      });
+      await settingsApi.saveProfileImg(name);
     };
     saveProfileImageToDB();
   };
@@ -60,15 +53,8 @@ export const AccountSettings = ({
       setIsUsernameDisabled(true);
     } else {
       const saveUsernameToDB = async () => {
-        const res = await fetch(`${URL}data/accountSettings/username`, {
-          method: "POST",
-          credentials: "include",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({ username: username }),
-        });
-        if (res.ok) {
+        const res = await settingsApi.saveUsername(username);
+        if (res) { //REVIEW - 
           currentUsername = username;
           setUsernameAlert("");
           setIsUsernameDisabled(true);
@@ -94,15 +80,8 @@ export const AccountSettings = ({
       setIsEmailDisabled(true);
     } else {
       const saveEmailToDB = async () => {
-        const res = await fetch(`${URL}data/accountSettings/email`, {
-          method: "POST",
-          credentials: "include",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({ email: email }),
-        });
-        if (res.ok) {
+        const res = await settingsApi.saveEmail(email);
+        if (res) {
           currentEmail = email; // TODO: fix direct assign, use state
           setShowEmailAlert(false);
           setIsEmailDisabled(true);
@@ -116,21 +95,12 @@ export const AccountSettings = ({
 
   useEffect(() => {
     const fetchBg = async () => {
-      const res = await fetch(`${URL}data/accountSettings`, {
-        method: "GET",
-        credentials: "include",
-        headers: {
-          "Content-Type": "application/json",
-        },
-      });
-      if (res) {
-        const data = await res.json();
-        const selectedImg = ProfileImages.find(
-          (img) => img.name == data.profileImgName
-        );
-        if (selectedImg) {
-          setProfileImgSrc(selectedImg.src);
-        }
+      const data = await settingsApi.get();
+      const selectedImg = ProfileImages.find(
+        (img) => img.name == data.profileImgName
+      );
+      if (selectedImg) {
+        setProfileImgSrc(selectedImg.src);
       }
     };
     fetchBg();

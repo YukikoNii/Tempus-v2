@@ -16,6 +16,9 @@ const http = {
             body: JSON.stringify(body)
         });
 
+        if (!res.ok) {
+            throw new Error(`${res.status}`);
+        }
         return res.json();
     }
 }
@@ -44,5 +47,13 @@ export const homeApi = {
 
 export const calendarApi = {
     get: () => http.get("data/calendar")
+}
+
+export const settingsApi = {
+    saveProfileImg: ( name : string ) => http.post("data/accountSettings", {profileImgName: name}),
+    saveUsername: ( username : string ) => http.post("data/accountSettings/username", { username: username }),
+    saveEmail: ( email : string ) => http.post("data/accountSettings/email", { email: email }),
+    get: () => http.get("data/accountSettings")
+
 }
 
