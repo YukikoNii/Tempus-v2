@@ -3,7 +3,6 @@ import styles from "./Footer.module.css";
 const hourglass = "/images/logo.png";
 
 
-
 const Footer = () => {
   return (
     <>
@@ -33,8 +32,6 @@ const Footer = () => {
             <div className={styles.bottomTopics}>
               <div className={styles.bottomTopicHeading}>Support</div>
               <span className={styles.bottomTopic}>Coming soon...</span>
-              <span></span>
-              <span></span>
             </div>
           </div>
         </section>

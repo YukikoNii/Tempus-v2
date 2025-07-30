@@ -23,7 +23,7 @@ const Entry = ({ entry, onCheck, onEdit }: EntryProps) => {
     onCheck();
   };
 
-  const expandStyle = {
+  const expandStyle = { //NOTE -  consider switching to tailwind css so I don't have to define style blocks like this
     display: "block",
   };
 

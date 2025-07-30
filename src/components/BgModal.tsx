@@ -8,7 +8,7 @@ interface BgModalProps {
 }
 
 const BgModal = ({ onClose, onSelect }: BgModalProps) => {
-  const modalRef = useRef<HTMLDivElement>(null);
+  const modalRef = useRef<HTMLDivElement>(null); 
   useEffect(() => {
     const handleClickOutside = (e: MouseEvent) => {
       if (modalRef.current && !modalRef.current.contains(e.target as Node)) {

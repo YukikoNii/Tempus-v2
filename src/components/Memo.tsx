@@ -6,7 +6,7 @@ import { homeApi } from "../services/api";
 const Memo = () => {
   const [text, setText] = useState("");
   const isInitialMount = useRef(true);
-  
+
   useEffect(() => {
     const handler = setTimeout(() => {
       const saveMemo = async () => {
@@ -26,11 +26,11 @@ const Memo = () => {
       return;
     }
 
-    const fetchBg = async () => {
+    const fetchMemo = async () => {
       const data = await homeApi.getMemo();
       setText(data.memo);
     };
-    fetchBg();
+    fetchMemo();
   }, []);
 
   return (

@@ -14,7 +14,6 @@ function LandingPage() {
         <Hero/>
         <Features/>
         <Footer/>
-  
       </div>
     </>
   );

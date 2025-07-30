@@ -35,7 +35,7 @@ function LoginPage() {
         setLoginInfoAlert("Incorrect username or password");
       }
     } catch (e) {
-      console.log("error!!");
+      console.log("error");
     }
   }
   return (

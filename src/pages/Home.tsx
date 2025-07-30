@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 import AppHeader from "../components/AppHeader";
 import Memo from "../components/Memo";
 import BgModal from "../components/BgModal";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback } from "react";
 import { backgrounds } from "../assets/BackgroundImages";
 import { homeApi } from "../services/api";
 
@@ -96,10 +96,9 @@ function Home() {
     setTime(formattedTime);
   };
 
-  const toggleSelectionModal = () => {
-    console.log("hello");
-    setShowBgModal(true);
-  };
+  const toggleSelectionModal = useCallback(() => {
+    setShowBgModal(prev => !prev); // memoize
+  }, []);
 
   useEffect(() => {
     let date = new Date();
@@ -123,7 +122,6 @@ function Home() {
     }, 3000);
   }, []);
 
-  // display facts
   return (
     <>
       <div
@@ -132,7 +130,6 @@ function Home() {
       >
         <AppHeader></AppHeader>
         <Sidebar onToggle={() => setIsOpen(!isOpen)}></Sidebar>
-
         <div className={styles.container}>
           <div className={styles.clock} style={clockStyle}>
             <div
@@ -141,11 +138,11 @@ function Home() {
             >
               {date}
             </div>
-            <div
+            <div 
               className={`${styles.setting} ${styles.clockDiv}`}
               onClick={() => toggleSelectionModal()}
               style={clockDivStyle}
-            >
+            > {/* should probably be a button */}
               <i className="material-icons">settings</i>
             </div>
             <div

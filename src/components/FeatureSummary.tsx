@@ -20,20 +20,20 @@ const FeatureSummary = ({
 }: Props) => {
   return (
     <>
-      <section className={styles.s3}>
-        <div className={styles.sub} id={styles.sub2}>
+      <section className={styles.summary}>
+        <div className={styles.sub}>
           {name}
         </div>
-        <div className={styles.phrase} id={styles.phrase3}>
+        <div className={styles.phrase}>
           {phrase}
         </div>
-        <div className={styles.des} id={styles.des3}>
+        <div className={styles.des}>
           {description}
         </div>
-        <Link to="/signup" className={styles.button} id={styles.btn3}>
+        <Link to="/signup" className={styles.button}>
           {buttonLabel}
         </Link>
-        <img className={styles.img3} src={imgName} alt={name}></img>
+        <img className={styles.img} src={imgName} alt={name}></img>
       </section>
     </>
   );
