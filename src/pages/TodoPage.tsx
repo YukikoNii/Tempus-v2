@@ -11,7 +11,6 @@ import { EntryType } from "../types/EntryType";
 import { todoApi } from "../services/api";
 
 function TodoPage() {
-  const URL = import.meta.env.VITE_URL;
   const [showModal, setShowModal] = useState(false);
   const [isPriorityListVisible, setIsPriorityListVisible] = useState(false);
   const [selectedPriority, setSelectedPriority] = useState("");
