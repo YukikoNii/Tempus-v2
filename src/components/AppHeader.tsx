@@ -1,56 +1,37 @@
 import { ProfileImages } from "../assets/ProfileImages";
 import styles from "./AppHeader.module.css";
-import { Link, useLocation } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { useState, useEffect } from "react";
+import { appHeaderApi } from "../services/api";
 
 const AppHeader = () => {
-  const URL = import.meta.env.VITE_URL;
   const logoImg = "/images/logo.png";
   const [profileImgSrc, setProfileImgSrc] = useState("");
   const [showDropDown, setShowDropDown] = useState(false);
   const [username, setUsername] = useState("");
 
   const logout = async () => {
-    await fetch(`${URL}data/logout`, {
-      method: "POST",
-      credentials: "include",
-      headers: {
-        "Content-Type": "application/json",
-      },
-    });
+    await appHeaderApi.logout();
   };
 
   useEffect(() => {
-    const fetchBg = async () => {
-      const res = await fetch(`${URL}data/appheader`, {
-        method: "GET",
-        credentials: "include",
-        headers: {
-          "Content-Type": "application/json",
-        },
-      });
-      if (res) {
-        const data = await res.json();
-        const selectedImg = ProfileImages.find(
-          (img) => img.name == data.profileImgName
-        );
-        if (selectedImg) {
-          setProfileImgSrc(selectedImg.src);
-        }
-        if (data.username) {
-          setUsername(data.username);
-        }
+    const get = async () => {
+      const data = await appHeaderApi.get();
+      const selectedImg = ProfileImages.find(
+        (img) => img.name == data.profileImgName
+      );
+      if (selectedImg) {
+        setProfileImgSrc(selectedImg.src);
+      }
+      if (data.username) {
+        setUsername(data.username);
       }
     };
-    fetchBg();
+    get();
   }, []);
 
   const toggleDropDown = () => {
-    if (showDropDown) {
-      setShowDropDown(false);
-    } else {
-      setShowDropDown(true);
-    }
+    setShowDropDown(!showDropDown);
   };
 
   return (

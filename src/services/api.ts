@@ -54,6 +54,10 @@ export const settingsApi = {
     saveUsername: ( username : string ) => http.post("data/accountSettings/username", { username: username }),
     saveEmail: ( email : string ) => http.post("data/accountSettings/email", { email: email }),
     get: () => http.get("data/accountSettings")
+}
 
+export const appHeaderApi = {
+    get: () => http.get("data/appheader"),
+    logout: () => http.post("data/logout", {}),
 }
 
