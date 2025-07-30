@@ -53,11 +53,15 @@ export const settingsApi = {
     saveProfileImg: ( name : string ) => http.post("data/accountSettings", {profileImgName: name}),
     saveUsername: ( username : string ) => http.post("data/accountSettings/username", { username: username }),
     saveEmail: ( email : string ) => http.post("data/accountSettings/email", { email: email }),
-    get: () => http.get("data/accountSettings")
+    get: () => http.get("data/accountSettings"),
+    saveSound: ( soundName: string) => http.post("data/notificationSettings", {
+        soundName: soundName
+    })
 }
 
 export const appHeaderApi = {
     get: () => http.get("data/appheader"),
     logout: () => http.post("data/logout", {}),
 }
+
 

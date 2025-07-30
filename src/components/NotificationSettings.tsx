@@ -1,41 +1,27 @@
 import styles from "./NotificationSettings.module.css";
 import { Sounds } from "../assets/AlarmSounds";
 import { useState, useRef } from "react";
+import { settingsApi } from "../services/api";
 
 interface NotificationSettingsProps {
   sound: string;
 }
 
 export const NotificationSettings = ({ sound }: NotificationSettingsProps) => {
-  const URL = import.meta.env.VITE_URL;
   const [selectedSound, setSelectedSound] = useState(sound);
   const soundRef = useRef<HTMLAudioElement | null>(null); // I don't fully understand this
 
   const handleSoundChange = (e: SoundChangeEvent) => {
-    console.log(Sounds);
-
     setSelectedSound(e.target.value);
-    console.log(e.target.value);
     const selectedSoundData = Sounds.find((s) => s.name === e.target.value);
     if (selectedSound && selectedSoundData) {
-      console.log(selectedSoundData);
       soundRef.current = new Audio(selectedSoundData.src);
       soundRef.current.play();
     }
   };
 
-  const updateSound = () => {
-    const saveSoundToDB = async () => {
-      const res = await fetch(`${URL}data/notificationSettings`, {
-        method: "POST",
-        credentials: "include",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ soundName: selectedSound }),
-      });
-    };
-    saveSoundToDB();
+  const updateSound = async () => {
+    await settingsApi.saveSound(selectedSound);
   };
 
   interface SoundChangeEvent extends React.ChangeEvent<HTMLSelectElement> {} // chatGPT

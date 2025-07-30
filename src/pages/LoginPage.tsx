@@ -18,6 +18,7 @@ function LoginPage() {
 
     try {
       const info = { username: username, password: password };
+      // TODO: I don't know how to integrate this in api.ts
       const response = await fetch(`${URL}data/login`, {
         method: "POST",
         headers: {
