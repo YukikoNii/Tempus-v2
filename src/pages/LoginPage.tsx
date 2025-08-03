@@ -3,6 +3,7 @@ import styles from "./LoginPage.module.css";
 import { Link, useNavigate } from "react-router-dom";
 import { useState } from "react";
 import Header from "../components/Header";
+import ActionButton from "../components/ActionButton";
 
 function LoginPage() {
   const navigate = useNavigate();
@@ -93,12 +94,13 @@ function LoginPage() {
                   setPassword(e.target.value);
                 }}
               ></input>
-
-              <input
+              <div></div>
+              <ActionButton name="Login"/>
+              {/* <input
                 type="submit"
                 value="Login"
                 className={`${styles.loginBtn} ${styles.inputField}`}
-              ></input>
+              ></input> */}
             </form>
           </div>
         </div>

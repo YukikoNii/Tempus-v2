@@ -1,0 +1,24 @@
+.inputField {
+  align-self:center;
+  outline:none;
+  border:0.5px solid #525252;
+  border-radius: 10px;
+  height:3em;
+  color:#525252;
+  padding-left:1em;
+  background-color:white;
+}
+
+.inputField:focus {
+  border-color:#026670;
+  background-color: #EDFFF0;
+}
+
+.label {
+  font-weight:bold;
+  align-self:center;
+}
+
+.asterisk {
+  color:#C43D3D;
+}

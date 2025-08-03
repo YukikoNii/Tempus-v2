@@ -9,7 +9,7 @@ interface NotificationSettingsProps {
 
 export const NotificationSettings = ({ sound }: NotificationSettingsProps) => {
   const [selectedSound, setSelectedSound] = useState(sound);
-  const soundRef = useRef<HTMLAudioElement | null>(null); // I don't fully understand this
+  const soundRef = useRef<HTMLAudioElement | null>(null);
 
   const handleSoundChange = (e: SoundChangeEvent) => {
     setSelectedSound(e.target.value);

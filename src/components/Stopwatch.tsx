@@ -1,5 +1,5 @@
 import styles from "../pages/TimePage.module.css";
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect } from "react";
 
 export const Stopwatch = () => {
   const [milisecond, setMilisecond] = useState(0);

@@ -3,6 +3,25 @@ import styles from "./AppHeader.module.css";
 import { Link } from "react-router-dom";
 import { useState, useEffect } from "react";
 import { appHeaderApi } from "../services/api";
+import { TbTriangleFilled, TbTriangleInvertedFilled } from "react-icons/tb";
+import Dropdown from "./Dropdown";
+
+const logout = async () => {
+    await appHeaderApi.logout();
+};
+
+const dropdownItems = [
+    {
+      name: "Settings",
+      link: "/settings"
+    },
+    {
+      name: "Log out",
+      link: "/",
+      onClick: () => logout()
+    }
+];
+
 
 const AppHeader = () => {
   const logoImg = "/images/logo.png";
@@ -10,9 +29,6 @@ const AppHeader = () => {
   const [showDropDown, setShowDropDown] = useState(false);
   const [username, setUsername] = useState("");
 
-  const logout = async () => {
-    await appHeaderApi.logout();
-  };
 
   useEffect(() => {
     const get = async () => {
@@ -30,9 +46,6 @@ const AppHeader = () => {
     get();
   }, []);
 
-  const toggleDropDown = () => {
-    setShowDropDown(!showDropDown);
-  };
 
   return (
     <>
@@ -42,26 +55,15 @@ const AppHeader = () => {
           Tempus
         </Link>
         <img src={profileImgSrc} alt="avatar" className={styles.usericon}></img>
-        <div className={styles.username} onClick={toggleDropDown}>
+        <div className={styles.username} onClick={() => setShowDropDown(!showDropDown)}>
           {username}&nbsp;
-          <span className={styles.arrow}>{showDropDown ? "▼" : "▲"}</span>
+          <span className={styles.arrow}>{showDropDown ? <TbTriangleInvertedFilled/> : <TbTriangleFilled/>}</span>
         </div>
 
         {showDropDown && (
-          <div className={styles.dropDown}>
-            <div className={styles.dropDownContent}>
-              <Link to="/settings" className={styles.dropDownLink}>
-                Settings
-              </Link>
-              <Link
-                to="/"
-                className={styles.dropDownLink}
-                onClick={() => logout()}
-              >
-                Log out
-              </Link>
-            </div>
-          </div>
+          <Dropdown
+            items={dropdownItems}
+          />
         )}
       </div>
     </>

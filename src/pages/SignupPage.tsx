@@ -3,6 +3,9 @@ import styles from "./SignupPage.module.css";
 import { Link, useNavigate } from "react-router-dom";
 import { useState } from "react";
 import Header from "../components/Header";
+import EditableField from "../components/EditableField";
+import ActionButton from "../components/ActionButton";
+
 
 function SignupPage() {
   const navigate = useNavigate(); 
@@ -47,11 +50,9 @@ function SignupPage() {
           } else {
             setUsernameExistsAlert("This username is already taken.");
           }
-          console.log("unsuccessful");
         }
       } catch (e) {}
     } else {
-      console.log("invalid");
     }
   }
 
@@ -124,60 +125,20 @@ function SignupPage() {
                   {emailExistsAlert}
                 </span>
               )}
-              <label className={styles.label} htmlFor="Username">
-                Username<span className={styles.asterisk}>*</span>
-              </label>
-              <input
-                className={styles.inputField}
-                type="text"
-                value={username}
-                onChange={(e) => setUsername(e.target.value)}
-              />
-              <label className={styles.label} htmlFor="Email">
-                Email<span className={styles.asterisk}>*</span>{" "}
-              </label>
+              <EditableField data="Username" value={username} type="text" onChange={(v : string) => setUsername(v)}></EditableField>
+              <EditableField data="Email" value={email} type="text" onChange={(v : string) => setEmail(v)}></EditableField>
               {emailAlert && (
                 <span className={styles.emailAlert}>{emailAlert}</span>
               )}
-              <input
-                className={styles.inputField}
-                type="text"
-                value={email}
-                onChange={(e) => {
-                  setEmail(e.target.value);
-                }}
-              />
-              <label className={styles.label} htmlFor="Password">
-                Password<span className={styles.asterisk}>*</span>
-              </label>
-              <input
-                className={styles.inputField}
-                type="password"
-                value={password}
-                onChange={(e) => {
-                  setPassword(e.target.value);
-                }}
-              />
-              <label className={styles.label} htmlFor="conPassword">
-                Confirm Password<span className={styles.asterisk}>*</span>
-              </label>
+              <EditableField data="Password" value={password} type="password" onChange={(v : string) => setPassword(v)}></EditableField>
+              <EditableField data="Confirm Password" type="password" value={confirmPassword} onChange={(v : string) => setConfirmPassword(v)}></EditableField>
               {passwordAlert && (
                 <span className={styles.passwordAlert}>{passwordAlert}</span>
               )}
-              <input
-                className={styles.inputField}
-                type="password"
-                value={confirmPassword}
-                onChange={(e) => setConfirmPassword(e.target.value)}
-              />
               <p className={passwordConditionText}>
                 {password.length >= 8 ? "✓" : "•"}At least 8 characters
               </p>
-              <input
-                type="submit"
-                value="Submit"
-                className={`${styles.submit} ${styles.inputField}`}
-              />
+              <ActionButton name="Submit"/>
             </form>
           </div>
         </div>

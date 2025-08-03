@@ -121,8 +121,8 @@ export const AccountSettings = ({
             <input
               type="button"
               name="button"
-              className={`${styles.proChoose} ${styles.input}`}
-              value="Choose"
+              className={`${styles.edit} ${styles.input}`}
+              value="Edit"
               onClick={() => setShowProfileImgModal(true)}
             />
           </div>
