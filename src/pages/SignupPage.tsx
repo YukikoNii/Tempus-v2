@@ -1,11 +1,10 @@
 const signupImg = "/images/signupImg.svg";
 import styles from "./SignupPage.module.css";
 import { Link, useNavigate } from "react-router-dom";
-import { useState } from "react";
+import { useState, createContext } from "react";
 import Header from "../components/Header";
-import EditableField from "../components/EditableField";
-import ActionButton from "../components/ActionButton";
-
+import EditableField from "../buttons/EditableField";
+import ActionButton from "../buttons/ActionButton";
 
 function SignupPage() {
   const navigate = useNavigate(); 
@@ -16,7 +15,6 @@ function SignupPage() {
   const [emailAlert, setEmailAlert] = useState("");
   const [passwordAlert, setPasswordAlert] = useState("");
   const [usernameExistsAlert, setUsernameExistsAlert] = useState("");
-  const [emailExistsAlert, setEmailExistsAlert] = useState("");
   const URL = import.meta.env.VITE_URL;
 
   interface SignupFormEvent extends React.FormEvent<HTMLFormElement> {}
@@ -46,7 +44,7 @@ function SignupPage() {
         } else {
           const data = await response.json();
           if (data.type === "email") {
-            setEmailExistsAlert("Account with this email already exists");
+            setEmailAlert("Account with this email already exists");
           } else {
             setUsernameExistsAlert("This username is already taken.");
           }
@@ -98,14 +96,13 @@ function SignupPage() {
 
   let passwordConditionText =
     password.length >= 8 ? styles.checked : styles.unchecked;
-
+  
   return (
     <>
       <Header></Header>
       <div className={styles.grid}>
         <div className={styles.wrapper}>
-          <img className={styles.signupImage} src={signupImg} alt="Sign up" />
-
+          <img className={styles.signupImage} src={signupImg} alt="Sign up"/>
           <div className={styles.input}>
             <div className={styles.signupTitle}>Sign up</div>
             <form className={styles.signup} onSubmit={handleSubmit}>
@@ -115,26 +112,10 @@ function SignupPage() {
                   Login
                 </Link>
               </div>
-              {usernameExistsAlert && (
-                <span className={styles.usernameExistsAlert}>
-                  {usernameExistsAlert}
-                </span>
-              )}
-              {emailExistsAlert && (
-                <span className={styles.emailExistsAlert}>
-                  {emailExistsAlert}
-                </span>
-              )}
-              <EditableField data="Username" value={username} type="text" onChange={(v : string) => setUsername(v)}></EditableField>
-              <EditableField data="Email" value={email} type="text" onChange={(v : string) => setEmail(v)}></EditableField>
-              {emailAlert && (
-                <span className={styles.emailAlert}>{emailAlert}</span>
-              )}
+              <EditableField data="Username" alert={usernameExistsAlert} value={username} type="text" onChange={(v : string) => setUsername(v)}></EditableField>
+              <EditableField data="Email" alert={emailAlert} value={email} type="text" onChange={(v : string) => setEmail(v)}></EditableField>
               <EditableField data="Password" value={password} type="password" onChange={(v : string) => setPassword(v)}></EditableField>
-              <EditableField data="Confirm Password" type="password" value={confirmPassword} onChange={(v : string) => setConfirmPassword(v)}></EditableField>
-              {passwordAlert && (
-                <span className={styles.passwordAlert}>{passwordAlert}</span>
-              )}
+              <EditableField data="Confirm Password" alert={passwordAlert} type="password" value={confirmPassword} onChange={(v : string) => setConfirmPassword(v)}></EditableField>
               <p className={passwordConditionText}>
                 {password.length >= 8 ? "✓" : "•"}At least 8 characters
               </p>
@@ -145,6 +126,6 @@ function SignupPage() {
       </div>
     </>
   );
-}
+};
 
-export default SignupPage;
+export default SignupPage; 

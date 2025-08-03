@@ -1,4 +1,3 @@
-import { EntryType } from "../types/EntryType";
 
 const VITE_URL = import.meta.env.VITE_URL;
 
@@ -62,6 +61,10 @@ export const settingsApi = {
 export const appHeaderApi = {
     get: () => http.get("data/appheader"),
     logout: () => http.post("data/logout", {}),
+}
+
+export const loginApi = {
+    login: (username : string, password: string) => http.post("data/login", {username : username, password : password}),
 }
 
 

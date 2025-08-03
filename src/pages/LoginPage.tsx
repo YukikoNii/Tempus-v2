@@ -3,8 +3,10 @@ import styles from "./LoginPage.module.css";
 import { Link, useNavigate } from "react-router-dom";
 import { useState } from "react";
 import Header from "../components/Header";
-import ActionButton from "../components/ActionButton";
-import EditableField from "../components/EditableField";
+import ActionButton from "../buttons/ActionButton";
+import EditableField from "../buttons/EditableField";
+import Alert from "../buttons/Alert";
+import { loginApi } from "../services/api";
 
 function LoginPage() {
   const navigate = useNavigate();
@@ -12,38 +14,22 @@ function LoginPage() {
   const [password, setPassword] = useState("");
   const [loginInfoAlert, setLoginInfoAlert] = useState("");
   interface LoginFormEvent extends React.FormEvent<HTMLFormElement> {}
-  const URL = import.meta.env.VITE_URL;
-  console.log(URL);
 
   async function handleSubmit(e: LoginFormEvent) {
     e.preventDefault();
 
     try {
-      const info = { username: username, password: password };
-      // TODO: I don't know how to integrate this in api.ts
-      const response = await fetch(`${URL}data/login`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        credentials: "include",
-        body: JSON.stringify(info),
-      });
-      if (response.ok) {
-        console.log("successful");
-        navigate("/home");
-      } else {
-        console.log("unsuccessful");
-        setLoginInfoAlert("Incorrect username or password");
-      }
+      await loginApi.login(username, password);
+      console.log("successful");
+      navigate("/home");
     } catch (e) {
-      console.log("error");
+      console.log("unsuccessful");
+      setLoginInfoAlert("Incorrect username or password"); 
     }
   }
   return (
     <>
       <Header></Header>
-
       <div className={styles.grid}>
         <div className={styles.wrapper}>
           <img className={styles.loginImg} src={loginImg}></img>
@@ -56,42 +42,18 @@ function LoginPage() {
                   Sign up
                 </Link>
               </div>
-              {loginInfoAlert && (
-                <span className={styles.loginInfoAlert}>{loginInfoAlert}</span>
-              )}
+              <Alert text={loginInfoAlert}></Alert>
               <EditableField data="Username" value={username} type="text" onChange={(v : string) => setUsername(v)}></EditableField>
-
-
-              <div className={styles.passwordLabelRow}>
-                <label htmlFor="Password" className={styles.label}>
-                  Password<span className={styles.asterisk}>*</span>&nbsp;&nbsp;
-                </label>
-                <div className={styles.forgot}>
+              <EditableField data="Password" value={password} type="password" onChange={(v : string) => setPassword(v)}></EditableField>
+              <div className={styles.forgot}>
                   <Link
                     className={styles.resetPasswordLink}
                     to="/resetPassword"
                   >
                     forgot password?
                   </Link>
-                </div>
               </div>
-
-              <input
-                type="password"
-                id="password"
-                className={`${styles.password} ${styles.inputField}`}
-                value={password}
-                onChange={(e) => {
-                  setPassword(e.target.value);
-                }}
-              ></input>
-              <div></div>
               <ActionButton name="Login"/>
-              {/* <input
-                type="submit"
-                value="Login"
-                className={`${styles.loginBtn} ${styles.inputField}`}
-              ></input> */}
             </form>
           </div>
         </div>

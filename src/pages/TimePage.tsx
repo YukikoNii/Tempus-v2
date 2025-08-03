@@ -4,11 +4,17 @@ import { Timer } from "../components/Timer";
 import AppHeader from "../components/AppHeader";
 import { useState } from "react";
 import { Stopwatch } from "../components/Stopwatch";
+import TabSelection from "../components/TabSelection";
 
 function Time() {
-  const [isStopwatchVisible, setIsStopwatchVisible] = useState(true);
   const [isOpen, setIsOpen] = useState(true);
+  const [selectedTab, setSelectedTab] = useState<string>("Stopwatch");
+  const tabs: { [key:string] : JSX.Element }= {
+    "Stopwatch": <Stopwatch />,
+    "Timer": <Timer />
+  };
 
+  
   return (
     <div
       className={styles.grid}
@@ -16,23 +22,9 @@ function Time() {
     >
       <AppHeader></AppHeader>
       <Sidebar onToggle={() => setIsOpen(!isOpen)}></Sidebar>
+      <TabSelection tabs={["Stopwatch", "Timer"]} select={(s : string) => setSelectedTab(s)}></TabSelection>
+      {tabs[selectedTab]}
 
-      <div className={styles.carousel}>
-        <button
-          className={styles.ca1}
-          onClick={() => setIsStopwatchVisible(true)}
-        >
-          S
-        </button>
-        <button
-          className={styles.ca2}
-          onClick={() => setIsStopwatchVisible(false)}
-        >
-          T
-        </button>
-      </div>
-
-      {isStopwatchVisible ? <Stopwatch></Stopwatch> : <Timer></Timer>}
     </div>
   );
 }

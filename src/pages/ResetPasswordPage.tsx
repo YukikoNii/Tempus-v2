@@ -1,5 +1,6 @@
 const resetPasswordImg = "/images/resetPasswordImg.svg";
 import styles from "./ResetPasswordPage.module.css";
+import EditableField from "../buttons/EditableField";
 
 function ResetPasswordPage() {
   return (

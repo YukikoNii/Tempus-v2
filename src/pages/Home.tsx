@@ -52,7 +52,7 @@ function Home() {
       setEntries(data.todos);
     }
     fetchBg();
-  }, []); // [] to only execute once
+  }, []); 
 
   useEffect(() => {
     const myInterval = setInterval(() => {
@@ -158,7 +158,6 @@ function Home() {
               <span className={styles.taskHeading}>Today's tasks</span>
               {entries.length != 0 ? (
                 <ul>
-                  {" "}
                   {entries.map((entry) => (
                     <li key={entry._id} className={styles.toTask}>
                       {entry.title}

@@ -161,8 +161,8 @@ function TimeTrackingPage() {
             </button>
             </div>
             <div className={styles.viewOption}>
-              <div className={styles.viewOptions}>Calendar</div>
-              <div className={styles.viewOptions}>List</div>
+              <div className={styles.option}>Calendar</div>
+              <div className={styles.option}>List</div>
             </div>
             <TimeLogCalendarView></TimeLogCalendarView>
             <div className={styles.list}>

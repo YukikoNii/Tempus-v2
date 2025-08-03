@@ -1,0 +1,22 @@
+.tabSelection {
+  display:flex;
+  width: fit-content;
+  border-radius: 10px;
+  background-color: #026670;
+  margin: 0.5em;
+}
+
+.selection {
+  margin: 0.5em;
+  padding: 1em;
+  display: flex;
+  align-items: center; /* vertical centering */
+  text-align: center;
+  color: white;
+  border-radius: 10px;
+  cursor: pointer;
+}
+
+.selection:hover {
+  background-color: #2f747b; /* so that this overrides the more specific property applied by JS */
+}
