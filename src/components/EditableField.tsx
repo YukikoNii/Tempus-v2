@@ -13,12 +13,22 @@ const EditableField = ({data, value, type, onChange} : Props) => {
       <label className={styles.label} htmlFor={data}>
             {data}<span className={styles.asterisk}>*</span>
         </label>
-    <input
-    className={styles.inputField}
-    type={type}
-    value={value}
-    onChange={e => onChange(e.target.value)}
-    />
+    { type == "textarea" ? (
+      <textarea
+        className={styles.inputField}
+        value={value}
+        onChange={e => onChange(e.target.value)}
+        rows={4}
+      />
+    ) : ( 
+      <input
+      className={styles.inputField}
+      type={type}
+      value={value}
+      onChange={e => onChange(e.target.value)}
+      /> 
+    )}    
+   
     </>
   )
 }

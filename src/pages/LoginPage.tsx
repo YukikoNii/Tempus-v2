@@ -4,6 +4,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { useState } from "react";
 import Header from "../components/Header";
 import ActionButton from "../components/ActionButton";
+import EditableField from "../components/EditableField";
 
 function LoginPage() {
   const navigate = useNavigate();
@@ -58,18 +59,8 @@ function LoginPage() {
               {loginInfoAlert && (
                 <span className={styles.loginInfoAlert}>{loginInfoAlert}</span>
               )}
-              <label htmlFor="username" className={styles.label}>
-                Username<span className={styles.asterisk}>*</span>
-              </label>
-              <input
-                type="text"
-                id="username"
-                className={`${styles.username} ${styles.inputField}`}
-                value={username}
-                onChange={(e) => {
-                  setUsername(e.target.value);
-                }}
-              ></input>
+              <EditableField data="Username" value={username} type="text" onChange={(v : string) => setUsername(v)}></EditableField>
+
 
               <div className={styles.passwordLabelRow}>
                 <label htmlFor="Password" className={styles.label}>

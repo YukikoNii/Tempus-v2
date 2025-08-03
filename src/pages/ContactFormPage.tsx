@@ -1,54 +1,34 @@
 const contactImg = "/images/creditImg.svg";
 import styles from "./ContactFormPage.module.css";
 import Header from "../components/Header";
+import EditableField from "../components/EditableField";
+import ActionButton from "../components/ActionButton";
+import { useState } from "react";
 
 function ContactFormPage() {
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [phoneNumber, setPhoneNumber] = useState("");
+  const [message, setMessage] = useState("");
+
   return (
     <>
       <Header></Header>
       <div className={styles.grid}>
         <div className={styles.wrapper}>
           <img className={styles.contactImg} src={contactImg}></img>
-
           <div className={styles.input}>
             <div className={styles.contactHeading}>Contact Us</div>
             <form className={styles.contactForm} method="POST">
-              <label className={styles.label} htmlFor="name">
-                Name<span className={styles.asterisk}>*</span>
-              </label>
-              <input
-                className={styles.inputField}
-                type="text"
-                id="name"
-              ></input>
-              <label className={styles.label} htmlFor="Email">
-                Email<span className={styles.asterisk}>*</span>
-                <span className={styles.emailAlert}>
+              <EditableField data="Name" value={name} type="text" onChange={(v : string) => setName(v)}></EditableField>
+              <EditableField data="Email" value={email} type="Email" onChange={(v : string) => setEmail(v)}></EditableField>
+                 <span className={styles.emailAlert}>
                   Please enter valid email address.
                 </span>
-              </label>
-              <input
-                className={styles.inputField}
-                type="email"
-                id="Email"
-              ></input>
-              <label className={styles.label} htmlFor="phone">
-                Phone Number
-              </label>
-              <input
-                className={styles.inputField}
-                type="text"
-                id="phone"
-              ></input>
-              <label className={styles.label} htmlFor="Message">
-                Message<span className={styles.asterisk}>*</span>
-              </label>
-              <textarea className={styles.messageField}></textarea>
-              <input
-                type="button"
-                value="send"
-                className={`${styles.submitBtn} ${styles.inputField}`}
-              ></input>
+             
+              <EditableField data="Phone Number" value={phoneNumber} type="text" onChange={(v : string) => setPhoneNumber(v)}></EditableField>
+              <EditableField data="Message" value={message} type="textarea" onChange={(v : string) => setMessage(v)}></EditableField>
+              <ActionButton name="Send"/>
             </form>
           </div>
         </div>

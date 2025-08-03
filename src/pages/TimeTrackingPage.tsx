@@ -1,14 +1,9 @@
 import styles from "./TimeTrackingPage.module.css";
 import Sidebar from "../components/Sidebar";
 import AppHeader from "../components/AppHeader";
-import Entry from "../components/Entry";
 import "material-icons/iconfont/material-icons.css";
 import { useState, useEffect, useRef } from "react";
-import { backgrounds } from "../assets/BackgroundImages";
-import { Priorities } from "../components/Priorities";
-import { EntryType } from "../types/EntryType";
 import ProjectDropDown from "../components/ProjectDropDown";
-import * as csv from "fast-csv";
 import TimeLogCalendarView from "../components/TimeLogCalendarView";
 
 function TimeTrackingPage() {
