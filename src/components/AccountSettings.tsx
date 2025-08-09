@@ -95,7 +95,7 @@ export const AccountSettings = ({
 
   useEffect(() => {
     const fetchBg = async () => {
-      const data = await settingsApi.get();
+      const data = await settingsApi.getAccountSettings();
       const selectedImg = ProfileImages.find(
         (img) => img.name == data.profileImgName
       );

@@ -1,13 +1,13 @@
 import styles from "./Alert.module.css";
 
 interface AlertProp {
-    text : string,
+    children : React.ReactNode,
 }
 
-const Alert = ({ text } : AlertProp ) => {
+const Alert = ({ children } : AlertProp ) => {
   return (
     <>
-    <span className={styles.alert}>{text}</span>
+        <span className={styles.alert}>{children}</span>
     </>
   )
 }

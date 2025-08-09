@@ -15,7 +15,7 @@ const EditableField = ({data, alert, value, type, onChange} : Props) => {
       <label className={styles.label} htmlFor={data}>
           {data}<span className={styles.asterisk}>*</span>
       </label>
-      {alert && <Alert text={alert}></Alert>}
+      {alert && <Alert>{alert}</Alert>}
     { type == "textarea" ? (
       <textarea
         className={styles.inputField}

@@ -52,7 +52,8 @@ export const settingsApi = {
     saveProfileImg: ( name : string ) => http.post("data/accountSettings", {profileImgName: name}),
     saveUsername: ( username : string ) => http.post("data/accountSettings/username", { username: username }),
     saveEmail: ( email : string ) => http.post("data/accountSettings/email", { email: email }),
-    get: () => http.get("data/accountSettings"),
+    get: () => http.get("data/settings"),
+    getAccountSettings: () => http.get("data/accountSettings"),
     saveSound: ( soundName: string) => http.post("data/notificationSettings", {
         soundName: soundName
     })
@@ -66,5 +67,6 @@ export const appHeaderApi = {
 export const loginApi = {
     login: (username : string, password: string) => http.post("data/login", {username : username, password : password}),
 }
+
 
 

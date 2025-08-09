@@ -6,6 +6,8 @@ import AppHeader from "../components/AppHeader";
 import Sidebar from "../components/Sidebar";
 import { AccountSettings } from "../components/AccountSettings";
 import { NotificationSettings } from "../components/NotificationSettings";
+import { settingsApi } from "../services/api";
+
 
 function SettingsPage() {
   const [showAccountSettings, setShowAccountSettings] = useState(true);
@@ -16,40 +18,33 @@ function SettingsPage() {
   const [profileImgSrc, setProfileImgSrc] = useState("");
   const [sound, setSound] = useState("");
   const [isOpen, setIsOpen] = useState(true);
-  const URL = import.meta.env.VITE_URL;
 
   useEffect(() => {
     const fetchSettings = async () => {
-      const res = await fetch(`${URL}data/settings`, {
-        method: "GET",
-        credentials: "include",
-        headers: {
-          "Content-Type": "application/json",
-        },
-      });
-      if (res) {
-        const data = await res.json();
-        setUsername(data.username);
-        setEmail(data.email);
-        const selectedImg = ProfileImages.find(
-          (img) => img.name == data.profileImgName
-        );
-        if (selectedImg) {
-          setProfileImgSrc(selectedImg.src);
-        }
-        const selectedSound = Sounds.find((s) => s.name === data.soundName);
-        if (selectedSound) {
-          setSound(selectedSound.name);
-        }
+      try {
+      const data = await settingsApi.get();
+      setUsername(data.username);
+      setEmail(data.email);
+      const selectedImg = ProfileImages.find(
+        (img) => img.name == data.profileImgName
+      );
+      if (selectedImg) {
+        setProfileImgSrc(selectedImg.src);
       }
+      const selectedSound = Sounds.find((s) => s.name === data.soundName);
+      if (selectedSound) {
+        setSound(selectedSound.name);
+      }
+    } catch (e) {
+      // 
+    }
     };
     fetchSettings();
   }, []);
 
   return (
     <div
-      className={styles.grid}
-      style={isOpen ? {} : { gridTemplateColumns: "0.29fr 4fr 1fr" }}
+      className={isOpen ? styles.gridWide : styles.gridNormal }
     >
       <AppHeader></AppHeader>{" "}
       {/* should change profile pic in the header too */}

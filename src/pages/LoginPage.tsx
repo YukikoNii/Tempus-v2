@@ -42,7 +42,7 @@ function LoginPage() {
                   Sign up
                 </Link>
               </div>
-              <Alert text={loginInfoAlert}></Alert>
+              <Alert>{loginInfoAlert}</Alert>
               <EditableField data="Username" value={username} type="text" onChange={(v : string) => setUsername(v)}></EditableField>
               <EditableField data="Password" value={password} type="password" onChange={(v : string) => setPassword(v)}></EditableField>
               <div className={styles.forgot}>

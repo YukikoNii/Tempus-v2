@@ -1,6 +1,15 @@
-.grid {
+.gridNormal {
   display:grid;
   grid-template-columns:1fr 4fr 1fr;
+  grid-template-rows:5em 22em 5em 16em 7.5em;
+  width:100vw;
+  height:100vh;
+  overflow: hidden;
+}
+
+.gridWide {
+  display:grid;
+  grid-template-columns: 0.29fr 4fr 1fr;
   grid-template-rows:5em 22em 5em 16em 7.5em;
   width:100vw;
   height:100vh;
@@ -98,10 +107,6 @@
   display:block;
   z-index:1;
 }
-
-
-
-
 
 
 
