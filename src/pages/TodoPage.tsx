@@ -4,19 +4,20 @@ import AppHeader from "../components/AppHeader";
 import Entry from "../components/Entry";
 import "material-icons/iconfont/material-icons.css";
 import TodoModal from "../components/TodoModal";
-import { useState, useEffect, useMemo } from "react";
+import { useState, useEffect, useMemo, useContext } from "react";
 import { backgrounds } from "../assets/BackgroundImages";
 import { Priorities } from "../components/Priorities";
 import { EntryType } from "../types/EntryType";
 import { todoApi } from "../services/api";
+import ProfileContext from "../services/ProfileContext";
 
 function TodoPage() {
+  const profileInfo = useContext(ProfileContext);
   const [showModal, setShowModal] = useState(false);
   const [isPriorityListVisible, setIsPriorityListVisible] = useState(false);
   const [selectedPriority, setSelectedPriority] = useState("");
   const [isTagListVisible, setIsTagListVisible] = useState(false);
   const [selectedTag, setSelectedTag] = useState("");
-  const [bgSrc, setBgSrc] = useState("");
   const [isOpen, setIsOpen] = useState(true);
   const [tags, setTags] = useState(new Set<string>());
   const [isEditMode, setIsEditMode] = useState(false);
@@ -44,7 +45,7 @@ function TodoPage() {
   const containerStyle = {
     gridRow: "2/6",
     gridColumn: "2/4",
-    backgroundImage: `url(${bgSrc})`,
+    backgroundImage: `url(${profileInfo.bgSrc})`,
     backgroundSize: "cover",
     display: "grid",
     gridTemplateColumns: "5fr 1fr",
@@ -80,12 +81,6 @@ function TodoPage() {
   useEffect(() => {
     const fetchBg = async () => {
         const data = await todoApi.get();
-        const selectedBg = backgrounds.find(
-          (bg) => bg.name == data.user.bgName
-        );
-        if (selectedBg) {
-          setBgSrc(selectedBg.src);
-        }
         setEntries(data.todos);
         for (let i = 0; i < data.todos.length; i++) {
           for (let j = 0; j < data.todos[i].tags.length; j++) {

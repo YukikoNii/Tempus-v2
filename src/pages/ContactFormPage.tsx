@@ -10,6 +10,7 @@ function ContactFormPage() {
   const [email, setEmail] = useState("");
   const [phoneNumber, setPhoneNumber] = useState("");
   const [message, setMessage] = useState("");
+  const [emailAlert, setEmailAlert] = useState("Please enter valid email address.");
 
   return (
     <>
@@ -21,9 +22,9 @@ function ContactFormPage() {
             <div className={styles.contactHeading}>Contact Us</div>
             <form className={styles.contactForm} method="POST">
               <EditableField data="Name" value={name} type="text" onChange={(v : string) => setName(v)}></EditableField>
-              <EditableField data="Email" value={email} type="Email" onChange={(v : string) => setEmail(v)}></EditableField>
+              <EditableField data="Email" value={email} alert={emailAlert} type="Email" onChange={(v : string) => setEmail(v)}></EditableField>
                  <span className={styles.emailAlert}> {/*TODO - fix this */}
-                  Please enter valid email address.
+                 
                 </span>
               <EditableField data="Phone Number" value={phoneNumber} type="text" onChange={(v : string) => setPhoneNumber(v)}></EditableField>
               <EditableField data="Message" value={message} type="textarea" onChange={(v : string) => setMessage(v)}></EditableField>

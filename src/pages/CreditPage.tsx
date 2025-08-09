@@ -98,7 +98,6 @@ function Credits() {
       {" "}
       <section className={styles.wrapper}>
         <img className={styles.creditImg} src={creditImg}></img>
-
         <div className={styles.creditContent}>
           <span className={styles.heading}>Credits</span>
           <ol className={styles.ol}>

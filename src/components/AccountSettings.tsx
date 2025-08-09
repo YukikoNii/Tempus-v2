@@ -1,31 +1,16 @@
-import { ProfileImages } from "../assets/ProfileImages";
 import styles from "./AccountSettings.module.css";
 import ProfileImgModal from "./ProfileImgModal";
 import DeleteAccountModal from "./DeleteAccountModal";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 import { settingsApi } from "../services/api";
+import ProfileContext from "../services/ProfileContext";
 
-interface AccountSettingsProp {
-  currentUsername: string;
-  currentEmail: string;
-  changePic: (src: string) => void;
-}
 
-export const AccountSettings = ({
-  currentUsername,
-  currentEmail,
-  changePic,
-}: AccountSettingsProp) => {
-  const [username, setUsername] = useState(currentUsername || "");
-  const [email, setEmail] = useState(currentEmail || "");
+export const AccountSettings = () => {
+  const profileInfo = useContext(ProfileContext);
+  const [tmpUsername, setTmpUsername] = useState(profileInfo.username);
+  const [tmpEmail, setTmpEmail] = useState(profileInfo.email);
 
-  useEffect(() => {
-    setUsername(currentUsername || "");
-  }, [currentUsername]);
-
-  useEffect(() => {
-    setEmail(currentEmail || "");
-  }, [currentEmail]);
 
   const [isUsernameDisabled, setIsUsernameDisabled] = useState(true);
   const [isEmailDisabled, setIsEmailDisabled] = useState(true);
@@ -34,11 +19,9 @@ export const AccountSettings = ({
   const [showDeleteAccountModal, setShowDeleteAccountModal] = useState(false);
   const [usernameAlert, setUsernameAlert] = useState("");
   const [showEmailAlert, setShowEmailAlert] = useState(false);
-  const [profileImgSrc, setProfileImgSrc] = useState("");
 
   const updateProfileImage = (name: string, src: string) => {
-    setProfileImgSrc(src);
-    changePic(src);
+    profileInfo.changeIconImgSrc(src);
     const saveProfileImageToDB = async () => {
       await settingsApi.saveProfileImg(name);
     };
@@ -46,16 +29,16 @@ export const AccountSettings = ({
   };
 
   const updateUsername = () => {
-    if (username === "") {
+    if (tmpUsername === "") {
       setUsernameAlert("Username cannot be blank");
-    } else if (username === currentUsername) {
+    } else if (tmpUsername === profileInfo.username) {
       setUsernameAlert("");
       setIsUsernameDisabled(true);
     } else {
       const saveUsernameToDB = async () => {
-        const res = await settingsApi.saveUsername(username);
+        const res = await settingsApi.saveUsername(tmpUsername);
         if (res) { //REVIEW - 
-          currentUsername = username;
+          profileInfo.changeUsername(tmpUsername);
           setUsernameAlert("");
           setIsUsernameDisabled(true);
         } else {
@@ -73,16 +56,16 @@ export const AccountSettings = ({
   };
 
   const updateEmail = () => {
-    if (!validateEmail(email)) {
+    if (!validateEmail(tmpEmail)) {
       setShowEmailAlert(true);
-    } else if (email === currentEmail) {
+    } else if (tmpEmail === profileInfo.email) {
       setShowEmailAlert(false);
       setIsEmailDisabled(true);
     } else {
       const saveEmailToDB = async () => {
-        const res = await settingsApi.saveEmail(email);
+        const res = await settingsApi.saveEmail(tmpEmail);
         if (res) {
-          currentEmail = email; // TODO: fix direct assign, use state
+          profileInfo.changeEmail(tmpEmail);
           setShowEmailAlert(false);
           setIsEmailDisabled(true);
         } else {
@@ -93,18 +76,6 @@ export const AccountSettings = ({
     }
   };
 
-  useEffect(() => {
-    const fetchBg = async () => {
-      const data = await settingsApi.getAccountSettings();
-      const selectedImg = ProfileImages.find(
-        (img) => img.name == data.profileImgName
-      );
-      if (selectedImg) {
-        setProfileImgSrc(selectedImg.src);
-      }
-    };
-    fetchBg();
-  }, []);
 
   const alertStyle = {
     border: "1px solid #c43d3d",
@@ -117,7 +88,7 @@ export const AccountSettings = ({
         <div className={styles.account}>
           <div className={`${styles.section}`}>
             <span className={styles.sectionHeading}>Profile picture</span>
-            <img src={profileImgSrc} className={styles.profilePic} />
+            <img src={profileInfo.iconImgSrc} className={styles.profilePic} />
             <input
               type="button"
               name="button"
@@ -132,10 +103,10 @@ export const AccountSettings = ({
             <input
               type="text"
               name="username"
-              value={username}
+              value={tmpUsername}
               className={` ${styles.input} ${styles.textField}`}
               disabled={isUsernameDisabled}
-              onChange={(e) => setUsername(e.target.value)}
+              onChange={(e) => setTmpUsername(e.target.value)}
               style={usernameAlert ? alertStyle : {}}
             />
             {isUsernameDisabled && (
@@ -155,7 +126,7 @@ export const AccountSettings = ({
                   onClick={() => {
                     setIsUsernameDisabled(true);
                     setUsernameAlert("");
-                    setUsername(currentUsername);
+                    setTmpUsername(profileInfo.username);
                   }}
                 />
                 <input
@@ -177,10 +148,10 @@ export const AccountSettings = ({
             <input
               type="email"
               name="email"
-              value={email}
+              value={tmpEmail}
               className={` ${styles.input} ${styles.textField}`}
               disabled={isEmailDisabled}
-              onChange={(e) => setEmail(e.target.value)}
+              onChange={(e) => setTmpEmail(e.target.value)}
               style={showEmailAlert ? alertStyle : {}}
             />
             {isEmailDisabled && (
@@ -200,7 +171,7 @@ export const AccountSettings = ({
                   onClick={() => {
                     setIsEmailDisabled(true);
                     setShowEmailAlert(false);
-                    setEmail(currentEmail);
+                    setTmpEmail(profileInfo.email);
                   }}
                 />
                 <input

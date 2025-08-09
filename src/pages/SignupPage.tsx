@@ -30,6 +30,7 @@ function SignupPage() {
     ) {
       try {
         const info = { username, email, password };
+        
 
         const response = await fetch(`${URL}data/signup`, {
           method: "POST",

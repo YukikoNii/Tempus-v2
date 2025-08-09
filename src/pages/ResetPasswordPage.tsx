@@ -1,46 +1,29 @@
 const resetPasswordImg = "/images/resetPasswordImg.svg";
 import styles from "./ResetPasswordPage.module.css";
 import EditableField from "../buttons/EditableField";
+import { useState } from "react";
+import ActionButton from "../buttons/ActionButton";
 
 function ResetPasswordPage() {
+    const [email, setEmail] = useState("");
+    const [password, setPassword] = useState("");
+    const [newPassword, setNewPassword] = useState("");
+    const [confirmNewPassword, setConfirmNewPassword] = useState("");
+    const [emailAlert, setEmailAlert] = useState("");
+    const [passwordAlert, setPasswordAlert] = useState("");
+    
   return (
     <div className={styles.grid}>
       <div className={styles.wrapper}>
         <img className={styles.resetPasswordImg} src={resetPasswordImg}></img>
-
         <div className={styles.input}>
           <div className={styles.resetTitle}>Reset Password</div>
           <form className={styles.reset} action="index.html" method="submit">
-            <label htmlFor="email">
-              Email<span className={styles.asterisk}>*</span>
-              <span className={styles.emailAlert}>Email is incorrect.</span>
-            </label>
-            <input
-              type="email"
-              name="email"
-              className={`${styles.inputField} ${styles.email}`}
-            ></input>
-            <label htmlFor="Password">
-              New Password<span className={styles.asterisk}>*</span>
-            </label>
-            <input
-              type="password"
-              name="password"
-              className={`${styles.inputField} ${styles.password}`}
-            ></input>
-            <label htmlFor="conPassword">
-              Confirm Password<span className={styles.asterisk}>*</span>
-              <span className={styles.passAlert}>Password not confirmed.</span>
-            </label>
-            <input
-              type="password"
-              className={`${styles.inputField} ${styles.confirmPassword}`}
-            ></input>
-            <input
-              type="button"
-              value="Reset"
-              className={`${styles.inputField} ${styles.resetBtn}`}
-            ></input>
+            <EditableField data="Email" alert={emailAlert} type="email" value={email} onChange={(v : string) => setEmail(v)}></EditableField>
+            <EditableField data="Password" type="password" value={password} onChange={(v : string) => setPassword(v)}></EditableField>
+            <EditableField data="New Password" alert={passwordAlert} type="password" value={newPassword} onChange={(v : string) => setNewPassword(v)}></EditableField>
+            <EditableField data="Confirm New Password" alert={passwordAlert} type="password" value={confirmNewPassword} onChange={(v : string) => setConfirmNewPassword(v)}></EditableField>
+            <ActionButton name="Reset"/>
           </form>
         </div>
       </div>

@@ -16,21 +16,21 @@ const EditableField = ({data, alert, value, type, onChange} : Props) => {
           {data}<span className={styles.asterisk}>*</span>
       </label>
       {alert && <Alert>{alert}</Alert>}
-    { type == "textarea" ? (
-      <textarea
+      { type == "textarea" ? (
+        <textarea
+          className={styles.inputField}
+          value={value}
+          onChange={e => onChange(e.target.value)}
+          rows={4}
+        />
+        ) : ( 
+        <input
         className={styles.inputField}
+        type={type}
         value={value}
         onChange={e => onChange(e.target.value)}
-        rows={4}
-      />
-    ) : ( 
-      <input
-      className={styles.inputField}
-      type={type}
-      value={value}
-      onChange={e => onChange(e.target.value)}
-      /> 
-    )}    
+        /> 
+      )}    
    
     </>
   )
