@@ -1,4 +1,3 @@
-import { ProfileImages } from "../assets/ProfileImages";
 import { Sounds } from "../assets/AlarmSounds";
 import styles from "./SettingsPage.module.css";
 import { useState, useEffect, useContext } from "react";
@@ -8,9 +7,10 @@ import { AccountSettings } from "../components/AccountSettings";
 import { NotificationSettings } from "../components/NotificationSettings";
 import { settingsApi } from "../services/api";
 import ProfileContext from "../services/ProfileContext";
-
+import SidebarContext from "../services/SidebarContext";
 
 function SettingsPage() {
+  const sidebarCtx = useContext(SidebarContext);
   const profileInfo = useContext(ProfileContext);
   const [showAccountSettings, setShowAccountSettings] = useState(true);
   const [showNotificationSettings, setShowNotificationSettings] = useState(false);
@@ -36,11 +36,11 @@ function SettingsPage() {
 
   return (
     <div
-      className={isOpen ? styles.gridWide : styles.gridNormal }
+      className={sidebarCtx.isOpen ? styles.gridWide : styles.gridNormal }
     >
       <AppHeader></AppHeader>{" "}
       {/* should change profile pic in the header too */}
-      <Sidebar onToggle={() => setIsOpen(!isOpen)}></Sidebar>
+      <Sidebar onToggle={sidebarCtx.toggleSidebar}></Sidebar>
       <section className={styles.section}>
         <div className={styles.settingMenu}>
           <img src={profileInfo.iconImgSrc} className={styles.menuPic} />

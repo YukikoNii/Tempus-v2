@@ -2,11 +2,12 @@ import styles from "./CalendarPage.module.css";
 import Sidebar from "../components/Sidebar";
 import AppHeader from "../components/AppHeader";
 import "material-icons/iconfont/material-icons.css";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 import { calendarApi } from "../services/api";
+import SidebarContext from "../services/SidebarContext";
 
 function Calendar() {
-  const [isOpen, setIsOpen] = useState(true);
+  const SidebarCtx = useContext(SidebarContext);
   const [days, setDays] = useState<JSX.Element[]>([]); // create an array of JSX Elements
   const [date, setDate] = useState(new Date());
 
@@ -165,10 +166,10 @@ function Calendar() {
   return (
     <div
       className={styles.grid}
-      style={isOpen ? {} : { gridTemplateColumns: "0.29fr 4fr 1fr" }}
+      style={SidebarCtx.isOpen ? {} : { gridTemplateColumns: "0.29fr 4fr 1fr" }}
     >
       <AppHeader></AppHeader>
-      <Sidebar onToggle={() => setIsOpen(!isOpen)}></Sidebar>
+      <Sidebar onToggle={SidebarCtx.toggleSidebar}></Sidebar>
 
       <div className={styles.calendarFunction}>
         <div className={styles.month}>

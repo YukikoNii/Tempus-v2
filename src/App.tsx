@@ -1,4 +1,3 @@
-import Header from "./components/Header";
 import LandingPage from "./pages/LandingPage";
 import CreditsPage from "./pages/CreditPage";
 import LoginPage from "./pages/LoginPage";
@@ -13,6 +12,7 @@ import TimeTracking from "./pages/TimeTrackingPage";
 import SettingsPage from "./pages/SettingsPage";
 import { Routes, Route } from "react-router-dom";
 import ProfileContext from "./services/ProfileContext";
+import SidebarContext from "./services/SidebarContext";
 import { useState, useEffect } from "react";
 import { appHeaderApi } from "./services/api";
 import { ProfileImages } from "./assets/ProfileImages";
@@ -25,6 +25,7 @@ function App() {
     const [email, setEmail] = useState<string>("");
     const [bgSrc, setBgSrc] = useState<string>("");
     const [bgColor, setBgColor] = useState<string>("");
+    const [isOpen, setIsOpen] = useState<boolean>(true);
 
     function changeIconImgSrc(filename : string) {
       setIconImgSrc(filename);
@@ -45,6 +46,10 @@ function App() {
     function changeBgColor(bgColor : string) {
       setBgColor(bgColor);
     }
+
+    function toggleSidebar() {
+      setIsOpen(isOpen => !isOpen);
+    }
     
     
     const profileCtxValue = {
@@ -58,6 +63,11 @@ function App() {
       changeEmail: changeEmail,
       changeBgSrc : changeBgSrc,
       changeBgColor : changeBgColor
+    };
+
+    const sidebarCtxValue = {
+      isOpen: isOpen,
+      toggleSidebar : toggleSidebar,
     };
 
 
@@ -98,6 +108,7 @@ function App() {
   return (
     <>
       <ProfileContext.Provider value={profileCtxValue}>
+      <SidebarContext.Provider value={sidebarCtxValue}>
       <Routes>
         <Route path="/" element={<LandingPage />} />
         <Route path="/credits" element={<CreditsPage />} />
@@ -112,6 +123,7 @@ function App() {
         <Route path="/calendar" element={<Calendar />} />
         <Route path="/settings" element={<SettingsPage />} />
       </Routes>
+      </SidebarContext.Provider>
       </ProfileContext.Provider>
     </>
   );

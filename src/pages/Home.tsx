@@ -9,10 +9,13 @@ import { backgrounds } from "../assets/BackgroundImages";
 import { homeApi } from "../services/api";
 import { useClock } from "../services/useClock";
 import ProfileContext from "../services/ProfileContext";
+import SelectionModal from "../components/SelectionModal";
+import SidebarContext from "../services/SidebarContext";
 
 
 function Home() {
   const profileInfo = useContext(ProfileContext);
+  const sidebarCtx = useContext(SidebarContext);
   const [showBgModal, setShowBgModal] = useState(false);
   const {date, time} = useClock();
   const [isOpen, setIsOpen] = useState(true);
@@ -29,13 +32,10 @@ function Home() {
 
   const [entries, setEntries] = useState<EntryType[]>([]);
 
-  const updateBgImage = (name: string, src: string, color: string) => {
-    profileInfo.changeBgSrc(src);
-    profileInfo.changeBgColor(color);
-    const updateBgSetting = async () => {
-      await homeApi.updateBg(name);
-    };
-    updateBgSetting();
+  const updateBgImage = async (background : { name: string; className : string; src: string; color: string; }) => {
+    profileInfo.changeBgSrc(background.src);
+    profileInfo.changeBgColor(background.color);
+    await homeApi.updateBg(background.name);
   };
 
   useEffect(() => {
@@ -67,18 +67,19 @@ function Home() {
 
   
   const toggleSelectionModal = useCallback(() => {
-    setShowBgModal(prev => !prev); // memoize
+    setShowBgModal(prev => !prev); 
   }, []);
 
-
+  console.log(sidebarCtx.isOpen);
+  
   return (
     <>
       <div
         className={styles.grid}
-        style={isOpen ? {} : { gridTemplateColumns: "0.29fr 4fr 1fr" }}
+        style={sidebarCtx.isOpen ? {} : { gridTemplateColumns: "0.29fr 4fr 1fr" }}
       >
         <AppHeader></AppHeader>
-        <Sidebar onToggle={() => setIsOpen(!isOpen)}></Sidebar>
+        <Sidebar onToggle={() => sidebarCtx.toggleSidebar()}></Sidebar>
         <div className={styles.container}>
           <div className={styles.clock} style={clockStyle}>
             <div
@@ -128,10 +129,12 @@ function Home() {
         </div>
       </div>
       {showBgModal && (
-        <BgModal
+        <SelectionModal
+          title="Change Theme"
+          selections={backgrounds}
           onClose={() => setShowBgModal(false)}
           onSelect={updateBgImage}
-        ></BgModal>
+        ></SelectionModal>
       )}
     </>
   );
