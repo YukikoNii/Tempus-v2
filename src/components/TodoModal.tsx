@@ -21,11 +21,11 @@ const TodoModal = ({
   const titleRef = useRef<HTMLInputElement>(null);
   const modalRef = useRef<HTMLDivElement>(null);
   const [showTitleAlert, setShowTitleAlert] = useState(false);
-  const [title, setTitle] = useState(savedEntryDetails.title);
   const [description, setDescription] = useState(savedEntryDetails.description);
   const [priority, setPriority] = useState(savedEntryDetails.priority);
   const [tags, setTags] = useState<string[]>([]);
   const [tag, setTag] = useState("");
+  
   const [date, setDate] = useState(() => {
     if (isEditModeOn) {
       return savedEntryDetails.dueDate;
@@ -57,6 +57,7 @@ const TodoModal = ({
     };
   }, [onClose]);
 
+
   const handleShake = () => {
     const shake_animation = [
       { transform: "translate(0, 0)" },
@@ -79,14 +80,17 @@ const TodoModal = ({
   }, [isOpen]);
 
   const save = async () => {
-    if (title === "") {
+    if (!titleRef.current) {
+      return;
+    }
+    if (titleRef.current.value === "") {
       setShowTitleAlert(true);
       handleShake();
     } else {
       setShowTitleAlert(false);
       await todoApi.add(
           savedEntryDetails._id,
-          title, 
+          titleRef.current.value, 
           description,
           date,
           time,
@@ -138,9 +142,7 @@ const TodoModal = ({
             ref={titleRef}
             type="text"
             className={styles.titleInput}
-            value={title}
             style={showTitleAlert ? alertStyle : {}}
-            onChange={(e) => setTitle(e.target.value)}
           />
         </div>
         <div className={styles.description}>

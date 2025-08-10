@@ -17,7 +17,7 @@ const Memo = () => {
 
     return () => {
       clearTimeout(handler);
-    };
+    }
   }, [text]);
 
   useEffect(() => {

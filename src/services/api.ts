@@ -15,9 +15,6 @@ const http = {
             body: JSON.stringify(body)
         });
 
-        if (!res.ok) {
-            throw new Error(`${res.status}`);
-        }
         return res.json();
     }
 }
@@ -64,8 +61,13 @@ export const appHeaderApi = {
     logout: () => http.post("data/logout", {}),
 }
 
-export const loginApi = {
+export const authApi = {
+    signup: (username : string, email : string, password: string) => http.post("data/signup", {username : username, email : email, password : password}),
     login: (username : string, password: string) => http.post("data/login", {username : username, password : password}),
+}
+
+export const TimeTrackingApi = {
+    getProjects: () => http.get("data/projectDropdown")
 }
 
 

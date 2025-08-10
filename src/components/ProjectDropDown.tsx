@@ -1,6 +1,7 @@
 
 import styles from "./ProjectDropDown.module.css";
-import { useEffect, useState, useRef } from "react";
+import { useEffect, useState } from "react";
+import { TimeTrackingApi } from "../services/api";
 
 interface projectProp {
   x: number,
@@ -9,7 +10,6 @@ interface projectProp {
 }
 
 const ProjectDropDown = ({ x, y, onSelect }: projectProp) => {
-  const URL = import.meta.env.VITE_URL;
   const [projects, setProjects] = useState<ProjectType[]>([]);
 
   const style: React.CSSProperties= { 
@@ -24,17 +24,8 @@ const ProjectDropDown = ({ x, y, onSelect }: projectProp) => {
   }
 
   const fetchProjects = async () => {
-    const res = await fetch(`${URL}data/projectDropDown`, {
-      method: "GET",
-      credentials: "include",
-      headers: {
-        "Content-Type": "application/json",
-      },
-    });
-    if (res) {
-      const data = await res.json();
-      setProjects(data);
-    }
+    const data = await TimeTrackingApi.getProjects();
+    setProjects(data);
   };
 
   useEffect(() => {

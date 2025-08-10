@@ -1,7 +1,7 @@
 import { ProfileImages } from "../assets/ProfileImages";
 import styles from "./AppHeader.module.css";
 import { Link } from "react-router-dom";
-import { useState, useEffect, useContext } from "react";
+import { useState, useContext } from "react";
 import { appHeaderApi } from "../services/api";
 import { TbTriangleFilled, TbTriangleInvertedFilled } from "react-icons/tb";
 import Dropdown from "./Dropdown";

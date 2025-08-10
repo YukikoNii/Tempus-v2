@@ -5,7 +5,6 @@ import Entry from "../components/Entry";
 import "material-icons/iconfont/material-icons.css";
 import TodoModal from "../components/TodoModal";
 import { useState, useEffect, useMemo, useContext } from "react";
-import { backgrounds } from "../assets/BackgroundImages";
 import { Priorities } from "../components/Priorities";
 import { EntryType } from "../types/EntryType";
 import { todoApi } from "../services/api";

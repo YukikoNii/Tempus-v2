@@ -1,13 +1,15 @@
-import { backgrounds } from "../assets/BackgroundImages";
 import styles from "./BgModal.module.css";
-import { useEffect, useRef } from "react";
+import { Key, useEffect, useRef } from "react";
+import { SelectableItem } from "../types/SelectableItem";
 
-interface BgModalProps {
-  onClose: () => void;
-  onSelect: (name: string, src: string, color: string) => void;
+interface SelectionModalProps<T extends SelectableItem> {
+    selections : T[],
+    title : string;
+    onClose: () => void;
+    onSelect: (item : T) => void;
 }
 
-const BgModal = ({ onClose, onSelect }: BgModalProps) => {
+function SelectionModal<T extends SelectableItem>({ selections, title, onClose, onSelect }: SelectionModalProps<T>){
   const modalRef = useRef<HTMLDivElement>(null); 
   
   useEffect(() => {
@@ -23,28 +25,29 @@ const BgModal = ({ onClose, onSelect }: BgModalProps) => {
       document.removeEventListener("mousedown", handleClickOutside);
     };
   }, [onClose]);
+
   return (
     <div className={styles.bgmodal}>
       <div className={styles.bgmodalContent} ref={modalRef}>
-        <div className={styles.bgtitle}>Change Theme</div>
+        <div className={styles.bgtitle}>{title}</div>
         <div className={styles.bgclose} onClick={onClose}>
           &times;
         </div>
         <div className={styles.bglist}>
-          {backgrounds.map((background, index) => (
+          {selections.map((selection, index : Key) => (
             <div
               key={index}
               className={styles.bgop}
               onClick={() => {
-                onSelect(background.name, background.src, background.color);
+                onSelect(selection);
                 onClose();
               }}
             >
-              <span>{background.name}</span>
+              <span>{selection.name}</span>
               <img
                 className={styles.bgimg}
-                src={background.src}
-                alt={background.name}
+                src={selection.src}
+                alt={selection.name}
               ></img>
             </div>
           ))}
@@ -54,4 +57,4 @@ const BgModal = ({ onClose, onSelect }: BgModalProps) => {
   );
 };
 
-export default BgModal;
+export default SelectionModal;

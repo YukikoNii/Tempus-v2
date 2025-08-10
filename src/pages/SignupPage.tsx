@@ -1,21 +1,21 @@
 const signupImg = "/images/signupImg.svg";
 import styles from "./SignupPage.module.css";
 import { Link, useNavigate } from "react-router-dom";
-import { useState, createContext } from "react";
+import { useState, useRef } from "react";
 import Header from "../components/Header";
 import EditableField from "../buttons/EditableField";
 import ActionButton from "../buttons/ActionButton";
+import { authApi } from "../services/api"; 
 
 function SignupPage() {
   const navigate = useNavigate(); 
-  const [username, setUsername] = useState("");
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [confirmPassword, setConfirmPassword] = useState("");
+  const usernameRef = useRef({value : ""});
+  const emailRef = useRef({value : ""});
+  const passwordRef = useRef({value : ""});
+  const confirmPasswordRef = useRef({value : ""});
   const [emailAlert, setEmailAlert] = useState("");
   const [passwordAlert, setPasswordAlert] = useState("");
   const [usernameExistsAlert, setUsernameExistsAlert] = useState("");
-  const URL = import.meta.env.VITE_URL;
 
   interface SignupFormEvent extends React.FormEvent<HTMLFormElement> {}
 
@@ -24,43 +24,30 @@ function SignupPage() {
 
     if (
       IsFormFilled() &&
-      checkPasswordMatch(password, confirmPassword) &&
-      validateEmail(email) &&
+      checkPasswordMatch(passwordRef.current.value, confirmPasswordRef.current.value) &&
+      validateEmail(emailRef.current.value) &&
       validatePassword()
     ) {
       try {
-        const info = { username, email, password };
-        
-
-        const response = await fetch(`${URL}data/signup`, {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          credentials: "include",
-          body: JSON.stringify(info),
-        });
-        if (response.ok) {
-          navigate("/home", { state: { username: username } });
-        } else {
-          const data = await response.json();
-          if (data.type === "email") {
+          const data = await authApi.signup(usernameRef.current.value, emailRef.current.value, passwordRef.current.value);
+          if (data.type && data.type === "email") {
             setEmailAlert("Account with this email already exists");
-          } else {
+        } else if (data.type && data.type === "username") {
             setUsernameExistsAlert("This username is already taken.");
-          }
+        } else {
+            navigate("/home", { state: { username: usernameRef.current.value } });
         }
-      } catch (e) {}
-    } else {
-    }
+      } catch (e) {
+      }
+    } 
   }
 
   const IsFormFilled = () => {
     return (
-      password !== "" &&
-      confirmPassword !== "" &&
-      username !== "" &&
-      email !== ""
+      passwordRef.current.value !== "" &&
+      confirmPasswordRef.current.value !== "" &&
+      usernameRef.current.value !== "" &&
+      emailRef.current.value !== ""
     );
   };
 
@@ -82,7 +69,7 @@ function SignupPage() {
     const upperAlphabet = /.*[A-Z].*/;
     const number = /.*[0-9].*/;
     const symbol = /.*[^0-9a-zA-Z].*/;
-    return password.length >= MIN_LENGTH;
+    return passwordRef.current.value.length >= MIN_LENGTH;
   };
 
   const checkPasswordMatch = (password: string, confirmPassword: string) => {
@@ -95,8 +82,6 @@ function SignupPage() {
     }
   };
 
-  let passwordConditionText =
-    password.length >= 8 ? styles.checked : styles.unchecked;
   
   return (
     <>
@@ -113,12 +98,13 @@ function SignupPage() {
                   Login
                 </Link>
               </div>
-              <EditableField data="Username" alert={usernameExistsAlert} value={username} type="text" onChange={(v : string) => setUsername(v)}></EditableField>
-              <EditableField data="Email" alert={emailAlert} value={email} type="text" onChange={(v : string) => setEmail(v)}></EditableField>
-              <EditableField data="Password" value={password} type="password" onChange={(v : string) => setPassword(v)}></EditableField>
-              <EditableField data="Confirm Password" alert={passwordAlert} type="password" value={confirmPassword} onChange={(v : string) => setConfirmPassword(v)}></EditableField>
-              <p className={passwordConditionText}>
-                {password.length >= 8 ? "✓" : "•"}At least 8 characters
+              <EditableField ref={usernameRef} data="Username" alert={usernameExistsAlert} type="text"></EditableField>
+              <EditableField ref={emailRef} data="Email" alert={emailAlert} type="text"></EditableField>
+              <EditableField ref={passwordRef} data="Password" type="password"></EditableField>
+              <EditableField ref={confirmPasswordRef} data="Confirm Password" alert={passwordAlert} type="password"></EditableField>
+              <p className={validatePassword() ? styles.checked : styles.unchecked}>
+                {/* TODO: length not updated */}
+                {passwordRef.current.value.length >= 8 ? "✓" : "•"}At least 8 characters{passwordRef.current.value.length}
               </p>
               <ActionButton name="Submit"/>
             </form>

@@ -1,15 +1,21 @@
 import styles from "./EditableField.module.css";
 import Alert from "./Alert";
+import { forwardRef, useState } from "react";
+
 
 interface Props {
     data : string,
     alert? : string,
-    value : string,
     type : string,
-    onChange : ( value : string) => void
 }
-const EditableField = ({data, alert, value, type, onChange} : Props) => {
-    
+const EditableField = forwardRef(({ data, alert, type } : Props, ref)=> {
+
+  const [val, setVal] = useState("");
+  if (ref && ref.current) {
+    ref.current = {
+      value : val
+    }  
+  }
   return (
     <>
       <label className={styles.label} htmlFor={data}>
@@ -19,21 +25,21 @@ const EditableField = ({data, alert, value, type, onChange} : Props) => {
       { type == "textarea" ? (
         <textarea
           className={styles.inputField}
-          value={value}
-          onChange={e => onChange(e.target.value)}
+          value={val}
+          onChange={e => setVal(e.target.value)}
           rows={4}
         />
         ) : ( 
         <input
         className={styles.inputField}
         type={type}
-        value={value}
-        onChange={e => onChange(e.target.value)}
+        value={val}
+        onChange={e => setVal(e.target.value)}
         /> 
       )}    
    
     </>
   )
-}
+});
 
-export default EditableField
+export default EditableField;

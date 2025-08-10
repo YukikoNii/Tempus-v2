@@ -1,9 +1,10 @@
 import styles from "./AccountSettings.module.css";
-import ProfileImgModal from "./ProfileImgModal";
 import DeleteAccountModal from "./DeleteAccountModal";
-import { useState, useEffect, useContext } from "react";
+import { useState, useContext } from "react";
 import { settingsApi } from "../services/api";
 import ProfileContext from "../services/ProfileContext";
+import SelectionModal from "./SelectionModal";
+import { ProfileImages } from "../assets/ProfileImages";
 
 
 export const AccountSettings = () => {
@@ -20,33 +21,28 @@ export const AccountSettings = () => {
   const [usernameAlert, setUsernameAlert] = useState("");
   const [showEmailAlert, setShowEmailAlert] = useState(false);
 
-  const updateProfileImage = (name: string, src: string) => {
-    profileInfo.changeIconImgSrc(src);
-    const saveProfileImageToDB = async () => {
-      await settingsApi.saveProfileImg(name);
-    };
-    saveProfileImageToDB();
+  const updateProfileImage = async (profile : {name : string, src : string}) => {
+    profileInfo.changeIconImgSrc(profile.src);
+    await settingsApi.saveProfileImg(profile.name);
   };
 
-  const updateUsername = () => {
+  const updateUsername = async () => {
     if (tmpUsername === "") {
       setUsernameAlert("Username cannot be blank");
     } else if (tmpUsername === profileInfo.username) {
       setUsernameAlert("");
       setIsUsernameDisabled(true);
     } else {
-      const saveUsernameToDB = async () => {
-        const res = await settingsApi.saveUsername(tmpUsername);
-        if (res) { //REVIEW - 
+
+      try {
+          await settingsApi.saveUsername(tmpUsername);
           profileInfo.changeUsername(tmpUsername);
           setUsernameAlert("");
           setIsUsernameDisabled(true);
-        } else {
+      } catch (e) {
           setUsernameAlert("The username is already taken");
-        }
+      }
       };
-      saveUsernameToDB();
-    }
   };
 
   const validateEmail = (email: string) => {
@@ -55,24 +51,22 @@ export const AccountSettings = () => {
     return email.match(expression);
   };
 
-  const updateEmail = () => {
+  const updateEmail = async () => {
     if (!validateEmail(tmpEmail)) {
       setShowEmailAlert(true);
     } else if (tmpEmail === profileInfo.email) {
       setShowEmailAlert(false);
       setIsEmailDisabled(true);
     } else {
-      const saveEmailToDB = async () => {
-        const res = await settingsApi.saveEmail(tmpEmail);
-        if (res) {
+
+      try {
+          await settingsApi.saveEmail(tmpEmail);
           profileInfo.changeEmail(tmpEmail);
           setShowEmailAlert(false);
           setIsEmailDisabled(true);
-        } else {
+      } catch (e) {
           setShowEmailAlert(true);
-        }
-      };
-      saveEmailToDB();
+      }
     }
   };
 
@@ -217,9 +211,6 @@ export const AccountSettings = () => {
                 <input type="button" value="Save" className={styles.save} />
               </div>
             )}
-            {usernameAlert && (
-              <p className={styles.alert}>Your username is already taken.</p>
-            )}
           </div>
 
           <div className={`${styles.del} ${styles.section}`}>
@@ -240,10 +231,12 @@ export const AccountSettings = () => {
       </div>
 
       {showProfileImgModal && (
-        <ProfileImgModal
+          <SelectionModal
+          title="Change Theme"
+          selections={ProfileImages}
           onClose={() => setShowProfileImgModal(false)}
           onSelect={updateProfileImage}
-        ></ProfileImgModal>
+        ></SelectionModal>
       )}
 
       {showDeleteAccountModal && (

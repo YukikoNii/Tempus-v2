@@ -1,15 +1,17 @@
 const loginImg = "/images/loginImg.svg";
 import styles from "./LoginPage.module.css";
 import { Link, useNavigate } from "react-router-dom";
-import { useState } from "react";
+import { useState, useRef } from "react";
 import Header from "../components/Header";
 import ActionButton from "../buttons/ActionButton";
 import EditableField from "../buttons/EditableField";
 import Alert from "../buttons/Alert";
-import { loginApi } from "../services/api";
+import { authApi } from "../services/api";
 
 function LoginPage() {
   const navigate = useNavigate();
+  const usernameRef = useRef({value : ""});
+  const passwordRef = useRef({value : ""});
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [loginInfoAlert, setLoginInfoAlert] = useState("");
@@ -19,7 +21,7 @@ function LoginPage() {
     e.preventDefault();
 
     try {
-      await loginApi.login(username, password);
+      await authApi.login(usernameRef.current.value, passwordRef.current.value);
       console.log("successful");
       navigate("/home");
     } catch (e) {
@@ -27,7 +29,7 @@ function LoginPage() {
       setLoginInfoAlert("Incorrect username or password"); 
     }
   }
-  
+
   return (
     <>
       <Header></Header>
@@ -44,8 +46,8 @@ function LoginPage() {
                 </Link>
               </div>
               <Alert>{loginInfoAlert}</Alert>
-              <EditableField data="Username" value={username} type="text" onChange={(v : string) => setUsername(v)}></EditableField>
-              <EditableField data="Password" value={password} type="password" onChange={(v : string) => setPassword(v)}></EditableField>
+              <EditableField data="Username" ref={usernameRef} type="text"></EditableField>
+              <EditableField data="Password" ref={passwordRef} type="password"></EditableField>
               <div className={styles.forgot}>
                   <Link
                     className={styles.resetPasswordLink}

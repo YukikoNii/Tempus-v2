@@ -21,13 +21,10 @@ function ContactFormPage() {
           <div className={styles.input}>
             <div className={styles.contactHeading}>Contact Us</div>
             <form className={styles.contactForm} method="POST">
-              <EditableField data="Name" value={name} type="text" onChange={(v : string) => setName(v)}></EditableField>
-              <EditableField data="Email" value={email} alert={emailAlert} type="Email" onChange={(v : string) => setEmail(v)}></EditableField>
-                 <span className={styles.emailAlert}> {/*TODO - fix this */}
-                 
-                </span>
-              <EditableField data="Phone Number" value={phoneNumber} type="text" onChange={(v : string) => setPhoneNumber(v)}></EditableField>
-              <EditableField data="Message" value={message} type="textarea" onChange={(v : string) => setMessage(v)}></EditableField>
+              <EditableField data="Name" type="text"></EditableField>
+              <EditableField data="Email" alert={emailAlert} type="Email"></EditableField>
+              <EditableField data="Phone Number" type="text"></EditableField>
+              <EditableField data="Message" type="textarea"></EditableField>
               <ActionButton name="Send"/>
             </form>
           </div>

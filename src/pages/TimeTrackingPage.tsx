@@ -115,7 +115,6 @@ function TimeTrackingPage() {
     .map(row => row.join(","))
     .join("\n");
 
-
     const blob = new Blob([arr], {type: 'text/csv;charset=utf-8;'});
     const url = URL.createObjectURL(blob);
     link.setAttribute('href', url)

@@ -17,9 +17,9 @@ router.post("/signup", async (req, res) => {
     const hashedPassword = await bcrypt.hash(req.body.password, salt);
 
     if (await doesEmailExist(req.body.email, collection)) {
-      return res.status(401).send({ type: "email" });
+      return res.status(200).send({ type: "email" });
     } else if (await doesUsernameExist(req.body.username, collection)) {
-      return res.status(401).send({ type: "username" });
+      return res.status(200).send({ type: "username" });
     }
 
     let newUserInfo = {
@@ -33,7 +33,7 @@ router.post("/signup", async (req, res) => {
     };
 
     let result = await collection.insertOne(newUserInfo);
-    res.status(204).send(result);
+    res.status(200).send(result);
   } catch (e) {
     res.status(500).send("Error signing up");
   }
@@ -80,7 +80,7 @@ router.post("/login", async (req, res) => {
       req.body.password,
       collection
     );
-    console.log("user obtained");
+    console.log("user info collected");
     if (user) {
       const token = jwt.sign({ userId: user._id }, process.env.JWT_SECRET, {
         expiresIn: "300h",
@@ -98,8 +98,9 @@ router.post("/login", async (req, res) => {
 
       console.log("cookie is set.");
 
-      return res.status(200).send("Successfully logged in");
+      return res.status(200).json({ message: "Successfully logged in"});
     } else {
+      console.log("user not found")
       return res.status(401).send("Incorrect login information");
     }
   } catch (e) {
@@ -182,7 +183,7 @@ router.post("/todo/add", verifyUser, async (req, res) => {
     };
     result = await todoCollection.insertOne(newTodo);
   }
-  res.status(204).json(result);
+  res.status(200).json(result);
 });
 
 router.post("/todo/delete", verifyUser, async (req, res) => {
@@ -231,7 +232,7 @@ router.post("/accountSettings", verifyUser, async (req, res) => {
 
 router.post("/accountSettings/username", verifyUser, async (req, res) => {
   let collection = await db.collection("users");
-  // return if error if user already exists.
+  // return error if user already exists.
   if (await doesUsernameExist(req.body.username, collection)) {
     return res.status(401).send({ type: "username" });
   }
@@ -240,7 +241,7 @@ router.post("/accountSettings/username", verifyUser, async (req, res) => {
     { _id: new ObjectId(req.userId) },
     { $set: { username: req.body.username } }
   ); // deprecated
-  res.status(204).send(user);
+  res.status(200).send(user);
 });
 
 router.post("/accountSettings/email", verifyUser, async (req, res) => {
@@ -253,7 +254,7 @@ router.post("/accountSettings/email", verifyUser, async (req, res) => {
     { _id: new ObjectId(req.userId) },
     { $set: { email: req.body.email } }
   ); // deprecated
-  res.status(204).send(user);
+  res.status(200).send(user);
 });
 
 router.get("/accountSettings", verifyUser, async (req, res) => {
@@ -270,7 +271,7 @@ router.post("/notificationSettings", verifyUser, async (req, res) => {
       { _id: new ObjectId(req.userId) },
       { $set: { soundName: req.body.soundName } }
     ); // deprecated
-    res.status(204).send(user);
+    res.status(200).send(user);
   } catch (e) {
     res.status(500).send("Database error");
   }
