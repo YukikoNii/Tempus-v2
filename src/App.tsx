@@ -48,7 +48,7 @@ function App() {
     }
 
     function toggleSidebar() {
-      setIsOpen(isOpen => !isOpen);
+      setIsOpen(prevState => !prevState);
     }
     
     

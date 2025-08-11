@@ -2,15 +2,16 @@ import styles from "./TimeTrackingPage.module.css";
 import Sidebar from "../components/Sidebar";
 import AppHeader from "../components/AppHeader";
 import "material-icons/iconfont/material-icons.css";
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef, useContext } from "react";
 import ProjectDropDown from "../components/ProjectDropDown";
 import TimeLogCalendarView from "../components/TimeLogCalendarView";
+import SidebarContext from "../services/SidebarContext";
 
 function TimeTrackingPage() {
   const VITE_URL = import.meta.env.VITE_URL;
+  const sidebarCtx = useContext(SidebarContext);
   const [newLogName, setnewLogName] = useState("");
   const [newLogProject, setNewLogProject] = useState("Personal Development");
-  const [isOpen, setIsOpen] = useState(true);
   const [newLogRun, IsNewLogRun] = useState(false);
   const [elapsedTime, setElapsedTime] = useState(0);
   const [startTime, setStartTime] = useState(0);
@@ -127,8 +128,9 @@ function TimeTrackingPage() {
     <>
     <div
       className={styles.grid}
+      style={sidebarCtx.isOpen ? {} : { gridTemplateColumns: "0.29fr 4fr 1fr" }}
     >
-    <Sidebar onToggle={() => setIsOpen(!isOpen)}></Sidebar>
+    <Sidebar></Sidebar>
       <AppHeader></AppHeader>
       <div className={styles.container}>
         <div className={styles.main}>

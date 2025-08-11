@@ -169,7 +169,7 @@ function Calendar() {
       style={SidebarCtx.isOpen ? {} : { gridTemplateColumns: "0.29fr 4fr 1fr" }}
     >
       <AppHeader></AppHeader>
-      <Sidebar onToggle={SidebarCtx.toggleSidebar}></Sidebar>
+      <Sidebar></Sidebar>
 
       <div className={styles.calendarFunction}>
         <div className={styles.month}>

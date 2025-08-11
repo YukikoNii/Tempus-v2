@@ -9,8 +9,10 @@ import { Priorities } from "../components/Priorities";
 import { EntryType } from "../types/EntryType";
 import { todoApi } from "../services/api";
 import ProfileContext from "../services/ProfileContext";
+import SidebarContext from "../services/SidebarContext";
 
 function TodoPage() {
+  const sidebarCtx = useContext(SidebarContext);
   const profileInfo = useContext(ProfileContext);
   const [showModal, setShowModal] = useState(false);
   const [isPriorityListVisible, setIsPriorityListVisible] = useState(false);
@@ -101,10 +103,10 @@ function TodoPage() {
   return (
     <div
       className={styles.grid}
-      style={isOpen ? {} : { gridTemplateColumns: "0.29fr 4fr 1fr" }}
+      style={sidebarCtx.isOpen ? {} : { gridTemplateColumns: "0.29fr 4fr 1fr" }}
     >
       <AppHeader></AppHeader>
-      <Sidebar onToggle={() => setIsOpen(!isOpen)}></Sidebar>
+      <Sidebar></Sidebar>
       <div className={styles.container} style={containerStyle}>
         <div className={styles.main}>
           <button className={styles.add} onClick={() => setShowModal(true)}>

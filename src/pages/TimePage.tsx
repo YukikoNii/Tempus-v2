@@ -2,12 +2,13 @@ import styles from "./TimePage.module.css";
 import Sidebar from "../components/Sidebar";
 import { Timer } from "../components/Timer";
 import AppHeader from "../components/AppHeader";
-import { useState } from "react";
+import { useState, useContext } from "react";
 import { Stopwatch } from "../components/Stopwatch";
 import TabSelection from "../components/TabSelection";
+import SidebarContext from "../services/SidebarContext";
 
 function Time() {
-  const [isOpen, setIsOpen] = useState(true);
+  const SidebarCtx = useContext(SidebarContext);
   const [selectedTab, setSelectedTab] = useState<string>("Stopwatch");
   const tabs: { [key:string] : JSX.Element }= {
     "Stopwatch": <Stopwatch />,
@@ -17,10 +18,10 @@ function Time() {
   
   return (
     <div
-       className={isOpen ? styles.gridNormal : styles.gridWide }
+       className={SidebarCtx.isOpen ? styles.gridNormal : styles.gridWide  }
     >
       <AppHeader></AppHeader>
-      <Sidebar onToggle={() => setIsOpen(!isOpen)}></Sidebar>
+      <Sidebar></Sidebar>
       <TabSelection tabs={["Stopwatch", "Timer"]} select={(s : string) => setSelectedTab(s)}></TabSelection>
       {tabs[selectedTab]}
 

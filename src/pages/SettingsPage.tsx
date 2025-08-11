@@ -12,17 +12,19 @@ import SidebarContext from "../services/SidebarContext";
 function SettingsPage() {
   const sidebarCtx = useContext(SidebarContext);
   const profileInfo = useContext(ProfileContext);
-  const [showAccountSettings, setShowAccountSettings] = useState(true);
-  const [showNotificationSettings, setShowNotificationSettings] = useState(false);
-  const [email, setEmail] = useState("");
+  const menuItems = ["Account", "Notification"] as const;
+  const [activeTab, setActiveTab] = useState<(typeof menuItems)[number]>("Account");
   const [sound, setSound] = useState("");
-  const [isOpen, setIsOpen] = useState(true);
+
+  const pages = {
+    Account: <AccountSettings/>,
+    Notification: <NotificationSettings sound={sound}/>
+  }
 
   useEffect(() => {
     const fetchSettings = async () => {
       try {
       const data = await settingsApi.get();
-      setEmail(data.email);
       const selectedSound = Sounds.find((s) => s.name === data.soundName);
       if (selectedSound) {
         setSound(selectedSound.name);
@@ -38,30 +40,18 @@ function SettingsPage() {
     <div
       className={sidebarCtx.isOpen ? styles.gridWide : styles.gridNormal }
     >
-      <AppHeader></AppHeader>{" "}
-      {/* should change profile pic in the header too */}
-      <Sidebar onToggle={sidebarCtx.toggleSidebar}></Sidebar>
+      <AppHeader></AppHeader>
+      <Sidebar></Sidebar>
       <section className={styles.section}>
         <div className={styles.settingMenu}>
           <img src={profileInfo.iconImgSrc} className={styles.menuPic} />
-          <span onClick={() => setShowAccountSettings(true)}>Account</span>
-          <span
-            onClick={() => {
-              setShowAccountSettings(false);
-              setShowNotificationSettings(true);
-            }}
-          >
-            Notification
-          </span>
+          {menuItems.map((item, key) => (
+            <span key={key} onClick={() => setActiveTab(item)}>{item}</span>
+          ))}
         </div>
 
         <div className={styles.settingBody}>
-          {showAccountSettings && (
-            <AccountSettings/>
-          )}
-          {showNotificationSettings && (
-            <NotificationSettings sound={sound}></NotificationSettings>
-          )}
+          {pages[activeTab] ?? null}
         </div>
       </section>
     </div>

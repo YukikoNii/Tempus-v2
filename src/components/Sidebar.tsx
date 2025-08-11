@@ -4,14 +4,13 @@ import { Pages } from "./Pages";
 import styles from "./Sidebar.module.css";
 import { Link } from "react-router-dom";
 import { useLocation } from "react-router-dom";
-import { useState } from "react";
+import { useContext } from "react";
+import SidebarContext from "../services/SidebarContext";
 
-interface SidebarProps {
-  onToggle: () => void;
-}
 
-const Sidebar = ({ onToggle }: SidebarProps) => {
-  const [isOpen, setIsOpen] = useState(true);
+
+const Sidebar = () => {
+  const sidebarCtx = useContext(SidebarContext);
   const location = useLocation();
   const currentPage = location.pathname.split("/")[1];
 
@@ -21,15 +20,13 @@ const Sidebar = ({ onToggle }: SidebarProps) => {
   };
 
   return (
-    <div className={styles.iconbar} style={isOpen ? {} : iconbarClosedStyle}>
+    <div className={styles.iconbar} style={sidebarCtx.isOpen ? {} : iconbarClosedStyle}>
       <div className={styles.menu}>
         <img
-          src={isOpen ? menuOpenedImg : menuClosedImg}
+          src={sidebarCtx.isOpen ? menuOpenedImg : menuClosedImg}
           alt="Hamburger Menu"
           className={styles.sideimg}
-          onClick={() => {
-            setIsOpen(!isOpen), onToggle();
-          }}
+          onClick={sidebarCtx.toggleSidebar}
         ></img>
       </div>
       {Pages.map((page, index) => {
@@ -46,7 +43,7 @@ const Sidebar = ({ onToggle }: SidebarProps) => {
             ></img>
             <div
               className={styles.icon}
-              style={isOpen ? {} : { display: "none" }}
+              style={sidebarCtx.isOpen ? {} : { display: "none" }}
             >
               {page.name.charAt(0).toUpperCase() + page.name.slice(1)}
             </div>

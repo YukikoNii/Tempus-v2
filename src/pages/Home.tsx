@@ -18,7 +18,6 @@ function Home() {
   const sidebarCtx = useContext(SidebarContext);
   const [showBgModal, setShowBgModal] = useState(false);
   const {date, time} = useClock();
-  const [isOpen, setIsOpen] = useState(true);
 
   type EntryType = {
     _id: string;
@@ -71,7 +70,7 @@ function Home() {
   }, []);
 
   console.log(sidebarCtx.isOpen);
-  
+
   return (
     <>
       <div
@@ -79,7 +78,7 @@ function Home() {
         style={sidebarCtx.isOpen ? {} : { gridTemplateColumns: "0.29fr 4fr 1fr" }}
       >
         <AppHeader></AppHeader>
-        <Sidebar onToggle={() => sidebarCtx.toggleSidebar()}></Sidebar>
+        <Sidebar></Sidebar>
         <div className={styles.container}>
           <div className={styles.clock} style={clockStyle}>
             <div
