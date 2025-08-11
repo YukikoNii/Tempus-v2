@@ -12,20 +12,15 @@ function LoginPage() {
   const navigate = useNavigate();
   const usernameRef = useRef({value : ""});
   const passwordRef = useRef({value : ""});
-  const [username, setUsername] = useState("");
-  const [password, setPassword] = useState("");
   const [loginInfoAlert, setLoginInfoAlert] = useState("");
-  interface LoginFormEvent extends React.FormEvent<HTMLFormElement> {}
 
-  async function handleSubmit(e: LoginFormEvent) {
+  async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
 
     try {
       await authApi.login(usernameRef.current.value, passwordRef.current.value);
-      console.log("successful");
       navigate("/home");
     } catch (e) {
-      console.log("unsuccessful");
       setLoginInfoAlert("Incorrect username or password"); 
     }
   }
@@ -35,7 +30,7 @@ function LoginPage() {
       <Header></Header>
       <div className={styles.grid}>
         <div className={styles.wrapper}>
-          <img className={styles.loginImg} src={loginImg}></img>
+          <img className={styles.loginImg} src={loginImg} alt="login illustration"></img>
           <div className={styles.input}>
             <div className={styles.loginTitle}>Login</div>
             <form className={styles.loginForm} onSubmit={handleSubmit}>
@@ -48,14 +43,12 @@ function LoginPage() {
               <Alert>{loginInfoAlert}</Alert>
               <EditableField data="Username" ref={usernameRef} type="text"></EditableField>
               <EditableField data="Password" ref={passwordRef} type="password"></EditableField>
-              <div className={styles.forgot}>
-                  <Link
-                    className={styles.resetPasswordLink}
-                    to="/resetPassword"
-                  >
-                    forgot password?
-                  </Link>
-              </div>
+              <Link
+                className={styles.resetPasswordLink}
+                to="/resetPassword"
+              >
+                forgot password?
+              </Link>
               <ActionButton name="Login"/>
             </form>
           </div>

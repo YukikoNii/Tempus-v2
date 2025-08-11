@@ -19,7 +19,6 @@ function TodoPage() {
   const [selectedPriority, setSelectedPriority] = useState("");
   const [isTagListVisible, setIsTagListVisible] = useState(false);
   const [selectedTag, setSelectedTag] = useState("");
-  const [isOpen, setIsOpen] = useState(true);
   const [tags, setTags] = useState(new Set<string>());
   const [isEditMode, setIsEditMode] = useState(false);
   const [entryDetails, setEntryDetails] = useState<EntryType>({

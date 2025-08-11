@@ -1,5 +1,6 @@
 import styles from "../pages/TimePage.module.css";
 import { useState, useEffect } from "react";
+import { utils } from "../services/utils";
 
 export const Stopwatch = () => {
   const [isRunning, setIsRunning] = useState(false);
@@ -35,22 +36,14 @@ export const Stopwatch = () => {
       const interval = setInterval(() => {
         const currentTime = Date.now();
         setElapsedTime(currentTime - startTime);
-        setFormattedTime(formatTime(elapsedTime));
+        setFormattedTime(utils.formatTime(elapsedTime));
       }, 10);
       return () => clearInterval(interval);
     } else {
     }
   },[isRunning, elapsedTime]);
 
-  const formatTime = (miliseconds:number) => {
-      const sec_str = (Math.floor(miliseconds / 1000) % 60).toString().padStart(2, "0");
-      const min_str = (Math.floor(miliseconds / 60000) % 60).toString().padStart(2, "0");
-      const hour_str = (Math.floor(miliseconds / 3600000) % 60).toString().padStart(2, "0");
-      
-      return hour_str + ":" + min_str + ":" + sec_str; 
-  }
-
-
+ 
   const run = () => {
     if (!isRunning) {
       setStartTime(Date.now() - elapsedTime);

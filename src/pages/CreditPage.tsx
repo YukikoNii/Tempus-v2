@@ -105,7 +105,7 @@ function Credits() {
               <li key={key} className={styles.li}>
                 {credit.link ? (
                   <a
-                  href="https://www.flaticon.com/free-icons/time-and-date"
+                  href={credit.link}
                   >
                     {credit.text}
                   </a>

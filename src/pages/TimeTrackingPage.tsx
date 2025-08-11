@@ -6,6 +6,7 @@ import { useState, useEffect, useRef, useContext } from "react";
 import ProjectDropDown from "../components/ProjectDropDown";
 import TimeLogCalendarView from "../components/TimeLogCalendarView";
 import SidebarContext from "../services/SidebarContext";
+import { utils } from "../services/utils";
 
 function TimeTrackingPage() {
   const VITE_URL = import.meta.env.VITE_URL;
@@ -88,7 +89,7 @@ function TimeTrackingPage() {
       const interval = setInterval(() => {
         const currentTime = Date.now();
         setElapsedTime(currentTime - startTime);
-        setFormattedTime(formatTime(elapsedTime));
+        setFormattedTime(utils.formatTime(elapsedTime));
       }, 10);
       return () => clearInterval(interval);
     } else {
@@ -98,13 +99,6 @@ function TimeTrackingPage() {
     }
   },[newLogRun, elapsedTime]);
 
-  const formatTime = (miliseconds:number) => {
-      const sec_str = (Math.floor(miliseconds / 1000) % 60).toString().padStart(2, "0");
-      const min_str = (Math.floor(miliseconds / 60000) % 60).toString().padStart(2, "0");
-      const hour_str = (Math.floor(miliseconds / 3600000) % 60).toString().padStart(2, "0");
-      
-      return hour_str + ":" + min_str + ":" + sec_str; 
-  }
 
   const downloadCSV = () => {
     const link = anchorRef.current;
@@ -176,7 +170,7 @@ function TimeTrackingPage() {
                     <div>{log.project}</div>
 
                     <div>{log.startTime.toTimeString().substring(0,8)} - {log.endTime.toTimeString().substring(0,8)}</div>
-                    <div>{formatTime(log.duration)}</div>
+                    <div>{utils.formatTime(log.duration)}</div>
                     <button className={`material-symbols-outlined ${styles.deleteBtn}`} onClick={() => deleteLog(log)}>delete</button>
                   </div>
                 )
