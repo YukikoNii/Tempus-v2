@@ -95,7 +95,6 @@ const credits = [
 function Credits() {
   return (
     <div className={styles.grid}>
-      {" "}
       <section className={styles.wrapper}>
         <img className={styles.creditImg} src={creditImg}></img>
         <div className={styles.creditContent}>

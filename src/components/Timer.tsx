@@ -1,31 +1,23 @@
 import styles from "../pages/TimePage.module.css";
-import { useState, useEffect, useRef } from "react";
-import { Sounds } from "../assets/AlarmSounds";
+import { useState, useEffect, useRef, useContext } from "react";
+import ProfileContext from "../services/ProfileContext";
+import { utils } from "../services/utils";
 
 export const Timer = () => {
+  const profileCtx = useContext(ProfileContext);
   const [ms, setMs] = useState(0);
   const [seconds, setSeconds] = useState(0);
   const [minutes, setMinutes] = useState(0);
   const [hours, setHours] = useState(0);
   const [isRunning, setIsRunning] = useState(false);
-  const soundRef = useRef<HTMLAudioElement | null>(null); // I don't fully understand this
+  const soundRef = useRef<HTMLAudioElement | null>(null); 
 
   useEffect(() => {
     const handleKeyDown = (event: KeyboardEvent) => {
       if (event.code === "Space") {
         event.preventDefault(); // prevent page scrolling
         runTimer();
-      }
-    };
-
-    window.addEventListener("keydown", handleKeyDown);
-
-    return () => window.removeEventListener("keydown", handleKeyDown);
-  }, [isRunning]);
-
-  useEffect(() => {
-    const handleKeyDown = (event: KeyboardEvent) => {
-      if (event.code === "Enter") {
+      } else if (event.code === "Enter") {
         event.preventDefault(); // prevent page scrolling
         setMs(0);
       }
@@ -35,27 +27,12 @@ export const Timer = () => {
 
     return () => window.removeEventListener("keydown", handleKeyDown);
   }, [isRunning]);
+
+
+
   useEffect(() => {
-    const fetchBg = async () => {
-      const res = await fetch(`${URL}data/timer`, {
-        method: "GET",
-        credentials: "include",
-        headers: {
-          "Content-Type": "application/json",
-        },
-      });
-      if (res) {
-        const data = await res.json();
-        const selectedSound = Sounds.find(
-          (sound) => sound.name == data.soundName
-        );
-        if (selectedSound) {
-          soundRef.current = new Audio(selectedSound.src);
-        }
-      }
-    };
-    fetchBg();
-  }, []);
+    soundRef.current = new Audio(profileCtx.soundSrc);
+  }, [profileCtx.soundSrc]);
 
   const updateTime = () => {
     setSeconds(Math.floor(ms / 1000) % 60);
@@ -68,11 +45,12 @@ export const Timer = () => {
     if (isRunning) {
       const timer = setInterval(() => {
         if (ms > 0) {
-          setMs(ms - 10);
+          setMs(ms => ms - 1);
         } else {
           playAlarmSound();
+          clearInterval(timer);
         }
-      }, 10);
+      }, 1);
       updateTime();
       return () => clearInterval(timer);
     } else {
@@ -80,13 +58,12 @@ export const Timer = () => {
     }
   }, [isRunning, ms]);
 
+
   const runTimer = () => {
-    if (isRunning) {
-      setIsRunning(!isRunning);
-    } else {
+    if (!isRunning) {
       setMs(seconds * 1000 + minutes * 60000 + hours * 3600000);
-      setIsRunning(!isRunning);
     }
+    setIsRunning(!isRunning);
   };
 
   // reset timer
@@ -108,7 +85,7 @@ export const Timer = () => {
           type="number"
           name="hour"
           className={`${styles.timer} ${styles.input}`}
-          value={hours.toString().padStart(2, "0")}
+          value={utils.padNum(hours)}
           onChange={(e) => setHours(Number(e.target.value))}
         />
         <label className={`${styles.timer} ${styles.labelTmr}`}>h</label>
@@ -116,7 +93,7 @@ export const Timer = () => {
           type="number"
           name="minute"
           className={`${styles.timer} ${styles.input}`}
-          value={minutes.toString().padStart(2, "0")}
+          value={utils.padNum(minutes)}
           onChange={(e) => setMinutes(Number(e.target.value))}
         />
         <label className={`${styles.timer} ${styles.labelTmr}`}>m</label>
@@ -124,7 +101,7 @@ export const Timer = () => {
           type="number"
           name="second"
           className={`${styles.timer} ${styles.input}`}
-          value={seconds.toString().padStart(2, "0")}
+          value={utils.padNum(seconds)}
           onChange={(e) => setSeconds(Number(e.target.value))}
         />
         <label className={`${styles.timer} ${styles.labelTmr}`}>s</label>

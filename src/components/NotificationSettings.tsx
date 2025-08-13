@@ -1,30 +1,26 @@
 import styles from "./NotificationSettings.module.css";
 import { Sounds } from "../assets/AlarmSounds";
-import { useState, useRef } from "react";
+import { useState, useRef, useContext } from "react";
 import { settingsApi } from "../services/api";
+import ProfileContext from "../services/ProfileContext";
 
-interface NotificationSettingsProps {
-  sound: string;
-}
 
-export const NotificationSettings = ({ sound }: NotificationSettingsProps) => {
-  const [selectedSound, setSelectedSound] = useState(sound);
+
+export const NotificationSettings = () => {
+  const profileCtx = useContext(ProfileContext);
   const soundRef = useRef<HTMLAudioElement | null>(null);
 
-  const handleSoundChange = (e: SoundChangeEvent) => {
-    setSelectedSound(e.target.value);
-    const selectedSoundData = Sounds.find((s) => s.name === e.target.value);
-    if (selectedSound && selectedSoundData) {
-      soundRef.current = new Audio(selectedSoundData.src);
-      soundRef.current.play();
-    }
+  const handleSoundChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    profileCtx.changeSoundName(e.target.value);
+    soundRef.current = new Audio(profileCtx.soundSrc);
+    soundRef.current.play();
   };
 
   const updateSound = async () => {
-    await settingsApi.saveSound(selectedSound);
+    await settingsApi.saveSound(profileCtx.soundName);
   };
 
-  interface SoundChangeEvent extends React.ChangeEvent<HTMLSelectElement> {} // chatGPT
+
 
   return (
     <>
@@ -36,7 +32,7 @@ export const NotificationSettings = ({ sound }: NotificationSettingsProps) => {
             <select
               className={styles.alSound}
               name="Alarm Sound"
-              value={selectedSound}
+              value={profileCtx.soundName}
               onChange={handleSoundChange}
             >
               {Sounds.map((s, index) => (

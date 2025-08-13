@@ -18,6 +18,7 @@ import { appHeaderApi } from "./services/api";
 import { ProfileImages } from "./assets/ProfileImages";
 import { homeApi } from "./services/api";
 import { backgrounds } from "./assets/BackgroundImages";
+import { Sounds } from "./assets/AlarmSounds";
 
 function App() {
     const [iconImgSrc, setIconImgSrc] = useState<string>("");
@@ -25,6 +26,8 @@ function App() {
     const [email, setEmail] = useState<string>("");
     const [bgSrc, setBgSrc] = useState<string>("");
     const [bgColor, setBgColor] = useState<string>("");
+    const [soundName, setSoundName] = useState<string>("");
+    const [soundSrc, setSoundSrc] = useState<string>("");
     const [isOpen, setIsOpen] = useState<boolean>(true);
 
     function changeIconImgSrc(filename : string) {
@@ -47,6 +50,18 @@ function App() {
       setBgColor(bgColor);
     }
 
+    function changeSoundSrc(sound : string) {
+      setSoundSrc(sound);
+    }
+
+    function changeSoundName(soundName : string) {
+      setSoundName(soundName);
+      const selectedSoundData = Sounds.find((s) => s.name === soundName);
+      if (selectedSoundData) {
+        setSoundSrc(selectedSoundData.src);
+      }
+    }
+
     function toggleSidebar() {
       setIsOpen(prevState => !prevState);
     }
@@ -58,11 +73,15 @@ function App() {
       email : email,
       bgSrc : bgSrc,
       bgColor : bgColor,
+      soundName : soundName,
+      soundSrc : soundSrc,
       changeIconImgSrc: changeIconImgSrc,
       changeUsername: changeUsername,
       changeEmail: changeEmail,
       changeBgSrc : changeBgSrc,
-      changeBgColor : changeBgColor
+      changeBgColor : changeBgColor,
+      changeSoundSrc : changeSoundSrc,
+      changeSoundName : changeSoundName,
     };
 
     const sidebarCtxValue = {
@@ -85,6 +104,12 @@ function App() {
           }
           if (data.email) {
             setEmail(data.email);
+          }
+          const selectedSound = Sounds.find(
+            (sound) => sound.name == data.soundName
+          );
+          if (selectedSound) {
+            setSoundSrc(selectedSound.src);
           }
         };
         get();

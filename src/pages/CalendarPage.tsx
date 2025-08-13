@@ -143,11 +143,7 @@ function Calendar() {
       }
     fetchEvents();
   }, [date]);
-
-  // get prev arrow
-  // prev.addEventListener("click", prevMonth);
-  // get next arrow
-  // next.addEventListener("click", nextMonth);
+  
 
   function nextMonth() {
     // increase the month by 1

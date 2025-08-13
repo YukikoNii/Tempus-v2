@@ -53,7 +53,8 @@ export const settingsApi = {
     getAccountSettings: () => http.get("data/accountSettings"),
     saveSound: ( soundName: string) => http.post("data/notificationSettings", {
         soundName: soundName
-    })
+    }),
+    getSound: () => http.get("data/timer")
 }
 
 export const appHeaderApi = {
@@ -65,6 +66,11 @@ export const authApi = {
     signup: (username : string, email : string, password: string) => http.post("data/signup", {username : username, email : email, password : password}),
     login: (username : string, password: string) => http.post("data/login", {username : username, password : password}),
 }
+
+export const timeApi = {
+    timer: (username : string, email : string, password: string) => http.post("data/signup", {username : username, email : email, password : password}),
+}
+
 
 export const TimeTrackingApi = {
     getProjects: () => http.get("data/projectDropdown")
